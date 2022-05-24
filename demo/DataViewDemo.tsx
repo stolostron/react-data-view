@@ -10,7 +10,7 @@ import { RouteE } from './route'
 import { getTaskStatus, IMockTask, useMockTasks } from './useTasks'
 
 export function DataViewDemo() {
-    const tasks = useMockTasks(3000)
+    const tasks = useMockTasks(1000)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
 

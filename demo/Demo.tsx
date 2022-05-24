@@ -61,11 +61,19 @@ function DemoHeader() {
                     <BarsIcon />
                 </PageToggleButton>
             </MastheadToggle>
-            {isSmallOrLarger && (
+            {isSmallOrLarger ? (
                 <MastheadMain>
                     <MastheadBrand>
                         <Title headingLevel="h2" style={{ color: 'white' }}>
                             <Truncate content="Solostron PatternFly Extensions" />
+                        </Title>
+                    </MastheadBrand>
+                </MastheadMain>
+            ) : (
+                <MastheadMain>
+                    <MastheadBrand>
+                        <Title headingLevel="h2" style={{ color: 'white' }}>
+                            <Truncate content="Data View" />
                         </Title>
                     </MastheadBrand>
                 </MastheadMain>

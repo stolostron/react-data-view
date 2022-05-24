@@ -44,7 +44,7 @@ export function DataTable<T extends object>(props: {
                         // variant={exampleChoice !== 'default' ? 'compact' : undefined}
                         // borders={exampleChoice !== 'compactBorderless'}
                         isStickyHeader
-                        gridBreakPoint="grid-xl"
+                        gridBreakPoint=""
                     >
                         <TableHead columns={columns} isStickyColumn={isStickyColumn} scrollLeft={scrollLeft} rowActions={rowActions} />
                         <Tbody>
