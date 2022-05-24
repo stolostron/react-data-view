@@ -1,6 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, PageSection, Stack, Title } from '@patternfly/react-core'
 import { Fragment, useMemo } from 'react'
-import { useBreakPoint } from './useBreakPoint'
+import { useBreakPoint } from './components/useBreakPoint'
 
 export interface ICatalogBreadcrumb {
     id?: string
@@ -11,7 +11,8 @@ export interface ICatalogBreadcrumb {
 }
 
 export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: string }) {
-    const isXL = useBreakPoint('xl')
+    const isXLup = useBreakPoint('xl')
+    const isXS = !useBreakPoint('sm')
     const { breadcrumbs: breadcrumb, title } = props
 
     const breadcrumbs = useMemo(() => {
@@ -33,19 +34,24 @@ export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: 
         )
     }, [props.breadcrumbs])
 
-    return useMemo(
+    const header = useMemo(
         () => (
             <Fragment>
                 {(title || breadcrumb) && (
                     <PageSection variant="light" style={{ paddingBottom: 0 }}>
                         <Stack hasGutter>
-                            {isXL && breadcrumb && breadcrumbs}
+                            {isXLup && breadcrumb && breadcrumbs}
                             {title && <Title headingLevel="h2">{title}</Title>}
                         </Stack>
                     </PageSection>
                 )}
             </Fragment>
         ),
-        [breadcrumb, breadcrumbs, isXL, title]
+        [breadcrumb, breadcrumbs, isXLup, title]
     )
+
+    if (isXS) {
+        return <Fragment />
+    }
+    return header
 }

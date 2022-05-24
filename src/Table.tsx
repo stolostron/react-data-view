@@ -13,7 +13,7 @@ import {
 import get from 'get-value'
 import { Fragment, ReactNode, useMemo, useState } from 'react'
 import { ITableColumn } from './TableColumn'
-import { useBreakPoint } from './useBreakPoint'
+import { useBreakPoint } from './components/useBreakPoint'
 
 export function DataTable<T extends object>(props: {
     columns: ITableColumn<T>[]

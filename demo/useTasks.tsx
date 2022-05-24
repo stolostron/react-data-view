@@ -4,7 +4,7 @@ import { capitalize } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon } from '@patternfly/react-icons'
 import { ReactNode, useMemo } from 'react'
 import { CatalogCardBadgeColor } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/patternfly-colors'
+import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { colors, getRandomAnimalNames, icons, randomArray, randomValue, randomValues } from './mock'
 
 export interface IMockTask {

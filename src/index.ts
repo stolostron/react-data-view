@@ -1,4 +1,4 @@
-export * from './BulkSelector'
+export * from './components/BulkSelector'
 export * from './Catalog'
 export * from './CatalogCard'
 export * from './DataFilter'

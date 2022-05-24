@@ -28,10 +28,10 @@ import {
 } from '@patternfly/react-core'
 import { ColumnsIcon, FilterIcon, ListIcon, ThIcon } from '@patternfly/react-icons'
 import { useCallback, useMemo, useState } from 'react'
-import { BulkSelector } from './BulkSelector'
+import { BulkSelector } from './components/BulkSelector'
 import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
 import { DataViewTypeE } from './DataView'
-import { DropdownControlled } from './DropdownControlled'
+import { DropdownControlled } from './components/DropdownControlled'
 
 export function PageToolbar<T extends object>(props: {
     items: T[]

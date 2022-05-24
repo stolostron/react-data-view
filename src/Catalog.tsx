@@ -3,7 +3,7 @@
 import { PageSection } from '@patternfly/react-core'
 import { useMemo } from 'react'
 import { CatalogCard, ICatalogCard } from './CatalogCard'
-import { Grid } from './Grid'
+import { Grid } from './components/Grid'
 
 type CatalogFilterValue = string
 

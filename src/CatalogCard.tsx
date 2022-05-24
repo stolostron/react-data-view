@@ -25,8 +25,8 @@ import {
 } from '@patternfly/react-core'
 import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
-import { IconWrapper } from './IconWrapper'
-import { Scrollable } from './Scrollable'
+import { IconWrapper } from './components/IconWrapper'
+import { Scrollable } from './components/Scrollable'
 
 export type CatalogCardBadgeColor = undefined | 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'red' | 'grey'
 
