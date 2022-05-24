@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-table'
 import get from 'get-value'
 import { Fragment, ReactNode, useMemo, useState } from 'react'
-import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
+import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { ITableColumn } from './TableColumn'
 
 export function DataTable<T extends object>(props: {
@@ -24,8 +24,7 @@ export function DataTable<T extends object>(props: {
     keyFn: (item: T) => string
     rowActions?: IAction[]
 }) {
-    const isLG = useWindowSizeOrLarger(WindowSize.lg)
-    const isStickyColumn = isLG
+    const isStickyColumn = useWindowSizeOrLarger(WindowSize.sm)
     const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions } = props
     const [scrollLeft, setScrollLeft] = useState(0)
     return useMemo(
@@ -77,6 +76,10 @@ function TableHead<T extends object>(props: {
     rowActions?: IAction[]
 }) {
     const { columns, isStickyColumn, scrollLeft, rowActions } = props
+    let stickyLeftOffset = '53px'
+    if (useWindowSizeOrSmaller(WindowSize.md)) {
+        stickyLeftOffset = '45px'
+    }
     return useMemo(
         () => (
             <Thead>
@@ -92,7 +95,8 @@ function TableHead<T extends object>(props: {
                         //     },
                         //     isSelected: allSelected,
                         // }}
-                        isStickyColumn={isStickyColumn}
+                        hasRightBorder={!isStickyColumn && scrollLeft > 0}
+                        isStickyColumn={true}
                         stickyMinWidth="0"
                     />
 
@@ -105,9 +109,9 @@ function TableHead<T extends object>(props: {
                                     style={{ minWidth: column.minWidth }}
                                     isStickyColumn={isStickyColumn}
                                     // hasRightBorder={isStickyColumn}
-                                    hasRightBorder={scrollLeft > 0}
+                                    hasRightBorder={isStickyColumn && scrollLeft > 0}
                                     stickyMinWidth={column.minWidth ? `${column.minWidth}px` : undefined}
-                                    stickyLeftOffset="53px"
+                                    stickyLeftOffset={stickyLeftOffset}
                                 >
                                     {column.header}
                                 </Th>
@@ -158,7 +162,8 @@ function TableRow<T extends object>(props: {
                         isSelected: isItemSelected,
                         // disable: !isRepoSelectable(repo),
                     }}
-                    isStickyColumn={isStickyColumn}
+                    hasRightBorder={!isStickyColumn && scrollLeft > 0}
+                    isStickyColumn={true}
                     stickyMinWidth="0"
                 />
                 <TableCells columns={columns} isStickyColumn={isStickyColumn} scrollLeft={scrollLeft} item={item} rowActions={rowActions} />
@@ -176,6 +181,12 @@ function TableCells<T extends object>(props: {
     rowActions?: IAction[]
 }) {
     const { columns, isStickyColumn, scrollLeft, item, rowActions } = props
+
+    let stickyLeftOffset = '53px'
+    if (useWindowSizeOrSmaller(WindowSize.md)) {
+        stickyLeftOffset = '45px'
+    }
+
     return useMemo(
         () => (
             <Fragment>
@@ -195,7 +206,7 @@ function TableCells<T extends object>(props: {
                                 isStickyColumn={isStickyColumn}
                                 hasRightBorder={scrollLeft > 0}
                                 stickyMinWidth="0"
-                                stickyLeftOffset="53px"
+                                stickyLeftOffset={stickyLeftOffset}
                                 modifier="nowrap"
                             >
                                 {cell}
