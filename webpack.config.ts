@@ -49,7 +49,7 @@ module.exports = function (_env: unknown, argv: { hot: boolean; mode: string | u
             }),
         ].filter(Boolean) as webpack.WebpackPluginInstance[],
         output: {
-            publicPath: isProduction ? '/react-form-wizard/' : '/',
+            publicPath: isProduction ? '/react-data-view/' : '/',
         },
         optimization: {
             minimizer: [

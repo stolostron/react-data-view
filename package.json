@@ -21,7 +21,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/patternfly-labs/react-form-wizard.git"
+        "url": "git+https://github.com/solostron/react-data-view.git"
     },
     "peerDependencies": {
         "@patternfly/react-icons": "^4",
