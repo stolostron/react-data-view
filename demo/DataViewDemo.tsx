@@ -5,6 +5,7 @@ import { useCallback, useMemo } from 'react'
 import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITableColumn, Labels, useDataFilter } from '../src'
 import { IconWrapper } from '../src/components/IconWrapper'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
+import { colors } from './mock'
 import { RouteE } from './route'
 import { getTaskStatus, IMockTask, useMockTasks } from './useTasks'
 
@@ -69,7 +70,23 @@ export function DataViewDemo() {
         }),
         []
     )
-    const colorsFilter = useDataFilter(tasks, 'Colors', (task) => task.colors)
+    const colorsFilter = useMemo<IDataFilter<IMockTask>>(
+        () => ({
+            label: 'Colors',
+            options: colors.map((color) => ({ label: color, value: color })),
+            filter: (item: IMockTask, values: string[]) => {
+                // TODO values as Record<string,boolean> for performance
+                for (const value of values) {
+                    if (item.colors.includes(value)) {
+                        return true
+                    }
+                }
+                return false
+            },
+        }),
+        []
+    )
+
     const labelFilter = useDataFilter(tasks, 'Labels', (task) => task.labels)
     const filters = useMemo(() => [statusFilter, colorsFilter, labelFilter], [labelFilter, colorsFilter, statusFilter])
 

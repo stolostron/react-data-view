@@ -1,5 +1,6 @@
 import { Dropdown, DropdownItem, DropdownToggle, DropdownToggleCheckbox } from '@patternfly/react-core'
 import { useCallback, useMemo, useState } from 'react'
+import { useWindowSizeOrLarger, WindowSize } from './useBreakPoint'
 
 export interface BulkSelectorProps {
     itemCount: number
@@ -12,6 +13,7 @@ export interface BulkSelectorProps {
 
 export function BulkSelector(props: BulkSelectorProps) {
     const [isOpen, setIsOpen] = useState(false)
+    const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
 
     const { itemCount, selectedCount, perPage, onSelectNone, onSelectPage, onSelectAll } = props
 
@@ -20,7 +22,10 @@ export function BulkSelector(props: BulkSelectorProps) {
         [selectedCount, onSelectNone, onSelectAll]
     )
 
-    const toggleText = useMemo(() => (selectedCount > 0 ? `${selectedCount} selected` : ''), [selectedCount])
+    const toggleText = useMemo(() => {
+        if (isSmallOrLarger) return selectedCount > 0 ? `${selectedCount} selected` : ''
+        else return selectedCount > 0 ? `${selectedCount}` : ''
+    }, [isSmallOrLarger, selectedCount])
 
     const toggle = useMemo(() => {
         return (

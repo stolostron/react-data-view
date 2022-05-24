@@ -29,9 +29,10 @@ import {
 import { ColumnsIcon, FilterIcon, ListIcon, ThIcon } from '@patternfly/react-icons'
 import { useCallback, useMemo, useState } from 'react'
 import { BulkSelector } from './components/BulkSelector'
+import { DropdownControlled } from './components/DropdownControlled'
+import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
 import { DataViewTypeE } from './DataView'
-import { DropdownControlled } from './components/DropdownControlled'
 
 export function PageToolbar<T extends object>(props: {
     items: T[]
@@ -72,6 +73,8 @@ export function PageToolbar<T extends object>(props: {
         clearAllFilters,
     } = props
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
+    const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
+    const isXS = !isSmallOrLarger
     return (
         <Toolbar style={{ borderBottom: 'thin solid var(--pf-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
@@ -98,7 +101,7 @@ export function PageToolbar<T extends object>(props: {
                             resultsCount={searched.length !== 0 ? searched.length : undefined}
                         />
                     </ToolbarItem>
-                    {view === DataViewTypeE.Table && (
+                    {(view === DataViewTypeE.Table || isXS) && (
                         <ToolbarGroup variant="filter-group">
                             {filters &&
                                 filters.map((filter) => {
@@ -210,17 +213,19 @@ export function PageToolbar<T extends object>(props: {
                         />
                     </ToggleGroup>
                 </ToolbarItem>
-                <ToolbarItem>
-                    <Pagination
-                        variant={PaginationVariant.top}
-                        isCompact
-                        itemCount={searched.length}
-                        perPage={perPage}
-                        page={page}
-                        onSetPage={onSetPage}
-                        onPerPageSelect={onPerPageSelect}
-                    />
-                </ToolbarItem>
+                {isSmallOrLarger && (
+                    <ToolbarItem>
+                        <Pagination
+                            variant={PaginationVariant.top}
+                            isCompact
+                            itemCount={searched.length}
+                            perPage={perPage}
+                            page={page}
+                            onSetPage={onSetPage}
+                            onPerPageSelect={onPerPageSelect}
+                        />
+                    </ToolbarItem>
+                )}
             </ToolbarContent>
         </Toolbar>
     )

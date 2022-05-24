@@ -1,4 +1,3 @@
-import { debounce } from '@patternfly/react-core'
 import xl2Breakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_2xl'
 import lgBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_lg'
 import mdBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_md'
@@ -7,40 +6,54 @@ import xlBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_xl
 import xsBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_xs'
 import { useCallback, useEffect, useState } from 'react'
 
-const breakpoints = {
-    md: mdBreakpoint,
-    lg: lgBreakpoint,
-    xl: xlBreakpoint,
-    '2xl': xl2Breakpoint,
-    sm: smBreakpoint,
-    xs: xsBreakpoint,
+export enum WindowSize {
+    xs,
+    sm,
+    'md',
+    'lg',
+    'xl',
+    '2xl',
 }
 
-/** Window width is greater than or equal to the indicated breakpoint. */
-export function useBreakPoint(breakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl', debounceParam?: number) {
-    const [isAtBreakPoint, setIsAtBreakPoint] = useState(false)
+const breakpoints: Record<WindowSize, number> = {
+    [WindowSize.xs]: Number(xsBreakpoint.value.replace('px', '')),
+    [WindowSize.sm]: Number(smBreakpoint.value.replace('px', '')),
+    [WindowSize.md]: Number(mdBreakpoint.value.replace('px', '')),
+    [WindowSize.lg]: Number(lgBreakpoint.value.replace('px', '')),
+    [WindowSize.xl]: Number(xlBreakpoint.value.replace('px', '')),
+    [WindowSize['2xl']]: Number(xl2Breakpoint.value.replace('px', '')),
+}
 
+export function useWindowSize() {
+    const [windowSize, setWindowSize] = useState<WindowSize>(WindowSize['2xl'])
     const handleResize = useCallback(() => {
-        const breakpointPx = breakpoints[breakpoint]
-        if (!breakpointPx) {
-            // eslint-disable-next-line no-console
-            console.error('OverflowMenu will not be visible without a valid breakpoint.')
-            return
+        let size = WindowSize['2xl']
+        for (; size >= WindowSize.sm; size--) {
+            const breakpoint = breakpoints[size]
+            if (window.innerWidth >= breakpoint) {
+                break
+            }
         }
-        const breakpointWidth = Number(breakpointPx.value.replace('px', ''))
-        setIsAtBreakPoint(window.innerWidth >= breakpointWidth)
-    }, [breakpoint])
+        setWindowSize(size)
+    }, [])
 
     useEffect(() => {
-        let handler = handleResize
-        if (debounceParam) {
-            handler = debounce(handler, debounceParam)
-        }
+        const handler = handleResize
         window.addEventListener('resize', handler)
         return () => window.removeEventListener('resize', handler)
-    }, [handleResize, debounceParam])
+    }, [handleResize])
 
     useEffect(() => handleResize(), [handleResize])
 
-    return isAtBreakPoint
+    return windowSize
+}
+
+export function useWindowSizeOrLarger(size: WindowSize) {
+    const windowSize = useWindowSize()
+    return windowSize >= size
+}
+
+export function useWindowSizeOrSmaller(size: WindowSize) {
+    const windowSize = useWindowSize()
+    return windowSize <= size
 }

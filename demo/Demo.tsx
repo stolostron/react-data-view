@@ -15,6 +15,7 @@ import {
 } from '@patternfly/react-core'
 import { BarsIcon } from '@patternfly/react-icons'
 import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
+import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher } from '../src/theme'
 import { DataViewDemo } from './DataViewDemo'
 import { RouteE } from './route'
@@ -52,6 +53,7 @@ export function DemoRouter(): JSX.Element {
 }
 
 function DemoHeader() {
+    const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
     return (
         <Masthead display={{ default: 'inline' }}>
             <MastheadToggle>
@@ -59,13 +61,15 @@ function DemoHeader() {
                     <BarsIcon />
                 </PageToggleButton>
             </MastheadToggle>
-            <MastheadMain>
-                <MastheadBrand>
-                    <Title headingLevel="h2" style={{ color: 'white' }}>
-                        <Truncate content="Solostron PatternFly Extensions" />
-                    </Title>
-                </MastheadBrand>
-            </MastheadMain>
+            {isSmallOrLarger && (
+                <MastheadMain>
+                    <MastheadBrand>
+                        <Title headingLevel="h2" style={{ color: 'white' }}>
+                            <Truncate content="Solostron PatternFly Extensions" />
+                        </Title>
+                    </MastheadBrand>
+                </MastheadMain>
+            )}
             <MastheadContent>
                 <span style={{ flexGrow: 1 }} />
                 <ThemeSwitcher />

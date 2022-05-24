@@ -12,8 +12,8 @@ import {
 } from '@patternfly/react-table'
 import get from 'get-value'
 import { Fragment, ReactNode, useMemo, useState } from 'react'
+import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { ITableColumn } from './TableColumn'
-import { useBreakPoint } from './components/useBreakPoint'
 
 export function DataTable<T extends object>(props: {
     columns: ITableColumn<T>[]
@@ -24,7 +24,7 @@ export function DataTable<T extends object>(props: {
     keyFn: (item: T) => string
     rowActions?: IAction[]
 }) {
-    const isLG = useBreakPoint('lg')
+    const isLG = useWindowSizeOrLarger(WindowSize.lg)
     const isStickyColumn = isLG
     const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions } = props
     const [scrollLeft, setScrollLeft] = useState(0)
