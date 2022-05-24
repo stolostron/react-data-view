@@ -1,9 +1,9 @@
-# Solostron React Data View
+# Stolostron React Data View
 
 ## Installation
 
 ### Using npm
 
 ```sh
-npm install @solostron/react-data-view
+npm install @stolostron/react-data-view
 ```

@@ -65,7 +65,7 @@ function DemoHeader() {
                 <MastheadMain>
                     <MastheadBrand>
                         <Title headingLevel="h2" style={{ color: 'white' }}>
-                            <Truncate content="Solostron PatternFly Extensions" />
+                            <Truncate content="Stolostron PatternFly Extensions" />
                         </Title>
                     </MastheadBrand>
                 </MastheadMain>

@@ -6,7 +6,6 @@ import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITa
 import { IconWrapper } from '../src/components/IconWrapper'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { colors } from './mock'
-import { RouteE } from './route'
 import { getTaskStatus, IMockTask, useMockTasks } from './useTasks'
 
 export function DataViewDemo() {
@@ -130,8 +129,8 @@ export function DataViewDemo() {
         <DataView
             title="Data View"
             breadcrumbs={[
-                { label: 'Solostron', to: 'https://github.com/solostron' },
-                { label: 'Data View', to: RouteE.Home },
+                { label: 'Stolostron', to: 'https://github.com/stolostron', target: '_blank' },
+                { label: 'Data View', to: 'https://github.com/stolostron/react-data-view', target: '_blank' },
                 { label: 'Demo' },
             ]}
             items={tasks}
