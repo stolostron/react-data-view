@@ -11,6 +11,7 @@ import {
     PageSidebar,
     PageToggleButton,
     Title,
+    Truncate,
 } from '@patternfly/react-core'
 import { BarsIcon } from '@patternfly/react-icons'
 import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
@@ -61,7 +62,7 @@ function DemoHeader() {
             <MastheadMain>
                 <MastheadBrand>
                     <Title headingLevel="h2" style={{ color: 'white' }}>
-                        Solostron PatternFly Extensions
+                        <Truncate content="Solostron PatternFly Extensions" />
                     </Title>
                 </MastheadBrand>
             </MastheadMain>
