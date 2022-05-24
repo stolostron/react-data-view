@@ -68,9 +68,6 @@ function DemoHeader() {
             <MastheadContent>
                 <span style={{ flexGrow: 1 }} />
                 <ThemeSwitcher />
-                {/* <a href="https://github.com/patternfly-labs/react-form-wizard" style={{ color: 'white' }}>
-                    <GithubIcon size="lg" />
-                </a> */}
             </MastheadContent>
         </Masthead>
     )
