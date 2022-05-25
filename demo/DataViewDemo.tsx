@@ -1,15 +1,16 @@
 import { Split, SplitItem } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { IAction } from '@patternfly/react-table'
-import { useCallback, useMemo } from 'react'
-import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITableColumn, Labels, useDataFilter } from '../src'
+import { Fragment, useCallback, useMemo } from 'react'
+import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITableColumn, Labels } from '../src'
 import { IconWrapper } from '../src/components/IconWrapper'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
+import { PageHeader } from '../src/PageHeader'
 import { colors } from './mock'
-import { getTaskStatus, IMockTask, useMockTasks } from './useTasks'
+import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 
 export function DataViewDemo() {
-    const tasks = useMockTasks(1000)
+    const { items: tasks } = useMockTasks(1000)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
 
@@ -47,8 +48,8 @@ export function DataViewDemo() {
             { header: 'Description', cell: (task) => task.description },
             { header: 'Colors', cell: (task) => <Labels labels={task.colors} />, minWidth: 320 },
             { header: 'Labels', cell: (task) => <Labels labels={task.labels} />, minWidth: 320 },
-            { header: 'Created', cell: (task) => <DateCell value={task.created} /> },
-            { header: 'Modified', cell: (task) => <DateCell value={task.modified} /> },
+            { header: 'Created', cell: (task) => <DateCell value={task.created} />, sortFn: (l, r) => l.created - r.created },
+            { header: 'Modified', cell: (task) => <DateCell value={task.modified} />, sortFn: (l, r) => l.modified - r.modified },
         ],
         []
     )
@@ -88,7 +89,23 @@ export function DataViewDemo() {
         []
     )
 
-    const labelFilter = useDataFilter(tasks, 'Labels', (task) => task.labels)
+    const labelFilter = useMemo<IDataFilter<IMockTask>>(
+        () => ({
+            label: 'Labels',
+            options: mockLabels.map((label) => ({ label: label, value: label })),
+            filter: (item: IMockTask, values: string[]) => {
+                // TODO values as Record<string,boolean> for performance
+                for (const value of values) {
+                    if (item.colors.includes(value)) {
+                        return true
+                    }
+                }
+                return false
+            },
+        }),
+        []
+    )
+
     const filters = useMemo(() => [statusFilter, colorsFilter, labelFilter], [labelFilter, colorsFilter, statusFilter])
 
     const taskToCardFn = useCallback<(task: IMockTask) => ICatalogCard>((task) => {
@@ -127,21 +144,30 @@ export function DataViewDemo() {
         return card
     }, [])
 
+    const searchKeys = useMemo(() => [{ name: 'name' }], [])
+
+    const breadcrumbs = useMemo(
+        () => [
+            { label: 'Stolostron', to: 'https://github.com/stolostron', target: '_blank' },
+            { label: 'Data View', to: 'https://github.com/stolostron/react-data-view', target: '_blank' },
+            { label: 'Demo' },
+        ],
+        []
+    )
+
     return (
-        <DataView
-            title="Data View"
-            breadcrumbs={[
-                { label: 'Stolostron', to: 'https://github.com/stolostron', target: '_blank' },
-                { label: 'Data View', to: 'https://github.com/stolostron/react-data-view', target: '_blank' },
-                { label: 'Demo' },
-            ]}
-            items={tasks}
-            columns={columns}
-            itemKeyFn={keyFn}
-            itemActions={actions}
-            filters={filters}
-            itemToCardFn={taskToCardFn}
-            searchKeys={[{ name: 'name' }]}
-        />
+        <Fragment>
+            <PageHeader title="Data View" breadcrumbs={breadcrumbs} />
+
+            <DataView
+                items={tasks}
+                columns={columns}
+                itemKeyFn={keyFn}
+                itemActions={actions}
+                filters={filters}
+                itemToCardFn={taskToCardFn}
+                searchKeys={searchKeys}
+            />
+        </Fragment>
     )
 }

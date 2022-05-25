@@ -2,10 +2,11 @@
 import faker from '@faker-js/faker'
 import { capitalize } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon } from '@patternfly/react-icons'
-import { ReactNode, useMemo } from 'react'
+import { ReactNode } from 'react'
 import { CatalogCardBadgeColor } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
-import { colors, getRandomAnimalNames, icons, randomArray, randomValue, randomValues } from './mock'
+import { colors, getRandomAnimalName, icons, randomArray, randomValue, randomValues } from './mock'
+import { useMockData } from './useMockData'
 
 export interface IMockTask {
     id: string
@@ -25,7 +26,7 @@ export function mockTaskKey(mockTask: IMockTask) {
 }
 
 let id = 0
-function createMockTask(name: string): IMockTask {
+function createMockTask(): IMockTask {
     const badge: {
         name?: string
         color?: CatalogCardBadgeColor
@@ -51,8 +52,8 @@ function createMockTask(name: string): IMockTask {
     return {
         id: (++id).toString(),
         icon: randomValue(icons),
-        name,
-        labels: randomValues(0, 4, randomArray(4, () => faker.vehicle.fuel()).map(capitalize)),
+        name: getRandomAnimalName(),
+        labels: randomValues(0, 4, mockLabels),
         description: faker.lorem.paragraph(),
         colors: randomValues(0, 4, colors),
         badge: badge.name,
@@ -62,11 +63,12 @@ function createMockTask(name: string): IMockTask {
     }
 }
 
-export function useMockTasks(count: number): IMockTask[] {
-    return useMemo(() => {
-        const animalNames = getRandomAnimalNames(count)
-        return animalNames.map((name) => createMockTask(name))
-    }, [count])
+function updateMockTask(task: IMockTask): IMockTask {
+    return task
+}
+
+export function useMockTasks(count: number) {
+    return useMockData(count, createMockTask, updateMockTask)
 }
 
 export function getTaskStatus(task: IMockTask) {
@@ -88,6 +90,8 @@ export function getTaskStatus(task: IMockTask) {
             }
     }
 }
+
+export const mockLabels = randomArray(4, () => faker.vehicle.fuel()).map(capitalize)
 
 // const statuses = [
 //     { text: 'Online', icon: CatalogCardListItemIcon.CheckCircle, iconColor: CatalogIconColor.green },

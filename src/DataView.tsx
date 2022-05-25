@@ -5,7 +5,6 @@ import {
     Drawer,
     DrawerContent,
     DrawerContentBody,
-    Page,
     PageSection,
     Pagination,
     PaginationVariant,
@@ -23,7 +22,6 @@ import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
 import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
-import { ICatalogBreadcrumb, PageHeader } from './PageHeader'
 import { DataTable } from './Table'
 import { ITableColumn } from './TableColumn'
 import { PageToolbar } from './Toolbar'
@@ -35,8 +33,6 @@ export enum DataViewTypeE {
 }
 
 export function DataView<T extends object>(props: {
-    title: string
-    breadcrumbs?: ICatalogBreadcrumb[]
     items?: T[]
     onBack?: () => void
     columns: ITableColumn<T>[]
@@ -117,9 +113,8 @@ export function DataView<T extends object>(props: {
     const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns)
 
     return (
-        <Page>
+        <Fragment>
             {columnModal}
-            <PageHeader breadcrumbs={props.breadcrumbs} title={props.title} />
             {/* <Alert title="Alert" isInline variant="warning">
                 Alert content
             </Alert> */}
@@ -212,6 +207,6 @@ export function DataView<T extends object>(props: {
                     </DrawerContentBody>
                 </DrawerContent>
             </Drawer>
-        </Page>
+        </Fragment>
     )
 }

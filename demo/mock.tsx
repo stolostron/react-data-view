@@ -51,11 +51,13 @@ export const colors = randomValues(8, 8, randomArray(8, () => faker.vehicle.colo
 //     randomArray(8, () => faker.vehicle.type())
 // )
 
+export function getRandomAnimalName() {
+    const f = (faker.animal as any)[faker.animal.type()] as () => string
+    return f()
+}
+
 export function getRandomAnimalNames(count: number) {
-    return randomArray(count, () => {
-        const f = (faker.animal as any)[faker.animal.type()] as () => string
-        return f()
-    })
+    return randomArray(count, getRandomAnimalName)
 }
 
 export function randomArray(count: number, createFn: () => string) {
