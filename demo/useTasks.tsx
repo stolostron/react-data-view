@@ -26,7 +26,7 @@ export function mockTaskKey(mockTask: IMockTask) {
 }
 
 let id = 0
-function createMockTask(): IMockTask {
+function createMockTask(index: number): IMockTask {
     const badge: {
         name?: string
         color?: CatalogCardBadgeColor
@@ -52,7 +52,7 @@ function createMockTask(): IMockTask {
     return {
         id: (++id).toString(),
         icon: randomValue(icons),
-        name: getRandomAnimalName(),
+        name: getRandomAnimalName() + ` ${index}`,
         labels: randomValues(0, 4, mockLabels),
         description: faker.lorem.paragraph(),
         colors: randomValues(0, 4, colors),

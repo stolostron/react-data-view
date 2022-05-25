@@ -10,7 +10,7 @@ import { colors } from './mock'
 import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 
 export function DataViewDemo() {
-    const { items: tasks } = useMockTasks(1000)
+    const { items: tasks } = useMockTasks(100000)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
 

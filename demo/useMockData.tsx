@@ -1,7 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-export function useMockData<T>(defaultCount: number, createFn: () => T, updateFn: (item: T) => T) {
-    const [items, setItems] = useState<T[]>(() => new Array(defaultCount).fill(0).map(createFn))
+export function useMockData<T>(defaultCount: number, createFn: (count: number) => T, updateFn: (item: T) => T) {
+    const [items, setItems] = useState<T[]>([])
+    const countRef = useRef({ count: 5 })
+
+    const createItem = useCallback(() => {
+        countRef.current.count++
+        return createFn(countRef.current.count)
+    }, [createFn])
 
     const [createInterval, setCreateInterval] = useState<number>()
     useEffect(() => {
@@ -9,14 +15,14 @@ export function useMockData<T>(defaultCount: number, createFn: () => T, updateFn
             const timer = setInterval(() => {
                 setItems((items) => {
                     items = [...items]
-                    items.push(createFn())
+                    items.push(createItem())
                     return items
                 })
             }, createInterval)
             return () => clearInterval(timer)
         }
         return undefined
-    }, [createFn, createInterval])
+    }, [createItem, createInterval])
 
     const [updateInterval, setUpdateInterval] = useState<number>()
     useEffect(() => {
@@ -57,14 +63,28 @@ export function useMockData<T>(defaultCount: number, createFn: () => T, updateFn
             setItems((items) => {
                 items = [...items]
                 while (items.length < count) {
-                    items.push(createFn())
+                    items.push(createItem())
                 }
                 items = items.slice(0, count)
                 return items
             })
         },
-        [createFn]
+        [createItem]
     )
 
-    return { items, createInterval, setCreateInterval, updateInterval, setUpdateInterval, deleteInterval, setDeleteInterval, setCount }
+    useEffect(() => {
+        setCount(defaultCount)
+    }, [defaultCount, setCount])
+
+    return {
+        items,
+        createInterval,
+        setCreateInterval,
+        updateInterval,
+        setUpdateInterval,
+        deleteInterval,
+        setDeleteInterval,
+        setCount,
+        createItem,
+    }
 }
