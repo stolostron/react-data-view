@@ -5,7 +5,7 @@ type CellFn<T extends object> = (item: T) => ReactNode
 
 export interface ITableColumn<T extends object> {
     header: string
-    cell: string | CellFn<T>
+    cell: CellFn<T>
     minWidth?: number
     type?: 'labels' | 'progress' | 'date'
     enabled?: boolean

@@ -82,7 +82,8 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
                 onDragFinish={onDragFinish}
                 itemOrder={managedColumns.map((column) => column.header)}
             >
-                {managedColumns.map((column) => {
+                {managedColumns.map((column, index) => {
+                    // if (index === 0) return <Fragment />
                     return (
                         <DataListItem key={column.header} id={column.header} aria-labelledby="table-column-management-item1">
                             <DataListItemRow>

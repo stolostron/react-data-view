@@ -10,8 +10,7 @@ import {
     Thead,
     Tr,
 } from '@patternfly/react-table'
-import get from 'get-value'
-import { Fragment, ReactNode, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { ITableColumn } from './TableColumn'
 
@@ -133,7 +132,7 @@ function TableHead<T extends object>(props: {
                 </Tr>
             </Thead>
         ),
-        [columns, isStickyColumn, rowActions, scrollLeft]
+        [columns, isStickyColumn, rowActions, scrollLeft, stickyLeftOffset]
     )
 }
 
@@ -195,13 +194,6 @@ function TableCells<T extends object>(props: {
                 {columns
                     .filter((column) => column.enabled !== false)
                     .map((column, columnIndex) => {
-                        let cell: ReactNode
-                        if (typeof column.cell === 'string') {
-                            cell = get(item, column.cell)
-                        } else {
-                            cell = column.cell(item)
-                        }
-
                         if (columnIndex === 0 && isStickyColumn) {
                             return (
                                 <Th
@@ -213,13 +205,13 @@ function TableCells<T extends object>(props: {
                                     stickyLeftOffset={stickyLeftOffset}
                                     modifier="nowrap"
                                 >
-                                    {cell}
+                                    {column.cell(item)}
                                 </Th>
                             )
                         }
                         return (
                             <Td key={column.header} dataLabel={column.header} modifier="nowrap">
-                                {cell}
+                                {column.cell(item)}
                             </Td>
                         )
                     })}
@@ -235,7 +227,7 @@ function TableCells<T extends object>(props: {
                 )}
             </Fragment>
         ),
-        [columns, isStickyColumn, item, rowActions, scrollLeft]
+        [columns, isStickyColumn, item, rowActions, scrollLeft, stickyLeftOffset]
     )
 }
 

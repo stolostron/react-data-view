@@ -193,12 +193,14 @@ export function PageToolbar<T extends object>(props: {
                         </OverflowMenu>
                     </ToolbarItem>
                 </ToolbarGroup>
-                <ToolbarGroup variant="button-group">
-                    <ToolbarItem>
-                        <Button variant="plain" icon={<ColumnsIcon />} onClick={openColumnModal} />
-                    </ToolbarItem>
-                </ToolbarGroup>
 
+                {view === DataViewTypeE.Table && (
+                    <ToolbarGroup variant="button-group">
+                        <ToolbarItem>
+                            <Button variant="plain" icon={<ColumnsIcon />} onClick={openColumnModal} />
+                        </ToolbarItem>
+                    </ToolbarGroup>
+                )}
                 <ToolbarItem variant="pagination">
                     <ToggleGroup>
                         <ToggleGroupItem
