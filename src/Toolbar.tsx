@@ -53,6 +53,7 @@ export function PageToolbar<T extends object>(props: {
     filterState: IFilterState
     setFilterValues: SetFilterValues<T>
     clearAllFilters: () => void
+    openColumnModal: () => void
 }) {
     const {
         searched,
@@ -71,6 +72,7 @@ export function PageToolbar<T extends object>(props: {
         setFilterValues,
         view,
         clearAllFilters,
+        openColumnModal,
     } = props
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
     const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
@@ -193,7 +195,7 @@ export function PageToolbar<T extends object>(props: {
                 </ToolbarGroup>
                 <ToolbarGroup variant="button-group">
                     <ToolbarItem>
-                        <Button variant="plain" icon={<ColumnsIcon />} />
+                        <Button variant="plain" icon={<ColumnsIcon />} onClick={openColumnModal} />
                     </ToolbarItem>
                 </ToolbarGroup>
 

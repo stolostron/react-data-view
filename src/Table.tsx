@@ -100,33 +100,35 @@ function TableHead<T extends object>(props: {
                         stickyMinWidth="0"
                     />
 
-                    {columns.map((column, index) => {
-                        if (index === 0) {
+                    {columns
+                        .filter((column) => column.enabled !== false)
+                        .map((column, index) => {
+                            if (index === 0) {
+                                return (
+                                    <Th
+                                        key={column.header}
+                                        // modifier="wrap"
+                                        style={{ minWidth: column.minWidth }}
+                                        isStickyColumn={isStickyColumn}
+                                        // hasRightBorder={isStickyColumn}
+                                        hasRightBorder={isStickyColumn && scrollLeft > 0}
+                                        stickyMinWidth={column.minWidth ? `${column.minWidth}px` : undefined}
+                                        stickyLeftOffset={stickyLeftOffset}
+                                    >
+                                        {column.header}
+                                    </Th>
+                                )
+                            }
                             return (
                                 <Th
                                     key={column.header}
                                     // modifier="wrap"
                                     style={{ minWidth: column.minWidth }}
-                                    isStickyColumn={isStickyColumn}
-                                    // hasRightBorder={isStickyColumn}
-                                    hasRightBorder={isStickyColumn && scrollLeft > 0}
-                                    stickyMinWidth={column.minWidth ? `${column.minWidth}px` : undefined}
-                                    stickyLeftOffset={stickyLeftOffset}
                                 >
                                     {column.header}
                                 </Th>
                             )
-                        }
-                        return (
-                            <Th
-                                key={column.header}
-                                // modifier="wrap"
-                                style={{ minWidth: column.minWidth }}
-                            >
-                                {column.header}
-                            </Th>
-                        )
-                    })}
+                        })}
                     {rowActions !== undefined && <Th></Th>}
                 </Tr>
             </Thead>
@@ -190,35 +192,37 @@ function TableCells<T extends object>(props: {
     return useMemo(
         () => (
             <Fragment>
-                {columns.map((column, columnIndex) => {
-                    let cell: ReactNode
-                    if (typeof column.cell === 'string') {
-                        cell = get(item, column.cell)
-                    } else {
-                        cell = column.cell(item)
-                    }
+                {columns
+                    .filter((column) => column.enabled !== false)
+                    .map((column, columnIndex) => {
+                        let cell: ReactNode
+                        if (typeof column.cell === 'string') {
+                            cell = get(item, column.cell)
+                        } else {
+                            cell = column.cell(item)
+                        }
 
-                    if (columnIndex === 0 && isStickyColumn) {
+                        if (columnIndex === 0 && isStickyColumn) {
+                            return (
+                                <Th
+                                    key={column.header}
+                                    dataLabel={column.header}
+                                    isStickyColumn={isStickyColumn}
+                                    hasRightBorder={scrollLeft > 0}
+                                    stickyMinWidth="0"
+                                    stickyLeftOffset={stickyLeftOffset}
+                                    modifier="nowrap"
+                                >
+                                    {cell}
+                                </Th>
+                            )
+                        }
                         return (
-                            <Th
-                                key={column.header}
-                                dataLabel={column.header}
-                                isStickyColumn={isStickyColumn}
-                                hasRightBorder={scrollLeft > 0}
-                                stickyMinWidth="0"
-                                stickyLeftOffset={stickyLeftOffset}
-                                modifier="nowrap"
-                            >
+                            <Td key={column.header} dataLabel={column.header} modifier="nowrap">
                                 {cell}
-                            </Th>
+                            </Td>
                         )
-                    }
-                    return (
-                        <Td key={column.header} dataLabel={column.header} modifier="nowrap">
-                            {cell}
-                        </Td>
-                    )
-                })}
+                    })}
                 {rowActions !== undefined && (
                     <Td isActionCell>
                         <ActionsColumn

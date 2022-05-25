@@ -8,6 +8,7 @@ export interface ITableColumn<T extends object> {
     cell: string | CellFn<T>
     minWidth?: number
     type?: 'labels' | 'progress' | 'date'
+    enabled?: boolean
 }
 
 export function Labels(props: { labels: string[] }) {

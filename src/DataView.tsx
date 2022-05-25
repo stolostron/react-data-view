@@ -19,10 +19,11 @@ import Fuse from 'fuse.js'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { Catalog } from './Catalog'
 import { ICatalogCard } from './CatalogCard'
+import { useColumnModal } from './ColumnModal'
+import { Scrollable } from './components/Scrollable'
 import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
 import { ICatalogBreadcrumb, PageHeader } from './PageHeader'
-import { Scrollable } from './components/Scrollable'
 import { DataTable } from './Table'
 import { ITableColumn } from './TableColumn'
 import { PageToolbar } from './Toolbar'
@@ -46,7 +47,7 @@ export function DataView<T extends object>(props: {
     searchKeys?: { name: string; weight?: number }[]
     localKey?: string
 }) {
-    const { filters, itemKeyFn, itemToCardFn, searchKeys } = props
+    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns } = props
 
     const [dataViewType, setDataViewType] = useState<DataViewTypeE>(DataViewTypeE.Catalog)
 
@@ -113,8 +114,11 @@ export function DataView<T extends object>(props: {
         })
     }, [filterState, filters, setFilterFn])
 
+    const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns)
+
     return (
         <Page>
+            {columnModal}
             <PageHeader breadcrumbs={props.breadcrumbs} title={props.title} />
             {/* <Alert title="Alert" isInline variant="warning">
                 Alert content
@@ -138,6 +142,7 @@ export function DataView<T extends object>(props: {
                 filterState={filterState}
                 setFilterValues={setFilterValues}
                 clearAllFilters={clearAllFilters}
+                openColumnModal={openColumnModal}
             />
             <Drawer position="right" isStatic>
                 <DrawerContent panelContent={<Fragment />}>
@@ -166,7 +171,7 @@ export function DataView<T extends object>(props: {
                                                 />
                                             ) : (
                                                 <DataTable
-                                                    columns={props.columns}
+                                                    columns={managedColumns}
                                                     items={paged}
                                                     rowActions={props.itemActions}
                                                     keyFn={props.itemKeyFn}
