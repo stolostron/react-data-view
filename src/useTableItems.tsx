@@ -140,7 +140,7 @@ export function useSelected<T extends object>(items: T[], keyFn: (item: T) => st
     )
 }
 
-interface ISort<T extends object> {
+export interface ISort<T extends object> {
     id: string
     sortFn: (l: T, r: T) => number
     direction: 'asc' | 'desc'
@@ -153,9 +153,9 @@ function useSorted<T extends object>(items: T[]) {
     const sorted = useMemo(() => {
         if (sortFn) {
             if (direction === 'asc') {
-                return items.sort(sortFn)
+                return [...items.sort(sortFn)]
             } else {
-                return items.sort(sortFn).reverse()
+                return [...items.sort(sortFn).reverse()]
             }
         } else {
             return items

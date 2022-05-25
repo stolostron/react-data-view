@@ -27,6 +27,7 @@ export function DataViewDemo() {
                         </Split>
                     )
                 },
+                sortFn: (l, r) => l.name.localeCompare(r.name),
             },
             {
                 header: 'Status',
@@ -41,6 +42,7 @@ export function DataViewDemo() {
                         </Split>
                     )
                 },
+                sortFn: (l, r) => l.status.localeCompare(r.status),
             },
             { header: 'Description', cell: (task) => task.description },
             { header: 'Colors', cell: (task) => <Labels labels={task.colors} />, minWidth: 320 },

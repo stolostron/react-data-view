@@ -69,8 +69,8 @@ export function DataView<T extends object>(props: {
         setPerPage,
         setSearch,
         setSearchFn,
-        // setSort,
-        // sort,
+        setSort,
+        sort,
         // sorted,
         unselectAll,
         unselectItem,
@@ -178,6 +178,8 @@ export function DataView<T extends object>(props: {
                                                     selectItem={selectItem}
                                                     unselectItem={unselectItem}
                                                     isSelected={isSelected}
+                                                    sort={sort}
+                                                    setSort={setSort}
                                                 />
                                             )}
                                         </Scrollable>

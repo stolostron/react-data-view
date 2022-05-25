@@ -9,6 +9,7 @@ export interface ITableColumn<T extends object> {
     minWidth?: number
     type?: 'labels' | 'progress' | 'date'
     enabled?: boolean
+    sortFn?: (l: T, r: T) => number
 }
 
 export function Labels(props: { labels: string[] }) {

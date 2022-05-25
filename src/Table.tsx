@@ -2,7 +2,9 @@ import {
     ActionsColumn,
     IAction,
     InnerScrollContainer,
+    ISortBy,
     OuterScrollContainer,
+    SortByDirection,
     TableComposable,
     Tbody,
     Td,
@@ -10,9 +12,11 @@ import {
     Thead,
     Tr,
 } from '@patternfly/react-table'
-import { Fragment, useMemo, useState } from 'react'
+import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
+import { Fragment, MouseEvent, useCallback, useMemo, useState } from 'react'
 import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { ITableColumn } from './TableColumn'
+import { ISort } from './useTableItems'
 
 export function DataTable<T extends object>(props: {
     columns: ITableColumn<T>[]
@@ -22,9 +26,11 @@ export function DataTable<T extends object>(props: {
     isSelected: (item: T) => boolean
     keyFn: (item: T) => string
     rowActions?: IAction[]
+    sort: ISort<T> | undefined
+    setSort: (sort: ISort<T>) => void
 }) {
     const isStickyColumn = useWindowSizeOrLarger(WindowSize.sm)
-    const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions } = props
+    const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions, sort, setSort } = props
     const [scrollLeft, setScrollLeft] = useState(0)
     return useMemo(
         () => (
@@ -44,7 +50,14 @@ export function DataTable<T extends object>(props: {
                         isStickyHeader
                         gridBreakPoint=""
                     >
-                        <TableHead columns={columns} isStickyColumn={isStickyColumn} scrollLeft={scrollLeft} rowActions={rowActions} />
+                        <TableHead
+                            columns={columns}
+                            isStickyColumn={isStickyColumn}
+                            scrollLeft={scrollLeft}
+                            rowActions={rowActions}
+                            sort={sort}
+                            setSort={setSort}
+                        />
                         <Tbody>
                             {items.map((item) => (
                                 <TableRow<T>
@@ -64,7 +77,7 @@ export function DataTable<T extends object>(props: {
                 </InnerScrollContainer>
             </OuterScrollContainer>
         ),
-        [columns, isSelected, isStickyColumn, keyFn, items, rowActions, scrollLeft, selectItem, unselectItem]
+        [columns, isStickyColumn, scrollLeft, rowActions, sort, setSort, items, keyFn, isSelected, selectItem, unselectItem]
     )
 }
 
@@ -73,32 +86,64 @@ function TableHead<T extends object>(props: {
     isStickyColumn: boolean
     scrollLeft: number
     rowActions?: IAction[]
+    sort: ISort<T> | undefined
+    setSort: (sort: ISort<T>) => void
 }) {
-    const { columns, isStickyColumn, scrollLeft, rowActions } = props
+    const { columns, isStickyColumn, scrollLeft, rowActions, sort, setSort } = props
     let stickyLeftOffset = '53px'
     if (useWindowSizeOrSmaller(WindowSize.md)) {
         stickyLeftOffset = '45px'
     }
+
+    const sortBy = useMemo<ISortBy>(() => {
+        let index: number | undefined = columns.findIndex((column) => column.header === sort?.id)
+        if (index === -1) index = undefined
+        return { index, direction: sort?.direction }
+    }, [columns, sort])
+
+    const getColumnSort = useCallback<(columnIndex: number, column: ITableColumn<T>) => ThSortType | undefined>(
+        (columnIndex: number, column: ITableColumn<T>) => {
+            if (!column.sortFn) return undefined
+            return {
+                onSort: (_event: MouseEvent, _columnIndex: number, sortByDirection: SortByDirection) => {
+                    if (column.sortFn) {
+                        setSort({
+                            id: column.header,
+                            sortFn: column.sortFn,
+                            direction: sortByDirection,
+                        })
+                    }
+                },
+                sortBy,
+                columnIndex,
+            }
+        },
+        [setSort, sortBy]
+    )
+
+    //   /** Provide the currently active column's index and direction */
+    //   sortBy: ISortBy;
+    //   /** The column index */
+    //   columnIndex: number;
+    //   /** True to make this a favoritable sorting cell */
+    //   isFavorites?: boolean;
+
+    // sortBy: {
+    //     index: activeSortIndex,
+    //     direction: activeSortDirection,
+    //     defaultDirection: 'asc' // starting sort direction when first sorting a column. Defaults to 'asc'
+    //   },
+    //   onSort: (_event, index, direction) => {
+    //     setActiveSortIndex(index);
+    //     setActiveSortDirection(direction);
+    //   },
+    //   columnIndex
+
     return useMemo(
         () => (
             <Thead>
                 <Tr>
-                    <Th
-                        // select={{
-                        //     onSelect: (_event, isSelecting) => {
-                        //         if (isSelecting) {
-                        //             selectAll()
-                        //         } else {
-                        //             unselectAll()
-                        //         }
-                        //     },
-                        //     isSelected: allSelected,
-                        // }}
-                        hasRightBorder={!isStickyColumn && scrollLeft > 0}
-                        isStickyColumn={true}
-                        stickyMinWidth="0"
-                    />
-
+                    <Th hasRightBorder={!isStickyColumn && scrollLeft > 0} isStickyColumn={true} stickyMinWidth="0" />
                     {columns
                         .filter((column) => column.enabled !== false)
                         .map((column, index) => {
@@ -113,6 +158,7 @@ function TableHead<T extends object>(props: {
                                         hasRightBorder={isStickyColumn && scrollLeft > 0}
                                         stickyMinWidth={column.minWidth ? `${column.minWidth}px` : undefined}
                                         stickyLeftOffset={stickyLeftOffset}
+                                        sort={getColumnSort(index, column)}
                                     >
                                         {column.header}
                                     </Th>
@@ -123,6 +169,7 @@ function TableHead<T extends object>(props: {
                                     key={column.header}
                                     // modifier="wrap"
                                     style={{ minWidth: column.minWidth }}
+                                    sort={getColumnSort(index, column)}
                                 >
                                     {column.header}
                                 </Th>
@@ -132,7 +179,7 @@ function TableHead<T extends object>(props: {
                 </Tr>
             </Thead>
         ),
-        [columns, isStickyColumn, rowActions, scrollLeft, stickyLeftOffset]
+        [columns, getColumnSort, isStickyColumn, rowActions, scrollLeft, stickyLeftOffset]
     )
 }
 
