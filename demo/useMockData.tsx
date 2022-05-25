@@ -4,7 +4,7 @@ export function useMockData<T>(defaultCount: number, createFn: (count: number) =
     const [items, setItems] = useState<T[]>([])
     const countRef = useRef({ count: 5 })
 
-    const createItem = useCallback(() => {
+    const create = useCallback(() => {
         countRef.current.count++
         return createFn(countRef.current.count)
     }, [createFn])
@@ -15,14 +15,14 @@ export function useMockData<T>(defaultCount: number, createFn: (count: number) =
             const timer = setInterval(() => {
                 setItems((items) => {
                     items = [...items]
-                    items.push(createItem())
+                    items.push(create())
                     return items
                 })
             }, createInterval)
             return () => clearInterval(timer)
         }
         return undefined
-    }, [createItem, createInterval])
+    }, [create, createInterval])
 
     const [updateInterval, setUpdateInterval] = useState<number>()
     useEffect(() => {
@@ -63,18 +63,33 @@ export function useMockData<T>(defaultCount: number, createFn: (count: number) =
             setItems((items) => {
                 items = [...items]
                 while (items.length < count) {
-                    items.push(createItem())
+                    items.push(create())
                 }
                 items = items.slice(0, count)
                 return items
             })
         },
-        [createItem]
+        [create]
     )
 
     useEffect(() => {
         setCount(defaultCount)
     }, [defaultCount, setCount])
+
+    const createItem = useCallback(() => {
+        setItems((items) => {
+            items = [...items]
+            items.push(create())
+            return items
+        })
+    }, [create])
+
+    const deleteItems = useCallback((deleteItems: T[]) => {
+        setItems((items) => {
+            items = items.filter((item) => !deleteItems.includes(item))
+            return items
+        })
+    }, [])
 
     return {
         items,
@@ -86,5 +101,6 @@ export function useMockData<T>(defaultCount: number, createFn: (count: number) =
         setDeleteInterval,
         setCount,
         createItem,
+        deleteItems,
     }
 }

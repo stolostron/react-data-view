@@ -2,7 +2,7 @@ import { Split, SplitItem } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { IAction } from '@patternfly/react-table'
 import { Fragment, useCallback, useMemo } from 'react'
-import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITableColumn, Labels } from '../src'
+import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITableColumn, IToolbarAction, Labels } from '../src'
 import { IconWrapper } from '../src/components/IconWrapper'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
@@ -10,7 +10,7 @@ import { colors } from './mock'
 import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 
 export function DataViewDemo() {
-    const { items: tasks } = useMockTasks(100000)
+    const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
 
@@ -54,6 +54,19 @@ export function DataViewDemo() {
         []
     )
 
+    const toolbarActions: IToolbarAction<IMockTask>[] = [
+        {
+            type: 'primary',
+            label: 'Create',
+            onClick: createItem,
+        },
+        {
+            type: 'bulk',
+            label: 'Delete',
+            onClick: deleteItems,
+        },
+    ]
+
     const actions: IAction[] = [
         { title: 'Some action', onClick: () => null },
         { title: <div>Another action</div>, onClick: () => null },
@@ -96,7 +109,7 @@ export function DataViewDemo() {
             filter: (item: IMockTask, values: string[]) => {
                 // TODO values as Record<string,boolean> for performance
                 for (const value of values) {
-                    if (item.colors.includes(value)) {
+                    if (item.labels.includes(value)) {
                         return true
                     }
                 }
@@ -164,6 +177,7 @@ export function DataViewDemo() {
                 columns={columns}
                 itemKeyFn={keyFn}
                 itemActions={actions}
+                toolbarActions={toolbarActions}
                 filters={filters}
                 itemToCardFn={taskToCardFn}
                 searchKeys={searchKeys}

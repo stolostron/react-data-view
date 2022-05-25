@@ -1,13 +1,13 @@
 import {
     Button,
     ButtonVariant,
-    DropdownItem,
     DropdownSeparator,
     OnPerPageSelect,
     OnSetPage,
     OverflowMenu,
     OverflowMenuContent,
     OverflowMenuControl,
+    OverflowMenuDropdownItem,
     OverflowMenuGroup,
     OverflowMenuItem,
     Pagination,
@@ -27,12 +27,47 @@ import {
     ToolbarToggleGroup,
 } from '@patternfly/react-core'
 import { ColumnsIcon, FilterIcon, ListIcon, ThIcon } from '@patternfly/react-icons'
-import { useCallback, useMemo, useState } from 'react'
+import { Fragment, useCallback, useMemo, useState } from 'react'
 import { BulkSelector } from './components/BulkSelector'
 import { DropdownControlled } from './components/DropdownControlled'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
 import { DataViewTypeE } from './DataView'
+
+export interface IToolbarActionPrimary<T extends object> {
+    type: 'primary'
+    label: string
+    onClick: (selectedItems: T[]) => void
+}
+
+export interface IToolbarActionSecondary<T extends object> {
+    type: 'secondary'
+    label: string
+    onClick: (selectedItems: T[]) => void
+}
+
+export interface IToolbarActionSeperator {
+    type: 'seperator'
+}
+
+export interface IToolbarActionButton<T extends object> {
+    type: 'button'
+    label: string
+    onClick: (selectedItems: T[]) => void
+}
+
+export interface IToolbarActionBulk<T extends object> {
+    type: 'bulk'
+    label: string
+    onClick: (selectedItems: T[]) => void
+}
+
+export type IToolbarAction<T extends object> =
+    | IToolbarActionPrimary<T>
+    | IToolbarActionSecondary<T>
+    | IToolbarActionSeperator
+    | IToolbarActionButton<T>
+    | IToolbarActionBulk<T>
 
 export function PageToolbar<T extends object>(props: {
     items: T[]
@@ -54,6 +89,7 @@ export function PageToolbar<T extends object>(props: {
     setFilterValues: SetFilterValues<T>
     clearAllFilters: () => void
     openColumnModal: () => void
+    toolbarActions?: IToolbarAction<T>[]
 }) {
     const {
         searched,
@@ -73,10 +109,69 @@ export function PageToolbar<T extends object>(props: {
         view,
         clearAllFilters,
         openColumnModal,
+        toolbarActions,
     } = props
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
     const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
     const isXS = !isSmallOrLarger
+
+    const toolbarActionButtons = useMemo(
+        () => (
+            <Fragment>
+                {toolbarActions?.map((action) => {
+                    switch (action.type) {
+                        case ButtonVariant.primary:
+                        case ButtonVariant.secondary:
+                            return (
+                                <OverflowMenuItem key={action.label}>
+                                    <Button variant={action.type} onClick={() => action.onClick(selected)}>
+                                        {action.label}
+                                    </Button>
+                                </OverflowMenuItem>
+                            )
+                        default:
+                            return <Fragment />
+                    }
+                })}
+            </Fragment>
+        ),
+        [selected, toolbarActions]
+    )
+
+    const toolbarActionDropDownItems = useMemo(
+        () =>
+            toolbarActions?.map((action) => {
+                switch (action.type) {
+                    case ButtonVariant.primary:
+                    case ButtonVariant.secondary:
+                        return (
+                            <OverflowMenuDropdownItem key={action.label} isShared onClick={() => action.onClick(selected)}>
+                                {action.label}
+                            </OverflowMenuDropdownItem>
+                        )
+                    case 'seperator':
+                        return <DropdownSeparator key="separator" />
+                    case 'bulk':
+                        return (
+                            <OverflowMenuDropdownItem
+                                key={action.label}
+                                onClick={() => action.onClick(selected)}
+                                isDisabled={selected.length === 0}
+                            >
+                                {action.label}
+                            </OverflowMenuDropdownItem>
+                        )
+                    default:
+                        return (
+                            <OverflowMenuDropdownItem key={action.label} onClick={() => action.onClick(selected)}>
+                                {action.label}
+                            </OverflowMenuDropdownItem>
+                        )
+                }
+            }),
+        [selected, toolbarActions]
+    )
+
     return (
         <Toolbar style={{ borderBottom: 'thin solid var(--pf-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
@@ -138,61 +233,22 @@ export function PageToolbar<T extends object>(props: {
                     )}
                 </ToolbarToggleGroup>
 
-                {/* <ToolbarGroup variant="icon-button-group">
+                {toolbarActions && (
+                    <ToolbarGroup variant="button-group">
                         <ToolbarItem>
-                            <Button variant="plain" aria-label="edit">
-                                <EditIcon />
-                            </Button>
+                            <OverflowMenu breakpoint="2xl">
+                                {toolbarActionButtons && (
+                                    <OverflowMenuContent>
+                                        <OverflowMenuGroup groupType="button">{toolbarActionButtons}</OverflowMenuGroup>
+                                    </OverflowMenuContent>
+                                )}
+                                <OverflowMenuControl hasAdditionalOptions>
+                                    <DropdownControlled items={toolbarActionDropDownItems ?? []} />
+                                </OverflowMenuControl>
+                            </OverflowMenu>
                         </ToolbarItem>
-                        <ToolbarItem>
-                            <Button variant="plain" aria-label="clone">
-                                <CloneIcon />
-                            </Button>
-                        </ToolbarItem>
-                        <ToolbarItem>
-                            <Button variant="plain" aria-label="sync">
-                                <SyncIcon />
-                            </Button>
-                        </ToolbarItem>
-                    </ToolbarGroup> */}
-
-                <ToolbarGroup variant="button-group">
-                    <ToolbarItem>
-                        <OverflowMenu breakpoint="2xl">
-                            <OverflowMenuContent>
-                                <OverflowMenuGroup groupType="button">
-                                    <OverflowMenuItem>
-                                        <Button variant={ButtonVariant.primary}>Primary</Button>
-                                    </OverflowMenuItem>
-                                    <OverflowMenuItem>
-                                        <Button variant={ButtonVariant.secondary}>Secondary</Button>
-                                    </OverflowMenuItem>
-                                </OverflowMenuGroup>
-                            </OverflowMenuContent>
-                            <OverflowMenuControl hasAdditionalOptions>
-                                <DropdownControlled
-                                    items={[
-                                        <DropdownItem key="link">Link</DropdownItem>,
-                                        <DropdownItem key="action" component="button">
-                                            Action
-                                        </DropdownItem>,
-                                        <DropdownItem key="disabled link" isDisabled>
-                                            Disabled Link
-                                        </DropdownItem>,
-                                        <DropdownItem key="disabled action" isDisabled component="button">
-                                            Disabled Action
-                                        </DropdownItem>,
-                                        <DropdownSeparator key="separator" />,
-                                        <DropdownItem key="separated link">Separated Link</DropdownItem>,
-                                        <DropdownItem key="separated action" component="button">
-                                            Separated Action
-                                        </DropdownItem>,
-                                    ]}
-                                />
-                            </OverflowMenuControl>
-                        </OverflowMenu>
-                    </ToolbarItem>
-                </ToolbarGroup>
+                    </ToolbarGroup>
+                )}
 
                 {view === DataViewTypeE.Table && (
                     <ToolbarGroup variant="button-group">

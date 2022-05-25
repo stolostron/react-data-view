@@ -24,7 +24,7 @@ import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
 import { DataTable } from './Table'
 import { ITableColumn } from './TableColumn'
-import { PageToolbar } from './Toolbar'
+import { IToolbarAction, PageToolbar } from './Toolbar'
 import { useTableItems } from './useTableItems'
 
 export enum DataViewTypeE {
@@ -38,12 +38,13 @@ export function DataView<T extends object>(props: {
     columns: ITableColumn<T>[]
     itemActions?: IAction[]
     itemKeyFn: (item: T) => string
+    toolbarActions?: IToolbarAction<T>[]
     filters: IDataFilter<T>[]
     itemToCardFn: (item: T) => ICatalogCard
     searchKeys?: { name: string; weight?: number }[]
     localKey?: string
 }) {
-    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns } = props
+    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions } = props
 
     const [dataViewType, setDataViewType] = useState<DataViewTypeE>(DataViewTypeE.Catalog)
 
@@ -138,6 +139,7 @@ export function DataView<T extends object>(props: {
                 setFilterValues={setFilterValues}
                 clearAllFilters={clearAllFilters}
                 openColumnModal={openColumnModal}
+                toolbarActions={toolbarActions}
             />
             <Drawer position="right" isStatic>
                 <DrawerContent panelContent={<Fragment />}>
