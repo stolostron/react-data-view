@@ -13,10 +13,25 @@ import {
     Tr,
 } from '@patternfly/react-table'
 import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
-import { Fragment, MouseEvent, useCallback, useMemo, useState } from 'react'
+import useResizeObserver from '@react-hook/resize-observer'
+import { Fragment, MouseEvent, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { ITableColumn } from './TableColumn'
 import { ISort } from './useTableItems'
+
+interface IScroll {
+    top: number
+    bottom: number
+    left: number
+    right: number
+}
+// const TableScrollContext = createContext<{
+//     scroll: IScroll
+//     setScroll: Dispatch<SetStateAction<IScroll>>
+// }>({
+//     scroll: { top: 0, bottom: 0, left: 0, right: 0 },
+//     setScroll: () => null,
+// })
 
 export function DataTable<T extends object>(props: {
     columns: ITableColumn<T>[]
@@ -32,52 +47,120 @@ export function DataTable<T extends object>(props: {
     const isStickyColumn = useWindowSizeOrLarger(WindowSize.sm)
     const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions, sort, setSort } = props
     const [scrollLeft, setScrollLeft] = useState(0)
+    const ref = useRef<HTMLDivElement>(null)
+
+    const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 })
+    const resize = useCallback(() => setSize({ width: ref.current?.clientWidth ?? 0, height: ref.current?.clientHeight ?? 0 }), [])
+    useResizeObserver(ref, () => resize())
+    useLayoutEffect(() => resize(), [resize])
+
+    const [scroll, setScroll] = useState<IScroll>({ top: 0, bottom: 0, left: 0, right: 0 })
+
+    const headerHeight = 53
+    const rowHeight = 75
+    const visibleRowCount = Math.ceil(size.height / rowHeight) + 1
+    const visibleRowsHeight = visibleRowCount * rowHeight
+    const totalHeight = items.length * rowHeight + headerHeight - 1
+    const firstRow = Math.min(Math.max(Math.floor(scroll.top / rowHeight) - 1, 0), items.length - 1)
+    const beforeHeight = Math.max(firstRow * rowHeight, 0)
+    const afterHeight = Math.max(totalHeight - visibleRowsHeight - beforeHeight, 0)
+
+    const updateScroll = useCallback((div: HTMLDivElement | null) => {
+        if (!div) return
+        setScroll((scroll) => {
+            const newScroll: IScroll = {
+                top: div.scrollTop,
+                bottom: div.scrollHeight - div.clientHeight - div.scrollTop,
+                left: div.scrollLeft,
+                right: div.scrollWidth - div.clientWidth - div.scrollLeft,
+            }
+            if (
+                newScroll.top !== scroll.top ||
+                newScroll.bottom !== scroll.bottom ||
+                newScroll.left !== scroll.left ||
+                newScroll.right !== scroll.right
+            ) {
+                return newScroll
+            }
+            return scroll
+        })
+    }, [])
+    const onScroll = useCallback(
+        (event: UIEvent<HTMLDivElement>) => {
+            updateScroll(event.currentTarget)
+            // props.onScroll?.(event)
+        },
+        [updateScroll]
+    )
+
     return useMemo(
         () => (
-            <OuterScrollContainer style={{ height: '100%' }}>
-                <InnerScrollContainer
-                    onScroll={(div) => {
-                        // console.log((div.target as HTMLDivElement).scrollLeft)
-                        setScrollLeft((div.target as HTMLDivElement).scrollLeft)
-                    }}
-                    style={{ height: '100%' }}
-                >
-                    <TableComposable
-                        aria-label="Simple table"
-                        // variant="compact"
-                        // variant={exampleChoice !== 'default' ? 'compact' : undefined}
-                        // borders={exampleChoice !== 'compactBorderless'}
-                        isStickyHeader
-                        gridBreakPoint=""
+            <div style={{ overflow: 'hidden', height: '100%' }} ref={ref}>
+                <OuterScrollContainer style={{ height: '100%' }} onScroll={onScroll}>
+                    <InnerScrollContainer
+                        onScroll={(div) => {
+                            // console.log((div.target as HTMLDivElement).scrollLeft)
+                            setScrollLeft((div.target as HTMLDivElement).scrollLeft)
+                            onScroll(div)
+                        }}
+                        style={{ height: '100%' }}
                     >
-                        <TableHead
-                            columns={columns}
-                            isStickyColumn={isStickyColumn}
-                            scrollLeft={scrollLeft}
-                            rowActions={rowActions}
-                            sort={sort}
-                            setSort={setSort}
-                        />
-                        <Tbody>
-                            {items.map((item) => (
-                                <TableRow<T>
-                                    key={keyFn(item)}
-                                    columns={columns}
-                                    item={item}
-                                    isItemSelected={isSelected(item)}
-                                    isStickyColumn={isStickyColumn}
-                                    scrollLeft={scrollLeft}
-                                    selectItem={selectItem}
-                                    unselectItem={unselectItem}
-                                    rowActions={rowActions}
-                                />
-                            ))}
-                        </Tbody>
-                    </TableComposable>
-                </InnerScrollContainer>
-            </OuterScrollContainer>
+                        <TableComposable
+                            aria-label="Simple table"
+                            // variant="compact"
+                            // variant={exampleChoice !== 'default' ? 'compact' : undefined}
+                            // borders={exampleChoice !== 'compactBorderless'}
+                            isStickyHeader
+                            gridBreakPoint=""
+                        >
+                            <TableHead
+                                columns={columns}
+                                isStickyColumn={isStickyColumn}
+                                scrollLeft={scrollLeft}
+                                rowActions={rowActions}
+                                sort={sort}
+                                setSort={setSort}
+                            />
+                            <Tbody>
+                                {beforeHeight !== 0 && <Tr style={{ height: beforeHeight, border: 0 }} />}
+                                {items.slice(firstRow, firstRow + visibleRowCount).map((item) => (
+                                    <TableRow<T>
+                                        key={keyFn(item)}
+                                        columns={columns}
+                                        item={item}
+                                        isItemSelected={isSelected(item)}
+                                        isStickyColumn={isStickyColumn}
+                                        scrollLeft={scrollLeft}
+                                        selectItem={selectItem}
+                                        unselectItem={unselectItem}
+                                        rowActions={rowActions}
+                                    />
+                                ))}
+                                {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
+                            </Tbody>
+                        </TableComposable>
+                    </InnerScrollContainer>
+                </OuterScrollContainer>
+            </div>
         ),
-        [columns, isStickyColumn, scrollLeft, rowActions, sort, setSort, items, keyFn, isSelected, selectItem, unselectItem]
+        [
+            onScroll,
+            columns,
+            isStickyColumn,
+            scrollLeft,
+            rowActions,
+            sort,
+            setSort,
+            beforeHeight,
+            items,
+            firstRow,
+            visibleRowCount,
+            afterHeight,
+            keyFn,
+            isSelected,
+            selectItem,
+            unselectItem,
+        ]
     )
 }
 
