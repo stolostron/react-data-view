@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 export function useMockData<T>(defaultCount: number, createFn: (count: number) => T, updateFn: (item: T) => T) {
     const [items, setItems] = useState<T[]>([])
-    const countRef = useRef({ count: 5 })
+    const countRef = useRef({ count: 0 })
 
     const create = useCallback(() => {
         countRef.current.count++

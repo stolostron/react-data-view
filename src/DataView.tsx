@@ -1,18 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {
-    Button,
-    Drawer,
-    DrawerContent,
-    DrawerContentBody,
-    PageSection,
-    Pagination,
-    PaginationVariant,
-    Split,
-    SplitItem,
-    Toolbar,
-    ToolbarContent,
-} from '@patternfly/react-core'
+import { Drawer, DrawerContent, DrawerContentBody } from '@patternfly/react-core'
 import { IAction } from '@patternfly/react-table'
 import Fuse from 'fuse.js'
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -169,7 +157,7 @@ export function DataView<T extends object>(props: {
                                             ) : (
                                                 <DataTable
                                                     columns={managedColumns}
-                                                    items={paged}
+                                                    items={searched}
                                                     rowActions={props.itemActions}
                                                     keyFn={props.itemKeyFn}
                                                     selectItem={selectItem}
@@ -180,7 +168,7 @@ export function DataView<T extends object>(props: {
                                                 />
                                             )}
                                         </Scrollable>
-                                        <PageSection
+                                        {/* <PageSection
                                             padding={{ default: 'noPadding' }}
                                             style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
                                         >
@@ -201,7 +189,7 @@ export function DataView<T extends object>(props: {
                                                     ></Pagination>
                                                 </SplitItem>
                                             </Split>
-                                        </PageSection>
+                                        </PageSection> */}
                                     </div>
                                 </DrawerContentBody>
                             </DrawerContent>
