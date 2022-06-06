@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import faker from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 import {
     FishIcon,
     FlyIcon,
