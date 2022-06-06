@@ -1,0 +1,162 @@
+/* COLORS */
+tbody tr {
+    background-color: var(--pf-c-table--BackgroundColor);
+    transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+    background-color: #f4f4f4;
+}
+:root:where(.pf-theme-dark) tr:hover {
+    background-color: #303030;
+}
+
+tbody tr.selected {
+    background-color: #f0f8ff;
+}
+:root:where(.pf-theme-dark) tr.selected {
+    background-color: #202830;
+}
+
+tbody tr.selected:hover {
+    background-color: #e8f4ff;
+}
+:root:where(.pf-theme-dark) tr.selected:hover {
+    background-color: #303840;
+}
+
+thead th {
+    background-color: var(--pf-c-table--BackgroundColor) !important;
+    background-clip: padding-box;
+}
+
+th {
+    background-color: inherit;
+    background-clip: padding-box;
+}
+
+td {
+    background-color: inherit !important;
+    background-clip: padding-box;
+}
+
+/* Table Header Sticky */
+table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* Table Header Shadow */
+table thead:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    height: 8px;
+    width: 100%;
+    background: linear-gradient(to bottom, #0002, #0000);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+:root:where(.pf-theme-dark) table thead:after {
+    background: linear-gradient(to bottom, #0007, #0000);
+    bottom: -9px;
+    height: 10px;
+}
+table.scroll-top thead:after {
+    opacity: 1;
+}
+
+/* Table 2nd Column Sticky*/
+table tr th:nth-child(2),
+table tr td:nth-child(2) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+table.scroll-left tr th:nth-child(2):after,
+table.scroll-left tr td:nth-child(2):after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: -8px;
+    height: 100%;
+    width: 8px;
+    background: linear-gradient(to right, #0002, #0000);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+:root:where(.pf-theme-dark) table.scroll-left tr th:nth-child(2):after,
+:root:where(.pf-theme-dark) table.scroll-left tr td:nth-child(2):after {
+    background: linear-gradient(to right, #0007, #0000);
+}
+table.scroll-left tr th:nth-child(2):after,
+table.scroll-left tr td:nth-child(2):after {
+    opacity: 1;
+}
+
+/* Table Last Column */
+table tr th:last-child,
+table tr td:last-child {
+    position: sticky;
+    right: 0;
+}
+
+/* Table 2nd Column and Last Column Shadow before */
+table tr th:nth-child(2):before,
+table tr td:nth-child(2):before,
+table tr th:last-child::before,
+table tr td:last-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -8px;
+    height: 100%;
+    width: 8px;
+    background: linear-gradient(to left, #0002, #0000);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+:root:where(.pf-theme-dark) table.scroll-left tr th:nth-child(2):before,
+:root:where(.pf-theme-dark) table.scroll-left tr td:nth-child(2):before,
+:root:where(.pf-theme-dark) table.scroll-right tr th:last-child::before,
+:root:where(.pf-theme-dark) table.scroll-right tr td:last-child::before {
+    background: linear-gradient(to left, #0007, #0000);
+}
+table.scroll-left tr th:nth-child(2):before,
+table.scroll-left tr td:nth-child(2):before,
+table.scroll-right tr th:last-child::before,
+table.scroll-right tr td:last-child::before {
+    opacity: 1;
+}
+
+/* Table Footer */
+table tfoot {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+}
+table tfoot:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    height: 8px;
+    width: 100%;
+    background: linear-gradient(to top, #0002, #0000);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+table.scroll-bottom tfoot:before {
+    opacity: 1;
+}
+
+table thead th {
+    overflow: unset !important;
+    overflow-x: unset !important;
+    overflow-y: unset !important;
+}
