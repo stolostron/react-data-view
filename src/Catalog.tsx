@@ -52,7 +52,7 @@ export function Catalog<T extends object>(props: {
 
     return (
         <PageSection style={{ flexGrow: 1 }}>
-            <Flex style={{ paddingBottom: 22 }}>
+            <Flex style={{ paddingBottom: 16 }}>
                 <FlexItem>
                     <span style={{ paddingRight: 8 }}>
                         <b>Cards</b>
