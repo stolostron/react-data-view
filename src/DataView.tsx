@@ -34,7 +34,7 @@ export function DataView<T extends object>(props: {
 }) {
     const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions } = props
 
-    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(DataViewTypeE.Catalog)
+    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(DataViewTypeE.Table)
 
     const {
         // allSelected,

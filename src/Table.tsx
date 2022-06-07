@@ -1,17 +1,4 @@
-import {
-    ActionsColumn,
-    IAction,
-    InnerScrollContainer,
-    ISortBy,
-    OuterScrollContainer,
-    SortByDirection,
-    TableComposable,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-} from '@patternfly/react-table'
+import { ActionsColumn, IAction, ISortBy, SortByDirection, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
 import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
 import useResizeObserver from '@react-hook/resize-observer'
 import { Fragment, MouseEvent, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -45,11 +32,15 @@ export function DataTable<T extends object>(props: {
     setSort: (sort: ISort<T>) => void
 }) {
     const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions, sort, setSort } = props
-    const ref = useRef<HTMLDivElement>(null)
+    const sizeRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
 
     const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 })
-    const resize = useCallback(() => setSize({ width: ref.current?.clientWidth ?? 0, height: ref.current?.clientHeight ?? 0 }), [])
-    useResizeObserver(ref, () => resize())
+    const resize = useCallback(() => setSize({ width: sizeRef.current?.clientWidth ?? 0, height: sizeRef.current?.clientHeight ?? 0 }), [])
+    useResizeObserver(sizeRef, () => {
+        resize()
+        updateScroll(scrollRef.current)
+    })
     useLayoutEffect(() => resize(), [resize])
 
     const [scroll, setScroll] = useState<IScroll>({ top: 0, bottom: 0, left: 0, right: 0 })
@@ -83,13 +74,7 @@ export function DataTable<T extends object>(props: {
             return scroll
         })
     }, [])
-    const onScroll = useCallback(
-        (event: UIEvent<HTMLDivElement>) => {
-            updateScroll(event.currentTarget)
-            // props.onScroll?.(event)
-        },
-        [updateScroll]
-    )
+    const onScroll = useCallback((event: UIEvent<HTMLDivElement>) => updateScroll(event.currentTarget), [updateScroll])
 
     const className = useMemo(() => {
         // let className = 'pf-c-table '
@@ -103,36 +88,35 @@ export function DataTable<T extends object>(props: {
 
     return useMemo(
         () => (
-            <div style={{ overflow: 'hidden', height: '100%' }} ref={ref}>
-                <OuterScrollContainer style={{ height: '100%' }}>
-                    <InnerScrollContainer onScroll={onScroll} style={{ height: '100%' }}>
-                        <TableComposable
-                            aria-label="Simple table"
-                            // variant="compact"
-                            // variant={exampleChoice !== 'default' ? 'compact' : undefined}
-                            // borders={exampleChoice !== 'compactBorderless'}
-                            gridBreakPoint=""
-                            className={className}
-                        >
-                            <TableHead columns={columns} rowActions={rowActions} sort={sort} setSort={setSort} />
-                            <Tbody>
-                                {beforeHeight !== 0 && <Tr style={{ height: beforeHeight, border: 0 }} />}
-                                {items.slice(firstRow, firstRow + visibleRowCount).map((item) => (
-                                    <TableRow<T>
-                                        key={keyFn(item)}
-                                        columns={columns}
-                                        item={item}
-                                        isItemSelected={isSelected(item)}
-                                        selectItem={selectItem}
-                                        unselectItem={unselectItem}
-                                        rowActions={rowActions}
-                                    />
-                                ))}
-                                {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
-                            </Tbody>
-                        </TableComposable>
-                    </InnerScrollContainer>
-                </OuterScrollContainer>
+            <div style={{ overflow: 'hidden', height: '100%' }} ref={sizeRef}>
+                <div onScroll={onScroll} style={{ height: '100%', overflow: 'auto' }} ref={scrollRef}>
+                    <TableComposable
+                        aria-label="Simple table"
+                        // variant="compact"
+                        // variant={exampleChoice !== 'default' ? 'compact' : undefined}
+                        // borders={exampleChoice !== 'compactBorderless'}
+                        gridBreakPoint=""
+                        className={className}
+                    >
+                        <TableHead columns={columns} rowActions={rowActions} sort={sort} setSort={setSort} />
+                        <Tbody>
+                            {beforeHeight !== 0 && <Tr style={{ height: beforeHeight, border: 0 }} />}
+                            {items.slice(firstRow, firstRow + visibleRowCount).map((item, rowIndex) => (
+                                <TableRow<T>
+                                    key={keyFn(item)}
+                                    columns={columns}
+                                    item={item}
+                                    isItemSelected={isSelected(item)}
+                                    selectItem={selectItem}
+                                    unselectItem={unselectItem}
+                                    rowActions={rowActions}
+                                    rowIndex={rowIndex + firstRow}
+                                />
+                            ))}
+                            {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
+                        </Tbody>
+                    </TableComposable>
+                </div>
             </div>
         ),
         [
@@ -236,8 +220,9 @@ function TableRow<T extends object>(props: {
     selectItem: (item: T) => void
     unselectItem: (item: T) => void
     rowActions?: IAction[]
+    rowIndex: number
 }) {
-    const { columns, selectItem, unselectItem, isItemSelected, item, rowActions } = props
+    const { columns, selectItem, unselectItem, isItemSelected, item, rowActions, rowIndex } = props
     return useMemo(
         () => (
             <Tr className={isItemSelected ? 'selected' : undefined}>
@@ -253,15 +238,15 @@ function TableRow<T extends object>(props: {
                         isSelected: isItemSelected,
                     }}
                 />
-                <TableCells columns={columns} item={item} rowActions={rowActions} />
+                <TableCells rowIndex={rowIndex} columns={columns} item={item} rowActions={rowActions} />
             </Tr>
         ),
         [columns, isItemSelected, item, rowActions, selectItem, unselectItem]
     )
 }
 
-function TableCells<T extends object>(props: { columns: ITableColumn<T>[]; item: T; rowActions?: IAction[] }) {
-    const { columns, item, rowActions } = props
+function TableCells<T extends object>(props: { rowIndex: number; columns: ITableColumn<T>[]; item: T; rowActions?: IAction[] }) {
+    const { columns, item, rowActions, rowIndex } = props
     return useMemo(
         () => (
             <Fragment>
@@ -275,7 +260,7 @@ function TableCells<T extends object>(props: { columns: ITableColumn<T>[]; item:
                         )
                     })}
                 {rowActions !== undefined && (
-                    <Td isActionCell>
+                    <Td isActionCell style={{ zIndex: 100000 - rowIndex }}>
                         <ActionsColumn
                             // dropdownDirection="up" // TODO handle....
                             items={rowActions}
