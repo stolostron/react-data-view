@@ -10,6 +10,8 @@ import {
     OverflowMenuDropdownItem,
     OverflowMenuGroup,
     OverflowMenuItem,
+    Pagination,
+    PaginationVariant,
     SearchInput,
     Select,
     SelectOption,
@@ -271,7 +273,7 @@ export function PageToolbar<T extends object>(props: {
                         />
                     </ToggleGroup>
                 </ToolbarItem>
-                {/* {isSmallOrLarger && (
+                {view === DataViewTypeE.Catalog && (
                     <ToolbarItem>
                         <Pagination
                             variant={PaginationVariant.top}
@@ -283,7 +285,7 @@ export function PageToolbar<T extends object>(props: {
                             onPerPageSelect={onPerPageSelect}
                         />
                     </ToolbarItem>
-                )} */}
+                )}
             </ToolbarContent>
         </Toolbar>
     )

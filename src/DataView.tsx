@@ -1,6 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Drawer, DrawerContent, DrawerContentBody } from '@patternfly/react-core'
+import {
+    Button,
+    Drawer,
+    DrawerContent,
+    DrawerContentBody,
+    PageSection,
+    Pagination,
+    PaginationVariant,
+    Split,
+    SplitItem,
+    Toolbar,
+    ToolbarContent,
+} from '@patternfly/react-core'
 import { IAction } from '@patternfly/react-table'
 import Fuse from 'fuse.js'
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -168,28 +180,30 @@ export function DataView<T extends object>(props: {
                                                 />
                                             )}
                                         </Scrollable>
-                                        {/* <PageSection
-                                            padding={{ default: 'noPadding' }}
-                                            style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
-                                        >
-                                            <Split>
-                                                <Toolbar>
-                                                    <ToolbarContent>
-                                                        {props.onBack && <Button onClick={props.onBack}>Back</Button>}
-                                                    </ToolbarContent>
-                                                </Toolbar>
-                                                <SplitItem isFilled>
-                                                    <Pagination
-                                                        variant={PaginationVariant.bottom}
-                                                        itemCount={searched.length}
-                                                        perPage={perPage}
-                                                        page={page}
-                                                        onSetPage={onSetPage}
-                                                        onPerPageSelect={onPerPageSelect}
-                                                    ></Pagination>
-                                                </SplitItem>
-                                            </Split>
-                                        </PageSection> */}
+                                        {dataViewType === DataViewTypeE.Catalog && (
+                                            <PageSection
+                                                padding={{ default: 'noPadding' }}
+                                                style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
+                                            >
+                                                <Split>
+                                                    <Toolbar>
+                                                        <ToolbarContent>
+                                                            {props.onBack && <Button onClick={props.onBack}>Back</Button>}
+                                                        </ToolbarContent>
+                                                    </Toolbar>
+                                                    <SplitItem isFilled>
+                                                        <Pagination
+                                                            variant={PaginationVariant.bottom}
+                                                            itemCount={searched.length}
+                                                            perPage={perPage}
+                                                            page={page}
+                                                            onSetPage={onSetPage}
+                                                            onPerPageSelect={onPerPageSelect}
+                                                        ></Pagination>
+                                                    </SplitItem>
+                                                </Split>
+                                            </PageSection>
+                                        )}
                                     </div>
                                 </DrawerContentBody>
                             </DrawerContent>
