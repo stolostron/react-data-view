@@ -1,6 +1,6 @@
 {
     "name": "@stolostron/react-data-view",
-    "version": "1.6.56",
+    "version": "1.0.0",
     "license": "Apache-2.0",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -8,12 +8,12 @@
         "lib"
     ],
     "scripts": {
-        "build": "rimraf lib && tsc",
+        "build": "rimraf lib && tsc -p tsconfig.prod.json",
         "start": "TS_NODE_PROJECT=webpack.tsconfig.json webpack serve --mode development --open",
         "start:quiet": "TS_NODE_PROJECT=webpack.tsconfig.json webpack serve --mode development",
         "pages": "TS_NODE_PROJECT=webpack.tsconfig.json webpack --mode production",
         "test": "concurrently npm:tsc npm:eslint npm:prettier npm:pages --prefix-colors cyan,green,blue,magenta,gray",
-        "tsc": "tsc --noEmit -p tsconfig.eslint.json",
+        "tsc": "tsc --noEmit",
         "eslint": "eslint src demo",
         "prettier": "prettier --check src demo",
         "prettier:fix": "prettier --write src demo",

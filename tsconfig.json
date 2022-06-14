@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "lib",
+        "rootDir": "src",
 
         "jsx": "react-jsx",
         "esModuleInterop": true,
