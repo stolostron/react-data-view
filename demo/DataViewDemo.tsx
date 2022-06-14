@@ -162,7 +162,7 @@ export function DataViewDemo() {
     const breadcrumbs = useMemo(
         () => [
             { label: 'Stolostron', to: 'https://github.com/stolostron', target: '_blank' },
-            { label: 'Data View', to: 'https://github.com/stolostron/react-data-view', target: '_blank' },
+            { label: 'React Data View', to: 'https://github.com/stolostron/react-data-view', target: '_blank' },
             { label: 'Demo' },
         ],
         []

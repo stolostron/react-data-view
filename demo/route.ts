@@ -1,5 +1,4 @@
 export enum RouteE {
     Home = '.',
-    Catalog = '?route=catalog',
-    Table = '?route=table',
+    Demo = '?route=demo',
 }

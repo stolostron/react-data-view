@@ -31,9 +31,6 @@ export default function Demo() {
                 style={{ height: '100vh' }}
             >
                 <DemoRouter />
-                {/* <PageSection variant="darker" style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)' }}>
-                    dsdsd
-                </PageSection> */}
             </Page>
         </BrowserRouter>
     )
@@ -43,11 +40,11 @@ export function DemoRouter(): JSX.Element {
     const location = useLocation()
     const history = useHistory()
     switch (location.search) {
-        case RouteE.Catalog:
+        case RouteE.Demo:
             return <DataViewDemo />
 
         default:
-            history.push(RouteE.Catalog)
+            history.push(RouteE.Demo)
             return <div />
     }
 }
@@ -65,7 +62,7 @@ function DemoHeader() {
                 <MastheadMain>
                     <MastheadBrand>
                         <Title headingLevel="h2" style={{ color: 'white' }}>
-                            <Truncate content="Stolostron PatternFly React Data View Extension" />
+                            <Truncate content="Stolostron / React Data View" />
                         </Title>
                     </MastheadBrand>
                 </MastheadMain>
@@ -93,8 +90,8 @@ function DemoSidebar() {
             nav={
                 <Nav>
                     <NavList>
-                        <NavItem isActive={location.search === RouteE.Catalog}>
-                            <Link to={RouteE.Catalog}>Data View</Link>
+                        <NavItem isActive={location.search === RouteE.Demo}>
+                            <Link to={RouteE.Demo}>Data View</Link>
                         </NavItem>
                     </NavList>
                 </Nav>
