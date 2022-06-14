@@ -1,4 +1,5 @@
-# Stolostron React Data View
+# Stolostron / React Data View [![GitHub package.json version](https://img.shields.io/github/package-json/v/stolostron/react-data-view)](https://www.npmjs.com/package/@stolostron/react-data-view)
+
 A react component for viewing data as a table or catalog card view.
 
 [DEMO](https://stolostron.github.io/react-data-view/)
@@ -12,5 +13,5 @@ A react component for viewing data as a table or catalog card view.
 - Configurable
   - Table only view
   - Catalog only view
-  - Click modes (navigate on click vs side panel with details on click) 
+  - Click modes (navigate on click vs side panel with details on click)
   - Table column management
