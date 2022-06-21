@@ -1,9 +1,7 @@
-import { Split, SplitItem } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { IAction } from '@patternfly/react-table'
 import { Fragment, useCallback, useMemo } from 'react'
-import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IDataFilter, ITableColumn, IToolbarAction, Labels } from '../src'
-import { IconWrapper } from '../src/components/IconWrapper'
+import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IconText, IDataFilter, ITableColumn, IToolbarAction, Labels } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { colors } from './mock'
@@ -18,30 +16,14 @@ export function DataViewDemo() {
         () => [
             {
                 header: 'Name',
-                cell: (task) => {
-                    return (
-                        <Split hasGutter>
-                            <SplitItem>
-                                <IconWrapper size="md">{task.icon}</IconWrapper>
-                            </SplitItem>
-                            <SplitItem>{task.name}</SplitItem>
-                        </Split>
-                    )
-                },
+                cell: (task) => <IconText icon={task.icon} text={task.name} />,
                 sortFn: (l, r) => l.name.localeCompare(r.name),
             },
             {
                 header: 'Status',
                 cell: (task) => {
                     const status = getTaskStatus(task)
-                    return (
-                        <Split>
-                            <SplitItem style={{ paddingRight: 8 }}>
-                                <IconWrapper size="sm">{status.icon}</IconWrapper>
-                            </SplitItem>
-                            <SplitItem>{status.text}</SplitItem>
-                        </Split>
-                    )
+                    return <IconText icon={status.icon} text={status.text} />
                 },
                 sortFn: (l, r) => l.status.localeCompare(r.status),
             },
@@ -171,7 +153,6 @@ export function DataViewDemo() {
     return (
         <Fragment>
             <PageHeader title="Data View" breadcrumbs={breadcrumbs} />
-
             <DataView
                 items={tasks}
                 columns={columns}

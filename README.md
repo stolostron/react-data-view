@@ -45,3 +45,6 @@ A react component for viewing data as a table or catalog card view.
 - Should both infinite virtualized rendering and pagination be supported?
 - Should this component support backend searching, filtering, sorting?
 - How does accessability work with virtualized tables?
+
+## Usage
+

@@ -1,5 +1,6 @@
 import { Label, LabelGroup, Split, SplitItem } from '@patternfly/react-core'
 import { ReactNode } from 'react'
+import { IconWrapper } from './components/IconWrapper'
 
 type CellFn<T extends object> = (item: T) => ReactNode
 
@@ -30,6 +31,17 @@ export function DateCell(props: { value: number | string }) {
         <Split hasGutter>
             <SplitItem>{date.toLocaleDateString()}</SplitItem>
             <SplitItem>{date.toLocaleTimeString()}</SplitItem>
+        </Split>
+    )
+}
+
+export function IconText(props: { icon: ReactNode; text: string }) {
+    return (
+        <Split hasGutter>
+            <SplitItem>
+                <IconWrapper size="md">{props.icon}</IconWrapper>
+            </SplitItem>
+            <SplitItem>{props.text}</SplitItem>
         </Split>
     )
 }
