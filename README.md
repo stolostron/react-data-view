@@ -20,11 +20,11 @@ A react component for viewing data as a table or catalog card view.
     - Support custom columns based on data labels
     - Persist column configuration to local storage
     - Save multiple column configurations and switch between
-  - Virtualized table rednering
+  - Virtualized table rendering
 - Catalog
   - Support catalog only view (no table)
-  - Virtualized catalog rednering
-  - Click modes supporting details drawer or navigation
+  - Virtualized catalog rendering
+  - Card click supporting details drawer or navigation
 - Search & Filter
   - Filtering, Searching, Sorting of 100,000 items
   - Fuzzy search (Fuse.js)
