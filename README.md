@@ -23,17 +23,17 @@ A react component for viewing data as a table or catalog card view.
   - Support custom columns based on data labels
   - Persist column configuration to local storage
   - Save multiple column configurations and switch between
-- Virtualized table rendering
+- Virtualized table rendering (performance)
 
 ### Catalog
 
 - Support catalog only view (no table)
-- Virtualized catalog rendering
+- Virtualized catalog rendering (performance)
 - Card click supporting details drawer or navigation
 
 ### Search & Filter
 
-- Filtering, Searching, Sorting of 100,000 items
+- Filtering, Searching, Sorting of 100,000 items (performance)
 - Fuzzy search (Fuse.js)
   - Search on fields with weights
 - Persist search and filters to url query string
