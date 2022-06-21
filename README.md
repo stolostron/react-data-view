@@ -4,14 +4,31 @@ A react component for viewing data as a table or catalog card view.
 
 [DEMO](https://stolostron.github.io/react-data-view/)
 
-- High performance filtering & searching - goal is to support 100,000 items.
-- High performance rendering - goal is virtualized table and catalog.
-- Following PatternFly guidlines for most design and working with PatternFly on any tweaks.
-- Table and Catalog view - shadows when surfaces slide behind other surfaces, see demo.
-- Table horiontal scrolling
-- Responsive design that works down to the mobile device screen size
-- Configurable
-  - Table only view
-  - Catalog only view
-  - Click modes (navigate on click vs side panel with details on click)
-  - Table column management
+## Goals
+
+- PatternFly
+  - Use PatternFly guidelines
+  - Support small screens using PatternFly responsive designs
+    - Toolbar collapsing
+    - Filters collapsing
+  - Use shadows as a visual indication that one surface has slid behind another surface
+    - Work with PatternFly to adopt shadows
+- Table
+  - Support table only view (no catalog)
+  - Support horizontal scrolling with sticky headers and columns
+  - Support column management
+    - Support custom columns based on data labels
+    - Persist column configuration to local storage
+    - Save multiple column configurations and switch between
+  - Virtualized table rednering
+- Catalog
+  - Support catalog only view (no table)
+  - Virtualized catalog rednering
+  - Click modes supporting details drawer or navigation
+- Search & Filter
+  - Filtering, Searching, Sorting of 100,000 items
+  - Fuzzy search (Fuse.js)
+    - Search on fields with weights
+  - Persist search and filters to url query string
+    - Allows saving a URL with preselected search & filters
+    - Allow reload of page without losing filter & search
