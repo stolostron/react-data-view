@@ -14,7 +14,10 @@ import { CatalogCardItemType, DataView, ICatalogCard } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
 
-export function Hypershift() {
+const learnMore = 'https://github.com/stolostron/react-data-view'
+
+export function Infrastructure() {
+    const history = useHistory()
     const cards = useMemo(() => {
         const cards: ICatalogCard[] = [
             {
@@ -28,7 +31,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'baremetal',
@@ -41,7 +45,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'alibaba',
@@ -54,7 +59,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'google',
@@ -67,7 +73,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'azure',
@@ -80,7 +87,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'openstack',
@@ -93,7 +101,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'rhv',
@@ -106,7 +115,8 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'vsphere',
@@ -119,17 +129,17 @@ export function Hypershift() {
                     },
                 ],
                 labels: ['Saved credentials'],
-                onClick: () => null,
+                learnMore,
+                onClick: () => history.push(RouteE.ControlPlane),
             },
         ]
         return cards
-    }, [])
+    }, [history])
 
     const keyFn = useCallback((card: ICatalogCard) => card.id, [])
 
     const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Infrastructure' }], [])
 
-    const history = useHistory()
     const onBack = useCallback(() => history.push(RouteE.Home), [history])
 
     return (

@@ -36,6 +36,7 @@ export interface ICatalogCard {
     title: string
     items?: CatalogCardItem[]
     labels?: string[] // TODO - disable/enable auto generated filters
+    learnMore?: string
     badge?: string
     badgeColor?: CatalogCardBadgeColor
     onClick?: () => void
@@ -180,7 +181,7 @@ export function CatalogCard<T extends object>(props: {
                                         case CatalogCardItemType.Description:
                                             return (
                                                 <CardSection key={index} title={item.title}>
-                                                    {item.description}
+                                                    <span style={{ opacity: 0.8 }}>{item.description}</span>
                                                 </CardSection>
                                             )
                                         case CatalogCardItemType.List:
@@ -191,19 +192,28 @@ export function CatalogCard<T extends object>(props: {
                     </CardBody>
                 </Scrollable>
             )}
-            {card.labels && (
+            {(card.labels || card.learnMore) && (
                 <CardFooter>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', gap: 16 }}>
                         <div style={{ flexGrow: 1 }}>
-                            <LabelGroup numLabels={999}>
-                                {card.labels.map((label) => (
-                                    <Label key={label}>{label}</Label>
-                                ))}
-                            </LabelGroup>
+                            {card.labels && (
+                                <LabelGroup numLabels={999}>
+                                    {card.labels.map((label) => (
+                                        <Label key={label}>{label}</Label>
+                                    ))}
+                                </LabelGroup>
+                            )}
                         </div>
-                        <Button variant="link" icon={<ExternalLinkAltIcon />} isInline>
-                            &nbsp;Learn more
-                        </Button>
+                        {card.learnMore && (
+                            <Button
+                                variant="link"
+                                icon={<ExternalLinkAltIcon />}
+                                isInline
+                                onClick={() => window.open(card.learnMore, '_blank')}
+                            >
+                                &nbsp;Learn more
+                            </Button>
+                        )}
                     </div>
                 </CardFooter>
             )}
@@ -257,7 +267,7 @@ export function CardList(props: { title: string; icon?: ReactNode; items: ICatal
                         itemIcon = <IconWrapper size="md">{icon}</IconWrapper>
                     }
                     return (
-                        <ListItem key={index} icon={itemIcon}>
+                        <ListItem key={index} icon={itemIcon} style={{ opacity: 0.8 }}>
                             {listItem.text}
                         </ListItem>
                     )

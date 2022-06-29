@@ -17,9 +17,10 @@ import { BarsIcon } from '@patternfly/react-icons'
 import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher } from '../src/theme'
+import { ControlPlane } from './ControlPlane'
 import { DataViewDemo } from './DataViewDemo'
 import { Home } from './Home'
-import { Hypershift } from './Infrastructure'
+import { Infrastructure } from './Infrastructure'
 import { RouteE } from './route'
 
 export default function Demo() {
@@ -46,8 +47,10 @@ export function DemoRouter(): JSX.Element {
             return <Home />
         case RouteE.Demo:
             return <DataViewDemo />
-        case RouteE.Hypershift:
-            return <Hypershift />
+        case RouteE.Infrastructure:
+            return <Infrastructure />
+        case RouteE.ControlPlane:
+            return <ControlPlane />
         default:
             history.push(RouteE.Home)
             return <div />
@@ -98,8 +101,8 @@ function DemoSidebar() {
                         <NavItem isActive={location.search === RouteE.Demo}>
                             <Link to={RouteE.Demo}>Data View</Link>
                         </NavItem>
-                        <NavItem isActive={location.search === RouteE.Demo}>
-                            <Link to={RouteE.Hypershift}>Hyershift Demo</Link>
+                        <NavItem isActive={location.search === RouteE.Infrastructure}>
+                            <Link to={RouteE.Infrastructure}>Hyershift Demo</Link>
                         </NavItem>
                     </NavList>
                 </Nav>

@@ -17,7 +17,7 @@ export function Home() {
             {
                 id: 'infrastructure',
                 title: 'Create infrastucture',
-                onClick: () => history.push(RouteE.Hypershift),
+                onClick: () => history.push(RouteE.Infrastructure),
             },
         ]
         return cards
