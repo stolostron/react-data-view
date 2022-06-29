@@ -44,7 +44,7 @@ export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: 
                             )}
                             {title && <Title headingLevel="h2">{title}</Title>}
                             {description && (
-                                <Text component="p" style={{ opacity: 0.8 }}>
+                                <Text component="p" style={{ opacity: 0.9 }}>
                                     {description}
                                 </Text>
                             )}

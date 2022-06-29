@@ -187,7 +187,7 @@ export function CatalogCard<T extends object>(props: {
                                         case CatalogCardItemType.Description:
                                             return (
                                                 <CardSection key={index} title={item.title}>
-                                                    <span style={{ opacity: 0.8 }}>{item.description}</span>
+                                                    <span style={{ opacity: 9 }}>{item.description}</span>
                                                 </CardSection>
                                             )
                                         case CatalogCardItemType.List:
@@ -273,7 +273,7 @@ export function CardList(props: { title: string; icon?: ReactNode; items: ICatal
                         itemIcon = <IconWrapper size="md">{icon}</IconWrapper>
                     }
                     return (
-                        <ListItem key={index} icon={itemIcon} style={{ opacity: 0.8 }}>
+                        <ListItem key={index} icon={itemIcon} style={{ opacity: 0.9 }}>
                             {listItem.text}
                         </ListItem>
                     )
