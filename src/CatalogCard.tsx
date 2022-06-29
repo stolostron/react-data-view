@@ -107,6 +107,10 @@ export function CatalogCard<T extends object>(props: {
         }
     }, [isSelected, item, selectItem, unselectItem])
 
+    const showSelect = false
+    const showDropdown = false
+    const showActions = showSelect || showDropdown
+
     return (
         <Card
             id={card.id}
@@ -153,23 +157,25 @@ export function CatalogCard<T extends object>(props: {
                         </SplitItem>
                     )}
                 </Split>
-                <CardActions hasNoOffset={true}>
-                    <Dropdown
-                        onSelect={onSelect}
-                        toggle={<KebabToggle onToggle={setIsOpen} />}
-                        isOpen={isOpen}
-                        isPlain
-                        dropdownItems={dropdownItems}
-                        position={'right'}
-                    />
-                    <Checkbox
-                        isChecked={isSelected(item)}
-                        onChange={onClick}
-                        aria-label="card checkbox example"
-                        id="check-1"
-                        name="check1"
-                    />
-                </CardActions>
+                {showActions && (
+                    <CardActions hasNoOffset={true}>
+                        <Dropdown
+                            onSelect={onSelect}
+                            toggle={<KebabToggle onToggle={setIsOpen} />}
+                            isOpen={isOpen}
+                            isPlain
+                            dropdownItems={dropdownItems}
+                            position={'right'}
+                        />
+                        <Checkbox
+                            isChecked={isSelected(item)}
+                            onChange={onClick}
+                            aria-label="card checkbox example"
+                            id="check-1"
+                            name="check1"
+                        />
+                    </CardActions>
+                )}
             </CardHeader>
             {card.items && (
                 <Scrollable>
@@ -244,7 +250,7 @@ export function CardSection(props: { title?: string; children: ReactNode }) {
         <Stack>
             {props.title && (
                 <StackItem>
-                    <Title headingLevel="h6" style={{ paddingBottom: 4 }}>
+                    <Title headingLevel="h6" style={{ paddingBottom: 8 }}>
                         {props.title}
                     </Title>
                 </StackItem>
