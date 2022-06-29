@@ -18,8 +18,10 @@ export function Grid(props: { size?: number; maxColumns?: number; children?: Rea
     useLayoutEffect(() => {
         resize(target.current?.clientWidth ?? 0)
     }, [resize])
+    const isMd = useWindowSizeOrSmaller(WindowSize.lg)
     const isXS = useWindowSizeOrSmaller(WindowSize.xs)
     let gap = 24
+    if (isMd) gap = 16
     if (isXS) gap = 8
     return (
         <div ref={target} style={{ display: 'grid', gridAutoRows: '1fr', gridTemplateColumns, gap }}>

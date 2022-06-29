@@ -9,7 +9,7 @@ export function Scrollable(props: { children?: ReactNode; borderTop?: boolean; b
         /* istanbul ignore else */
         if (divEl.current) {
             setTopShadow(Math.min(1, divEl.current.scrollTop / 8))
-            const scrollBottom = divEl.current.scrollHeight - divEl.current.scrollTop - divEl.current.clientHeight
+            const scrollBottom = divEl.current.scrollHeight - divEl.current.scrollTop - divEl.current.clientHeight - 1
             setBottomShadow(Math.max(0, Math.min(1, scrollBottom / 8)))
         }
     }, [])

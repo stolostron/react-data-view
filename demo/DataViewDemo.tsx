@@ -5,6 +5,7 @@ import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IconText, IDataF
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { colors } from './mock'
+import { RouteE } from './route'
 import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 
 export function DataViewDemo() {
@@ -141,14 +142,7 @@ export function DataViewDemo() {
 
     const searchKeys = useMemo(() => [{ name: 'name' }], [])
 
-    const breadcrumbs = useMemo(
-        () => [
-            { label: 'Stolostron', to: 'https://github.com/stolostron', target: '_blank' },
-            { label: 'React Data View', to: 'https://github.com/stolostron/react-data-view', target: '_blank' },
-            { label: 'Demo' },
-        ],
-        []
-    )
+    const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Demo' }], [])
 
     return (
         <Fragment>

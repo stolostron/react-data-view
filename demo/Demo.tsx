@@ -18,6 +18,8 @@ import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher } from '../src/theme'
 import { DataViewDemo } from './DataViewDemo'
+import { Home } from './Home'
+import { Hypershift } from './Infrastructure'
 import { RouteE } from './route'
 
 export default function Demo() {
@@ -40,11 +42,14 @@ export function DemoRouter(): JSX.Element {
     const location = useLocation()
     const history = useHistory()
     switch (location.search) {
+        case RouteE.Home:
+            return <Home />
         case RouteE.Demo:
             return <DataViewDemo />
-
+        case RouteE.Hypershift:
+            return <Hypershift />
         default:
-            history.push(RouteE.Demo)
+            history.push(RouteE.Home)
             return <div />
     }
 }
@@ -92,6 +97,9 @@ function DemoSidebar() {
                     <NavList>
                         <NavItem isActive={location.search === RouteE.Demo}>
                             <Link to={RouteE.Demo}>Data View</Link>
+                        </NavItem>
+                        <NavItem isActive={location.search === RouteE.Demo}>
+                            <Link to={RouteE.Hypershift}>Hyershift Demo</Link>
                         </NavItem>
                     </NavList>
                 </Nav>

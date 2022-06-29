@@ -105,6 +105,7 @@ export function CatalogCard<T extends object>(props: {
             selectItem(item)
         }
     }, [isSelected, item, selectItem, unselectItem])
+
     return (
         <Card
             id={card.id}
@@ -137,7 +138,7 @@ export function CatalogCard<T extends object>(props: {
                                         justifyItems: 'stretch',
                                     }}
                                 >
-                                    {card.icon}
+                                    <IconWrapper size="lg">{card.icon}</IconWrapper>
                                 </div>
                             )}
                             <CardTitle>{card.title}</CardTitle>
@@ -169,25 +170,27 @@ export function CatalogCard<T extends object>(props: {
                     />
                 </CardActions>
             </CardHeader>
-            <Scrollable>
-                <CardBody style={{ paddingTop: 0 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                        {card.items &&
-                            card.items.map((item, index) => {
-                                switch (item.type) {
-                                    case CatalogCardItemType.Description:
-                                        return (
-                                            <CardSection key={index} title={item.title}>
-                                                {item.description}
-                                            </CardSection>
-                                        )
-                                    case CatalogCardItemType.List:
-                                        return <CardList title={item.title} icon={item.icon} items={item.items} />
-                                }
-                            })}
-                    </div>
-                </CardBody>
-            </Scrollable>
+            {card.items && (
+                <Scrollable>
+                    <CardBody style={{ paddingTop: 0 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                            {card.items &&
+                                card.items.map((item, index) => {
+                                    switch (item.type) {
+                                        case CatalogCardItemType.Description:
+                                            return (
+                                                <CardSection key={index} title={item.title}>
+                                                    {item.description}
+                                                </CardSection>
+                                            )
+                                        case CatalogCardItemType.List:
+                                            return <CardList title={item.title} icon={item.icon} items={item.items} />
+                                    }
+                                })}
+                        </div>
+                    </CardBody>
+                </Scrollable>
+            )}
             {card.labels && (
                 <CardFooter>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', gap: 16 }}>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Chip, Divider, Flex, FlexItem, PageSection } from '@patternfly/react-core'
+import { PageSection } from '@patternfly/react-core'
 import { useMemo } from 'react'
 import { CatalogCard, ICatalogCard } from './CatalogCard'
 import { Grid } from './components/Grid'
@@ -52,7 +52,7 @@ export function Catalog<T extends object>(props: {
 
     return (
         <PageSection style={{ flexGrow: 1 }}>
-            <Flex style={{ paddingBottom: 16 }}>
+            {/* <Flex style={{ paddingBottom: 16 }}>
                 <FlexItem>
                     <span style={{ paddingRight: 8 }}>
                         <b>Cards</b>
@@ -62,7 +62,7 @@ export function Catalog<T extends object>(props: {
                 <FlexItem grow={{ default: 'grow' }} alignSelf={{ default: 'alignSelfCenter' }}>
                     <Divider />
                 </FlexItem>
-            </Flex>
+            </Flex> */}
             <div>{catalogCards}</div>
         </PageSection>
     )

@@ -1,4 +1,5 @@
 export enum RouteE {
-    Home = '.',
+    Home = '?route=home',
     Demo = '?route=demo',
+    Hypershift = '?route=hypershift',
 }

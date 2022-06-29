@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Checkbox, DrawerPanelBody, DrawerPanelContent, DrawerSection, Stack, Title } from '@patternfly/react-core'
-import { useCallback } from 'react'
+import { Fragment, useCallback } from 'react'
 import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
 
 export function FilterDrawer<T extends object>(props: {
-    filters: IDataFilter<T>[]
+    filters?: IDataFilter<T>[]
     filterState: IFilterState
     setFilterValues: SetFilterValues<T>
 }) {
@@ -23,13 +23,16 @@ export function FilterDrawer<T extends object>(props: {
         },
         [setFilterValues]
     )
+
+    if (!filters) return <Fragment />
+
     return (
         <DrawerPanelContent minSize="250px" defaultSize="250px" maxSize="250px">
             <DrawerPanelBody>
                 <Title headingLevel="h2" style={{ paddingBottom: 24 }}>
                     Filters
                 </Title>
-                {filters.map((filter) => {
+                {filters?.map((filter) => {
                     const filterValues = filterState[filter.label]
                     return (
                         <DrawerSection key={filter.label} style={{ paddingBottom: 32 }}>

@@ -241,7 +241,7 @@ function TableRow<T extends object>(props: {
                 <TableCells rowIndex={rowIndex} columns={columns} item={item} rowActions={rowActions} />
             </Tr>
         ),
-        [columns, isItemSelected, item, rowActions, selectItem, unselectItem]
+        [columns, isItemSelected, item, rowActions, rowIndex, selectItem, unselectItem]
     )
 }
 
@@ -271,7 +271,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
                 )}
             </Fragment>
         ),
-        [columns, item, rowActions]
+        [columns, item, rowActions, rowIndex]
     )
 }
 

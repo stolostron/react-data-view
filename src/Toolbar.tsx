@@ -84,12 +84,14 @@ export function PageToolbar<T extends object>(props: {
     onPerPageSelect: OnPerPageSelect
     view: DataViewTypeE
     setView: (view: DataViewTypeE) => void
-    filters: IDataFilter<T>[]
+    filters?: IDataFilter<T>[]
     filterState: IFilterState
     setFilterValues: SetFilterValues<T>
     clearAllFilters: () => void
     openColumnModal: () => void
     toolbarActions?: IToolbarAction<T>[]
+    showSearch: boolean
+    showViewToggle: boolean
 }) {
     const {
         searched,
@@ -110,6 +112,8 @@ export function PageToolbar<T extends object>(props: {
         clearAllFilters,
         openColumnModal,
         toolbarActions,
+        showSearch,
+        showViewToggle,
     } = props
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
     const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
@@ -172,68 +176,90 @@ export function PageToolbar<T extends object>(props: {
         [selected, toolbarActions]
     )
 
+    const showBulkSelector = toolbarActions !== undefined
+    const showSearchAndFilters = showSearch || filters !== undefined
+    const showToolbarActions = toolbarActions !== undefined
+    const showToolbar = showBulkSelector || showSearchAndFilters || showToolbarActions || showViewToggle
+
+    const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
+
+    if (!showToolbar) {
+        return (
+            <div
+                style={{
+                    paddingTop: isXlOrLarger ? 20 : 16,
+                    backgroundColor: 'var(--pf-c-page__main-section--m-light--BackgroundColor)',
+                    borderBottom: 'thin solid var(--pf-global--BorderColor--100)',
+                }}
+            />
+        )
+    }
+
     return (
         <Toolbar style={{ borderBottom: 'thin solid var(--pf-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
-                <ToolbarGroup>
-                    <ToolbarItem variant="bulk-select">
-                        <BulkSelector
-                            itemCount={searched.length}
-                            selectedCount={selected.length}
-                            perPage={perPage}
-                            onSelectNone={unselectAll}
-                            onSelectAll={selectAll}
-                            onSelectPage={selectPage}
-                        />
-                    </ToolbarItem>
-                </ToolbarGroup>
-                <ToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
-                    <ToolbarItem variant="search-filter">
-                        <SearchInput
-                            aria-label="search"
-                            placeholder="Search"
-                            value={search}
-                            onChange={setSearch}
-                            onClear={clearSearch}
-                            resultsCount={searched.length !== 0 ? searched.length : undefined}
-                        />
-                    </ToolbarItem>
-                    {(view === DataViewTypeE.Table || isXS) && (
-                        <ToolbarGroup variant="filter-group">
-                            {filters &&
-                                filters.map((filter) => {
-                                    const values = filterState[filter.label] ?? []
-                                    return (
-                                        <ToolbarFilter
-                                            key={filter.label}
-                                            chips={values.map((value) => ({
-                                                key: value,
-                                                node: filter.options.find((option) => option.value === value)?.label ?? value,
-                                            }))}
-                                            deleteChip={(_group, value) => {
-                                                value = typeof value === 'string' ? value : value.key
-                                                setFilterValues(
-                                                    filter,
-                                                    values.filter((v) => v != value)
-                                                )
-                                            }}
-                                            deleteChipGroup={() => setFilterValues(filter, [])}
-                                            categoryName={filter.label}
-                                        >
-                                            <SelectFilter
-                                                label={filter.label}
-                                                values={values}
-                                                setValues={(values) => setFilterValues(filter, values)}
-                                                options={filter.options}
-                                            />
-                                        </ToolbarFilter>
-                                    )
-                                })}
-                        </ToolbarGroup>
-                    )}
-                </ToolbarToggleGroup>
-
-                {toolbarActions && (
+                {showBulkSelector && (
+                    <ToolbarGroup>
+                        <ToolbarItem variant="bulk-select">
+                            <BulkSelector
+                                itemCount={searched.length}
+                                selectedCount={selected.length}
+                                perPage={perPage}
+                                onSelectNone={unselectAll}
+                                onSelectAll={selectAll}
+                                onSelectPage={selectPage}
+                            />
+                        </ToolbarItem>
+                    </ToolbarGroup>
+                )}
+                {showSearchAndFilters && (
+                    <ToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
+                        <ToolbarItem variant="search-filter">
+                            <SearchInput
+                                aria-label="search"
+                                placeholder="Search"
+                                value={search}
+                                onChange={setSearch}
+                                onClear={clearSearch}
+                                resultsCount={searched.length !== 0 ? searched.length : undefined}
+                            />
+                        </ToolbarItem>
+                        {(view === DataViewTypeE.Table || isXS) && (
+                            <ToolbarGroup variant="filter-group">
+                                {filters &&
+                                    filters.map((filter) => {
+                                        const values = filterState[filter.label] ?? []
+                                        return (
+                                            <ToolbarFilter
+                                                key={filter.label}
+                                                chips={values.map((value) => ({
+                                                    key: value,
+                                                    node: filter.options.find((option) => option.value === value)?.label ?? value,
+                                                }))}
+                                                deleteChip={(_group, value) => {
+                                                    value = typeof value === 'string' ? value : value.key
+                                                    setFilterValues(
+                                                        filter,
+                                                        values.filter((v) => v != value)
+                                                    )
+                                                }}
+                                                deleteChipGroup={() => setFilterValues(filter, [])}
+                                                categoryName={filter.label}
+                                            >
+                                                <SelectFilter
+                                                    label={filter.label}
+                                                    values={values}
+                                                    setValues={(values) => setFilterValues(filter, values)}
+                                                    options={filter.options}
+                                                />
+                                            </ToolbarFilter>
+                                        )
+                                    })}
+                            </ToolbarGroup>
+                        )}
+                    </ToolbarToggleGroup>
+                )}
+                {showToolbarActions && (
                     <ToolbarGroup variant="button-group">
                         <ToolbarItem>
                             <OverflowMenu breakpoint="2xl">
@@ -249,7 +275,6 @@ export function PageToolbar<T extends object>(props: {
                         </ToolbarItem>
                     </ToolbarGroup>
                 )}
-
                 {view === DataViewTypeE.Table && (
                     <ToolbarGroup variant="button-group">
                         <ToolbarItem>
@@ -257,22 +282,25 @@ export function PageToolbar<T extends object>(props: {
                         </ToolbarItem>
                     </ToolbarGroup>
                 )}
-                <ToolbarItem variant="pagination">
-                    <ToggleGroup>
-                        <ToggleGroupItem
-                            aria-label="list"
-                            icon={<ListIcon />}
-                            isSelected={props.view === DataViewTypeE.Table}
-                            onClick={() => props.setView(DataViewTypeE.Table)}
-                        />
-                        <ToggleGroupItem
-                            aria-label="catalog"
-                            icon={<ThIcon />}
-                            isSelected={props.view === DataViewTypeE.Catalog}
-                            onClick={() => props.setView(DataViewTypeE.Catalog)}
-                        />
-                    </ToggleGroup>
-                </ToolbarItem>
+                <ToolbarItem variant="pagination" />
+                {showViewToggle !== false && (
+                    <ToolbarItem>
+                        <ToggleGroup>
+                            <ToggleGroupItem
+                                aria-label="list"
+                                icon={<ListIcon />}
+                                isSelected={props.view === DataViewTypeE.Table}
+                                onClick={() => props.setView(DataViewTypeE.Table)}
+                            />
+                            <ToggleGroupItem
+                                aria-label="catalog"
+                                icon={<ThIcon />}
+                                isSelected={props.view === DataViewTypeE.Catalog}
+                                onClick={() => props.setView(DataViewTypeE.Catalog)}
+                            />
+                        </ToggleGroup>
+                    </ToolbarItem>
+                )}
                 {view === DataViewTypeE.Catalog && (
                     <ToolbarItem>
                         <Pagination

@@ -20,6 +20,7 @@ import { Catalog } from './Catalog'
 import { ICatalogCard } from './CatalogCard'
 import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
+import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
 import { DataTable } from './Table'
@@ -35,19 +36,19 @@ export enum DataViewTypeE {
 export function DataView<T extends object>(props: {
     items?: T[]
     onBack?: () => void
-    columns: ITableColumn<T>[]
+    columns?: ITableColumn<T>[]
     itemActions?: IAction[]
     itemKeyFn: (item: T) => string
     toolbarActions?: IToolbarAction<T>[]
-    filters: IDataFilter<T>[]
-    itemToCardFn: (item: T) => ICatalogCard
+    filters?: IDataFilter<T>[]
+    itemToCardFn?: (item: T) => ICatalogCard
     searchKeys?: { name: string; weight?: number }[]
     localKey?: string
 }) {
     const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions } = props
 
-    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(DataViewTypeE.Table)
-
+    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(props.columns ? DataViewTypeE.Table : DataViewTypeE.Catalog)
+    const showViewToggle = props.columns !== undefined && props.itemToCardFn !== undefined
     const {
         // allSelected,
         filtered,
@@ -101,7 +102,7 @@ export function DataView<T extends object>(props: {
 
     useEffect(() => {
         setFilterFn((item: T) => {
-            for (const filter of filters) {
+            for (const filter of filters ?? []) {
                 const values = filterState[filter.label]
                 if (values?.length) {
                     if (!filter.filter(item, values)) return false
@@ -111,7 +112,10 @@ export function DataView<T extends object>(props: {
         })
     }, [filterState, filters, setFilterFn])
 
-    const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns)
+    const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns ?? [])
+    const showBackButton = useWindowSizeOrLarger(WindowSize.md) && props.onBack !== undefined
+    const showPagination = filtered.length > perPage
+    const showBottomToolbar = dataViewType === DataViewTypeE.Catalog && (showBackButton || showPagination)
 
     return (
         <Fragment>
@@ -140,6 +144,8 @@ export function DataView<T extends object>(props: {
                 clearAllFilters={clearAllFilters}
                 openColumnModal={openColumnModal}
                 toolbarActions={toolbarActions}
+                showSearch={searchKeys !== undefined}
+                showViewToggle={showViewToggle}
             />
             <Drawer position="right" isStatic>
                 <DrawerContent panelContent={<Fragment />}>
@@ -161,7 +167,7 @@ export function DataView<T extends object>(props: {
                                                 <Catalog
                                                     keyFn={props.itemKeyFn}
                                                     items={paged}
-                                                    itemToCardFn={itemToCardFn}
+                                                    itemToCardFn={itemToCardFn!}
                                                     selectItem={selectItem}
                                                     unselectItem={unselectItem}
                                                     isSelected={isSelected}
@@ -180,30 +186,43 @@ export function DataView<T extends object>(props: {
                                                 />
                                             )}
                                         </Scrollable>
-                                        {dataViewType === DataViewTypeE.Catalog && (
-                                            <PageSection
-                                                padding={{ default: 'noPadding' }}
-                                                style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
-                                            >
-                                                <Split>
-                                                    <Toolbar>
-                                                        <ToolbarContent>
-                                                            {props.onBack && <Button onClick={props.onBack}>Back</Button>}
-                                                        </ToolbarContent>
-                                                    </Toolbar>
-                                                    <SplitItem isFilled>
-                                                        <Pagination
-                                                            variant={PaginationVariant.bottom}
-                                                            itemCount={searched.length}
-                                                            perPage={perPage}
-                                                            page={page}
-                                                            onSetPage={onSetPage}
-                                                            onPerPageSelect={onPerPageSelect}
-                                                        ></Pagination>
-                                                    </SplitItem>
-                                                </Split>
-                                            </PageSection>
-                                        )}
+                                        {showBottomToolbar &&
+                                            (showBackButton ? (
+                                                <PageSection
+                                                    variant="light"
+                                                    padding={{ default: 'noPadding' }}
+                                                    style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
+                                                >
+                                                    <Split>
+                                                        <Toolbar>
+                                                            <ToolbarContent>
+                                                                {props.onBack && <Button onClick={props.onBack}>Back</Button>}
+                                                            </ToolbarContent>
+                                                        </Toolbar>
+                                                        {showPagination && (
+                                                            <SplitItem isFilled>
+                                                                <Pagination
+                                                                    variant={PaginationVariant.bottom}
+                                                                    itemCount={searched.length}
+                                                                    perPage={perPage}
+                                                                    page={page}
+                                                                    onSetPage={onSetPage}
+                                                                    onPerPageSelect={onPerPageSelect}
+                                                                />
+                                                            </SplitItem>
+                                                        )}
+                                                    </Split>
+                                                </PageSection>
+                                            ) : (
+                                                <Pagination
+                                                    variant={PaginationVariant.bottom}
+                                                    itemCount={searched.length}
+                                                    perPage={perPage}
+                                                    page={page}
+                                                    onSetPage={onSetPage}
+                                                    onPerPageSelect={onPerPageSelect}
+                                                />
+                                            ))}
                                     </div>
                                 </DrawerContentBody>
                             </DrawerContent>

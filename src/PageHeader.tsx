@@ -1,6 +1,6 @@
-import { Breadcrumb, BreadcrumbItem, PageSection, Stack, Title } from '@patternfly/react-core'
+import { Breadcrumb, BreadcrumbItem, PageSection, Stack, Text, Title } from '@patternfly/react-core'
 import { Fragment, useMemo } from 'react'
-import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
+import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 
 export interface ICatalogBreadcrumb {
     id?: string
@@ -10,10 +10,9 @@ export interface ICatalogBreadcrumb {
     component?: React.ElementType
 }
 
-export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: string }) {
+export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: string; description?: string }) {
+    const { breadcrumbs: breadcrumb, title, description } = props
     const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
-    const isXs = useWindowSizeOrSmaller(WindowSize.xs)
-    const { breadcrumbs: breadcrumb, title } = props
 
     const breadcrumbs = useMemo(() => {
         if (!props.breadcrumbs) return <Fragment />
@@ -39,19 +38,19 @@ export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: 
             <Fragment>
                 {(title || breadcrumb) && (
                     <PageSection variant="light" style={{ paddingBottom: 0 }}>
-                        <Stack hasGutter>
-                            {isXlOrLarger && breadcrumb && breadcrumbs}
+                        <Stack>
+                            {breadcrumb !== undefined && (
+                                <div style={{ paddingBottom: isXlOrLarger ? 8 : 6, marginTop: -6 }}>{breadcrumbs}</div>
+                            )}
                             {title && <Title headingLevel="h2">{title}</Title>}
+                            {description && <Text component="p">{description}</Text>}
                         </Stack>
                     </PageSection>
                 )}
             </Fragment>
         ),
-        [breadcrumb, breadcrumbs, isXlOrLarger, title]
+        [breadcrumb, breadcrumbs, description, isXlOrLarger, title]
     )
 
-    if (isXs) {
-        return <Fragment />
-    }
     return header
 }
