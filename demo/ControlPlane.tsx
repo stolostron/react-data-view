@@ -38,7 +38,7 @@ export function ControlPlane() {
                     },
                 ],
                 learnMore,
-                onClick: () => alert('Hosted'),
+                onClick: () => history.push(RouteE.Hosted),
             },
             {
                 id: 'standalone',
@@ -74,10 +74,13 @@ export function ControlPlane() {
 
     const keyFn = useCallback((card: ICatalogCard) => card.id, [])
 
-    const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Infrastructure' }], [])
+    const breadcrumbs = useMemo(
+        () => [{ label: 'Home', to: RouteE.Home }, { label: 'Infrastructure', to: RouteE.Infrastructure }, { label: 'Control Plane' }],
+        []
+    )
 
     const history = useHistory()
-    const onBack = useCallback(() => history.push(RouteE.Home), [history])
+    const onBack = useCallback(() => history.push(RouteE.Infrastructure), [history])
 
     return (
         <Fragment>

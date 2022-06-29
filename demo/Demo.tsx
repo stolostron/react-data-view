@@ -20,6 +20,7 @@ import { ThemeSwitcher } from '../src/theme'
 import { ControlPlane } from './ControlPlane'
 import { DataViewDemo } from './DataViewDemo'
 import { Home } from './Home'
+import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
 import { RouteE } from './route'
 
@@ -51,6 +52,8 @@ export function DemoRouter(): JSX.Element {
             return <Infrastructure />
         case RouteE.ControlPlane:
             return <ControlPlane />
+        case RouteE.Hosted:
+            return <Hosted />
         default:
             history.push(RouteE.Home)
             return <div />

@@ -3,4 +3,5 @@ export enum RouteE {
     Demo = '?route=demo',
     Infrastructure = '?route=infrastructure',
     ControlPlane = '?route=control-plane',
+    Hosted = '?route=hosted',
 }
