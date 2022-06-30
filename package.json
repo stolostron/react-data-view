@@ -29,7 +29,8 @@
         "@patternfly/react-table": "^4",
         "@patternfly/patternfly": "^4",
         "react": "^17",
-        "react-dom": "^17"
+        "react-dom": "^17",
+        "react-router-dom": "^5"
     },
     "dependencies": {
         "debounce": "^1.2.1",
