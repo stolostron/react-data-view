@@ -8,7 +8,7 @@
         "lib"
     ],
     "scripts": {
-        "build": "rimraf lib && tsc -p tsconfig.prod.json",
+        "build": "rimraf lib && tsc -p tsconfig.prod.json && cpy 'src/**/*.svg' 'src/**/*.css' lib",
         "start": "TS_NODE_PROJECT=webpack.tsconfig.json webpack serve --mode development --open",
         "start:quiet": "TS_NODE_PROJECT=webpack.tsconfig.json webpack serve --mode development",
         "pages": "TS_NODE_PROJECT=webpack.tsconfig.json webpack --mode production",
@@ -67,6 +67,8 @@
         "babel-plugin-istanbul": "6.1.1",
         "babel-plugin-transform-class-properties": "6.24.1",
         "concurrently": "7.2.2",
+        "cpy": "^9.0.1",
+        "cpy-cli": "^4.1.0",
         "css-loader": "6.7.1",
         "css-minimizer-webpack-plugin": "4.0.0",
         "eslint": "8.18.0",
