@@ -16,7 +16,7 @@ import {
 import { BarsIcon } from '@patternfly/react-icons'
 import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
-import { ThemeSwitcher } from '../src/Theme'
+import { ThemeSwitcher } from '../src/Theme2'
 import { ControlPlane } from './ControlPlane'
 import { DataViewDemo } from './DataViewDemo'
 import { Home } from './Home'

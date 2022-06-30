@@ -4,6 +4,12 @@ A react component for viewing data as a table or catalog card view.
 
 [DEMO](https://stolostron.github.io/react-data-view/)
 
+## Installation
+
+```
+npm i @stolostron/react-data-view
+```
+
 ## Goals
 
 ### PatternFly
@@ -39,12 +45,3 @@ A react component for viewing data as a table or catalog card view.
 - Persist search and filters to url query string
   - Allows saving a URL with preselected search & filters
   - Allow reload of page without losing filter & search
-
-## Notes
-
-- Should both infinite virtualized rendering and pagination be supported?
-- Should this component support backend searching, filtering, sorting?
-- How does accessability work with virtualized tables?
-
-## Usage
-
