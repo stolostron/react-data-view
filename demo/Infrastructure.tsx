@@ -60,7 +60,7 @@ export function Infrastructure() {
                 ],
                 labels: ['Saved credentials'],
                 learnMore,
-                onClick: () => history.push(RouteE.ControlPlane),
+                // onClick: () => history.push(RouteE.ControlPlane),
             },
             {
                 id: 'google',

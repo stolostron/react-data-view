@@ -123,7 +123,7 @@ export function CatalogCard<T extends object>(props: {
             style={{
                 transition: 'box-shadow 0.25s',
                 cursor: card.onClick ? 'pointer' : undefined,
-                background: card.onClick ? undefined : '#00000008',
+                opacity: card.onClick ? undefined : '0.5',
             }}
         >
             <CardHeader>
