@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { ThemeE, useTheme } from '../Theme2'
+import { ThemeE, useTheme } from '../Theme'
 
 export function Scrollable(props: { children?: ReactNode; borderTop?: boolean; borderBottom?: boolean }) {
     const divEl = useRef<HTMLDivElement>(null)
