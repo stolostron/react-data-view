@@ -1,6 +1,7 @@
 export * from './Catalog'
 export * from './CatalogCard'
 export * from './components/BulkSelector'
+export * from './components/patternfly-colors'
 export * from './components/useBreakPoint'
 export * from './DataFilter'
 export * from './DataView'
