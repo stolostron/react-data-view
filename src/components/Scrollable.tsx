@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
-import { isDarkTheme } from '../theme'
+import { ThemeE, useTheme } from '../Theme'
 
 export function Scrollable(props: { children?: ReactNode; borderTop?: boolean; borderBottom?: boolean }) {
     const divEl = useRef<HTMLDivElement>(null)
@@ -16,7 +16,8 @@ export function Scrollable(props: { children?: ReactNode; borderTop?: boolean; b
     useEffect(() => update(), [update, props.children])
     let shadowOpacityTop = 0.12 * topShadow
     let shadowOpacityBottom = 0.12 * bottomShadow
-    if (isDarkTheme()) {
+    const [theme] = useTheme()
+    if (theme === ThemeE.Dark) {
         shadowOpacityTop *= 6
         shadowOpacityBottom *= 6
     }

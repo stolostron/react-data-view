@@ -1,59 +1,62 @@
 import { Button } from '@patternfly/react-core'
 import { MoonIcon, SunIcon } from '@patternfly/react-icons'
-import { useState } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
-export let theme = localStorage.getItem('theme')
-if (!theme) {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        theme = 'dark'
-    } else {
-        theme = 'light'
+export enum ThemeE {
+    Light = 'light',
+    Dark = 'dark',
+}
+
+function themeInit() {
+    let theme = localStorage.getItem('theme') as ThemeE
+
+    if (!theme) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = ThemeE.Dark
+        } else {
+            theme = ThemeE.Light
+        }
+    }
+
+    if (theme === 'dark') {
+        document.documentElement.classList.add('pf-theme-dark')
     }
 }
-if (theme === 'dark') {
-    document.documentElement.classList.add('pf-theme-dark')
-}
+themeInit()
 
-export function initTheme() {
-    // Do nothing
+interface IThemeState {
+    theme?: ThemeE
+    setTheme?: (theme: ThemeE) => void
 }
+const ThemeContext = createContext<IThemeState>({})
 
-export function toggleTheme() {
-    if (document.documentElement.classList.contains('pf-theme-dark')) {
-        setLightTheme()
-    } else {
-        setDarkTheme()
+export function ThemeProvider(props: { children: ReactNode }) {
+    const [theme, setThemeState] = useState<ThemeE>(
+        document.documentElement.classList.contains('pf-theme-dark') ? ThemeE.Dark : ThemeE.Light
+    )
+    function setTheme(newTheme: ThemeE) {
+        switch (newTheme) {
+            case ThemeE.Light:
+                document.documentElement.classList.remove('pf-theme-dark')
+                localStorage.setItem('theme', 'light')
+                break
+            case ThemeE.Dark:
+                document.documentElement.classList.add('pf-theme-dark')
+                localStorage.setItem('theme', 'dark')
+                break
+        }
+        setThemeState(newTheme)
     }
+    return <ThemeContext.Provider value={{ theme, setTheme }}>{props.children}</ThemeContext.Provider>
 }
 
-export function setLightTheme() {
-    document.documentElement.classList.remove('pf-theme-dark')
-    localStorage.setItem('theme', 'light')
-}
-
-export function isDarkTheme() {
-    return document.documentElement.classList.contains('pf-theme-dark')
-}
-
-export function setDarkTheme() {
-    document.documentElement.classList.add('pf-theme-dark')
-    localStorage.setItem('theme', 'dark')
+export function useTheme(): [ThemeE | undefined, ((theme: ThemeE) => void) | undefined] {
+    const { theme, setTheme } = useContext(ThemeContext)
+    return [theme, setTheme]
 }
 
 export function ThemeSwitcher() {
-    const [light, setLight] = useState(!document.documentElement.classList.contains('pf-theme-dark'))
-    return (
-        <Button
-            onClick={() => {
-                toggleTheme()
-                setLight(!document.documentElement.classList.contains('pf-theme-dark'))
-            }}
-            variant="primary"
-            // variant="plain"
-            icon={light ? <SunIcon /> : <MoonIcon />}
-            style={{ minWidth: 100 }}
-        >
-            {light ? <span style={{ paddingLeft: 6 }}>Light</span> : <span style={{ paddingLeft: 6 }}>Dark</span>}
-        </Button>
-    )
+    const [theme, setTheme] = useTheme()
+    const toggleTheme = () => setTheme?.(theme === ThemeE.Light ? ThemeE.Dark : ThemeE.Light)
+    return <Button onClick={toggleTheme} variant="plain" icon={theme === ThemeE.Light ? <SunIcon /> : <MoonIcon />} />
 }
