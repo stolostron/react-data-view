@@ -165,6 +165,8 @@ export function DataViewDemo() {
                 filters={filters}
                 itemToCardFn={taskToCardFn}
                 searchKeys={searchKeys}
+                singular="item"
+                plural="items"
             />
         </Fragment>
     )

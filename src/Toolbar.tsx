@@ -28,7 +28,7 @@ import { ColumnsIcon, FilterIcon, ListIcon, ThIcon } from '@patternfly/react-ico
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import { BulkSelector } from './components/BulkSelector'
 import { DropdownControlled } from './components/DropdownControlled'
-import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
+import { useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
 import { DataViewTypeE } from './DataView'
 
@@ -90,6 +90,8 @@ export function PageToolbar<T extends object>(props: {
     toolbarActions?: IToolbarAction<T>[]
     showSearch: boolean
     showViewToggle: boolean
+    singular?: string
+    plural?: string
 }) {
     const {
         items,
@@ -113,10 +115,11 @@ export function PageToolbar<T extends object>(props: {
         toolbarActions,
         showSearch,
         showViewToggle,
+        singular,
+        plural,
     } = props
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
-    const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
-    const isXS = !isSmallOrLarger
+    const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
 
     const toolbarActionButtons = useMemo(
         () => (
@@ -215,7 +218,7 @@ export function PageToolbar<T extends object>(props: {
                                 // resultsCount={searched.length !== 0 ? searched.length : undefined}
                             />
                         </ToolbarItem>
-                        {(view === DataViewTypeE.Table || isXS) && (
+                        {(view === DataViewTypeE.Table || hideFilters) && (
                             <ToolbarGroup variant="filter-group">
                                 {filters &&
                                     filters.map((filter) => {
@@ -277,11 +280,12 @@ export function PageToolbar<T extends object>(props: {
                 <ToolbarItem>
                     {searched.length < items.length ? (
                         <span>
-                            {searched.length} of {items.length} items
+                            {searched.length} of {items.length}
                         </span>
                     ) : (
-                        <span>{items.length} items</span>
+                        <span>{items.length}</span>
                     )}
+                    {items.length == 1 ? singular && ' ' + singular : plural && ' ' + plural}
                 </ToolbarItem>
                 {showViewToggle !== false && (
                     <ToolbarItem>

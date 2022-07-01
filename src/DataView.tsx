@@ -20,7 +20,7 @@ import { Catalog } from './Catalog'
 import { ICatalogCard } from './CatalogCard'
 import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
-import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
+import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { useSearchParams } from './components/useWindowLocation'
 import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
@@ -45,8 +45,10 @@ export function DataView<T extends object>(props: {
     itemToCardFn?: (item: T) => ICatalogCard
     searchKeys?: { name: string; weight?: number }[]
     localKey?: string
+    singular?: string
+    plural?: string
 }) {
-    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions } = props
+    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions, singular, plural } = props
 
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -209,6 +211,7 @@ export function DataView<T extends object>(props: {
     const showPagination = filtered.length > perPage
     const showBottomToolbarBorder = useWindowSizeOrLarger(WindowSize.md)
     const showBottomToolbar = dataViewType === DataViewTypeE.Catalog && (showBackButton || showPagination)
+    const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
 
     return (
         <Fragment>
@@ -239,6 +242,8 @@ export function DataView<T extends object>(props: {
                 toolbarActions={toolbarActions}
                 showSearch={searchKeys !== undefined}
                 showViewToggle={showViewToggle}
+                singular={singular}
+                plural={plural}
             />
             <Drawer position="right" isStatic>
                 <DrawerContent panelContent={<Fragment />}>
@@ -247,7 +252,11 @@ export function DataView<T extends object>(props: {
                             <DrawerContent
                                 panelContent={
                                     dataViewType === DataViewTypeE.Catalog ? (
-                                        <FilterDrawer filters={filters} filterState={filterState} setFilterValues={setFilterValues} />
+                                        <FilterDrawer
+                                            filters={hideFilters ? undefined : filters}
+                                            filterState={filterState}
+                                            setFilterValues={setFilterValues}
+                                        />
                                     ) : (
                                         <Fragment />
                                     )
