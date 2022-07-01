@@ -4,21 +4,21 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background-color: #f4f4f4;
+    background-color: #f8f8f8;
 }
 :root:where(.pf-theme-dark) tr:hover {
     background-color: #303030;
 }
 
 tbody tr.selected {
-    background-color: #f0f8ff;
+    background-color: #f4f6ff;
 }
 :root:where(.pf-theme-dark) tr.selected {
     background-color: #202830;
 }
 
 tbody tr.selected:hover {
-    background-color: #e8f4ff;
+    background-color: #f0f4ff;
 }
 :root:where(.pf-theme-dark) tr.selected:hover {
     background-color: #303840;
