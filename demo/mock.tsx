@@ -44,12 +44,7 @@ export const icons = [
     <FishIcon size="lg" />,
 ]
 
-export const colors = randomValues(8, 8, randomArray(8, () => faker.vehicle.color()).map(capitalize))
-// const types = randomValues(
-//     4,
-//     8,
-//     randomArray(8, () => faker.vehicle.type())
-// )
+export const colors = ['Red', 'Green', 'Blue', 'Yellow', 'Purple', 'Orange', 'Aqua']
 
 export function getRandomAnimalName() {
     const f = (faker.animal as any)[faker.animal.type()] as () => string

@@ -22,6 +22,7 @@ import {
     Stack,
     StackItem,
     Title,
+    Truncate,
 } from '@patternfly/react-core'
 import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
@@ -204,10 +205,10 @@ export function CatalogCard<T extends object>(props: {
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', gap: 16 }}>
                         <div style={{ flexGrow: 1 }}>
                             {card.labels && (
-                                <LabelGroup numLabels={999}>
+                                <LabelGroup>
                                     {card.labels.map((item) => (
                                         <Label key={item.label} color={item.color}>
-                                            {item.label}
+                                            <Truncate content={item.label} style={{ minWidth: 0 }} />
                                         </Label>
                                     ))}
                                 </LabelGroup>
