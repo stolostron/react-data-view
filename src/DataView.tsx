@@ -21,6 +21,7 @@ import { ICatalogCard } from './CatalogCard'
 import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
+import { useSearchParams } from './components/useWindowLocation'
 import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
 import { DataTable } from './Table'
@@ -29,8 +30,8 @@ import { IToolbarAction, PageToolbar } from './Toolbar'
 import { useTableItems } from './useTableItems'
 
 export enum DataViewTypeE {
-    Table,
-    Catalog,
+    Table = 'table',
+    Catalog = 'catalog',
 }
 
 export function DataView<T extends object>(props: {
@@ -47,7 +48,19 @@ export function DataView<T extends object>(props: {
 }) {
     const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions } = props
 
-    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(props.columns ? DataViewTypeE.Table : DataViewTypeE.Catalog)
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(() => {
+        if (!props.columns) return DataViewTypeE.Catalog
+        if (!props.itemToCardFn) return DataViewTypeE.Table
+        switch (searchParams.get('view')) {
+            case DataViewTypeE.Catalog:
+                return DataViewTypeE.Catalog
+            default:
+                return DataViewTypeE.Table
+        }
+    })
+
     const showViewToggle = props.columns !== undefined && props.itemToCardFn !== undefined
     const {
         // allSelected,
@@ -72,7 +85,7 @@ export function DataView<T extends object>(props: {
         // sorted,
         unselectAll,
         unselectItem,
-    } = useTableItems(props.items ?? [], itemKeyFn)
+    } = useTableItems(props.items ?? [], itemKeyFn, { search: searchParams.get('search') })
     const onSetPage = useCallback((_event, page) => setPage(page), [setPage])
     const onPerPageSelect = useCallback((_event, perPage) => setPerPage(perPage), [setPerPage])
 
@@ -92,7 +105,20 @@ export function DataView<T extends object>(props: {
         }
     }, [searchKeys, setSearchFn])
 
-    const [filterState, setFilterState] = useState<IFilterState>({})
+    const [filterState, setFilterState] = useState<IFilterState>(() => {
+        const filterState: IFilterState = {}
+        for (const [key, value] of searchParams.entries()) {
+            switch (key) {
+                case 'view':
+                case 'route':
+                case 'search':
+                    break
+                default:
+                    filterState[key] = value.split(',')
+            }
+        }
+        return filterState
+    })
     const setFilterValues = useCallback((filter: IDataFilter<T>, values: string[]) => {
         setFilterState((filtersState) => ({ ...filtersState, ...{ [filter.label]: values } }))
     }, [])
@@ -111,6 +137,72 @@ export function DataView<T extends object>(props: {
             return true
         })
     }, [filterState, filters, setFilterFn])
+
+    // View QueryString support
+    useEffect(() => {
+        if (!itemToCardFn || !columns) {
+            if (searchParams.get('view') !== undefined) {
+                searchParams.delete('view')
+                setSearchParams(searchParams)
+            }
+        } else {
+            if (searchParams.get('view') !== dataViewType.toString()) {
+                searchParams.set('view', dataViewType.toString())
+                setSearchParams(searchParams)
+            }
+        }
+    }, [columns, dataViewType, itemToCardFn, searchParams, setSearchParams])
+
+    // Search QueryString support
+    useEffect(() => {
+        if (!search) {
+            if (searchParams.get('search') !== undefined) {
+                searchParams.delete('search')
+                setSearchParams(searchParams)
+            }
+        } else {
+            if (searchParams.get('search') !== search) {
+                searchParams.set('search', search)
+                setSearchParams(searchParams)
+            }
+        }
+    }, [search, searchParams, setSearchParams])
+
+    // Filters QueryString support
+    useEffect(() => {
+        let change = false
+        for (const key in filterState) {
+            const values = filterState[key]
+            if (values) {
+                const value = values.join(',')
+                if (searchParams.get(key) !== value) {
+                    searchParams.set(key, value)
+                    change = true
+                }
+            } else {
+                if (searchParams.get(key) !== undefined) {
+                    searchParams.delete(key)
+                    change = true
+                }
+            }
+        }
+        for (const [key] of searchParams.entries()) {
+            switch (key) {
+                case 'route':
+                case 'search':
+                case 'view':
+                    break
+                default:
+                    if (!filterState[key] || filterState[key]?.length === 0) {
+                        searchParams.delete(key)
+                        change = true
+                    }
+            }
+        }
+        if (change) {
+            setSearchParams(searchParams)
+        }
+    }, [filterState, searchParams, setSearchParams])
 
     const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns ?? [])
     const showBackButton = useWindowSizeOrLarger(WindowSize.md) && props.onBack !== undefined

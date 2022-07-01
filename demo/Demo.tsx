@@ -43,21 +43,13 @@ export default function Demo() {
 export function DemoRouter(): JSX.Element {
     const location = useLocation()
     const history = useHistory()
-    switch (location.search) {
-        case RouteE.Home:
-            return <Home />
-        case RouteE.Demo:
-            return <DataViewDemo />
-        case RouteE.Infrastructure:
-            return <Infrastructure />
-        case RouteE.ControlPlane:
-            return <ControlPlane />
-        case RouteE.Hosted:
-            return <Hosted />
-        default:
-            history.push(RouteE.Home)
-            return <div />
-    }
+    if (location.search.startsWith(RouteE.Home)) return <Home />
+    if (location.search.startsWith(RouteE.Demo)) return <DataViewDemo />
+    if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
+    if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
+    if (location.search.startsWith(RouteE.Hosted)) return <Hosted />
+    history.push(RouteE.Home)
+    return <div />
 }
 
 function DemoHeader() {

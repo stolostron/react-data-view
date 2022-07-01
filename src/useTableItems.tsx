@@ -1,11 +1,11 @@
 import debounce from 'debounce'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-export function useTableItems<T extends object>(items: T[], keyFn: (item: T) => string | number) {
+export function useTableItems<T extends object>(items: T[], keyFn: (item: T) => string | number, defaults?: { search?: string | null }) {
     const { selected, selectItem, unselectItem, isSelected, selectItems, unselectAll, allSelected } = useSelected(items, keyFn)
     const { sorted, sort, setSort } = useSorted(items)
     const { filtered, setFilterFn } = useFiltered(sorted, keyFn)
-    const { searched, search, setSearch, setSearchFn } = useSearched(filtered, keyFn)
+    const { searched, search, setSearch, setSearchFn } = useSearched(filtered, keyFn, defaults?.search)
     const { paged, page, setPage, perPage, setPerPage } = usePaged(searched)
     const selectPage = useCallback(() => selectItems(paged), [paged, selectItems])
     const selectAll = useCallback(() => selectItems(searched), [searched, selectItems])
@@ -208,12 +208,12 @@ function useFiltered<T extends object>(items: T[], keyFn: (item: T) => string | 
     )
 }
 
-function useSearched<T extends object>(items: T[], keyFn: (item: T) => string | number) {
+function useSearched<T extends object>(items: T[], keyFn: (item: T) => string | number, defaultSearch: string | null) {
     const searchMapRef = useRef<{ map: Record<string | number, { item: T; score: number }> }>({ map: {} })
     const [searchFn, setSearchFnState] = useState<(item: T, search: string) => number>()
     const setSearchFn = useCallback((searchFn: (item: T, search: string) => number) => setSearchFnState(() => searchFn), [])
     const [searched, setSearched] = useState<T[]>([])
-    const [search, setSearchState] = useState('')
+    const [search, setSearchState] = useState(defaultSearch ?? '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const setSearch = useCallback(
         debounce((search: string) => setSearchState(search), 200),
