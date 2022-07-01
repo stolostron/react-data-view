@@ -23,7 +23,10 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
                     component={breadcrumb.component}
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     onClick={breadcrumb.to ? () => history.push(breadcrumb.to!) : undefined}
-                    style={{ color: breadcrumb.to ? 'var(--pf-c-breadcrumb__link--Color)' : undefined }}
+                    style={{
+                        color: breadcrumb.to ? 'var(--pf-c-breadcrumb__link--Color)' : undefined,
+                        cursor: breadcrumb.to ? 'pointer' : undefined,
+                    }}
                     isActive={breadcrumb.to === undefined}
                 >
                     {breadcrumb.label}
