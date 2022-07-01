@@ -208,7 +208,7 @@ function useFiltered<T extends object>(items: T[], keyFn: (item: T) => string | 
     )
 }
 
-function useSearched<T extends object>(items: T[], keyFn: (item: T) => string | number, defaultSearch: string | null) {
+function useSearched<T extends object>(items: T[], keyFn: (item: T) => string | number, defaultSearch?: string | null) {
     const searchMapRef = useRef<{ map: Record<string | number, { item: T; score: number }> }>({ map: {} })
     const [searchFn, setSearchFnState] = useState<(item: T, search: string) => number>()
     const setSearchFn = useCallback((searchFn: (item: T, search: string) => number) => setSearchFnState(() => searchFn), [])
