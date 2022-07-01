@@ -109,7 +109,7 @@ export function DataViewDemo() {
             icon: task.icon,
             id: task.id,
             title: task.name,
-            labels: task.labels,
+            labels: task.labels.map((label) => ({ label })),
             onClick: () => null,
         }
         if (task.description) {

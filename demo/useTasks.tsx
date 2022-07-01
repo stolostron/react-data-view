@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import { capitalize } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon } from '@patternfly/react-icons'
 import { ReactNode } from 'react'
-import { CatalogCardBadgeColor } from '../src'
+import { CatalogColor } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { colors, getRandomAnimalName, icons, randomArray, randomValue, randomValues } from './mock'
 import { useMockData } from './useMockData'
@@ -29,7 +29,7 @@ let id = 0
 function createMockTask(index: number): IMockTask {
     const badge: {
         name?: string
-        color?: CatalogCardBadgeColor
+        color?: CatalogColor
     } = {}
 
     switch (Math.floor(Math.random() * 4)) {

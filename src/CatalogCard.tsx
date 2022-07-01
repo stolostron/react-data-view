@@ -28,17 +28,24 @@ import { ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
 
-export type CatalogCardBadgeColor = undefined | 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'red' | 'grey'
+export enum CatalogIconColor {
+    'red' = 'red',
+    'green' = 'green',
+    'blue' = 'blue',
+    'yellow' = 'yellow',
+}
+
+export type CatalogColor = 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'red' | 'grey'
 
 export interface ICatalogCard {
     id: string
     icon?: ReactNode
     title: string
     items?: CatalogCardItem[]
-    labels?: string[] // TODO - disable/enable auto generated filters
+    labels?: { label: string; color?: CatalogColor }[] // TODO - disable/enable auto generated filters
     learnMore?: string
     badge?: string
-    badgeColor?: CatalogCardBadgeColor
+    badgeColor?: CatalogColor
     onClick?: () => void
 }
 
@@ -59,12 +66,6 @@ export interface ICatalogCardDescription {
     description: string
 }
 
-export enum CatalogIconColor {
-    'red' = 'red',
-    'green' = 'green',
-    'blue' = 'blue',
-    'yellow' = 'yellow',
-}
 export interface ICatalogCardList {
     type: CatalogCardItemType.List
     title: string
@@ -204,8 +205,10 @@ export function CatalogCard<T extends object>(props: {
                         <div style={{ flexGrow: 1 }}>
                             {card.labels && (
                                 <LabelGroup numLabels={999}>
-                                    {card.labels.map((label) => (
-                                        <Label key={label}>{label}</Label>
+                                    {card.labels.map((item) => (
+                                        <Label key={item.label} color={item.color}>
+                                            {item.label}
+                                        </Label>
                                     ))}
                                 </LabelGroup>
                             )}

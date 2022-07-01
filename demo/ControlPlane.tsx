@@ -9,6 +9,8 @@ import { RouteE } from './route'
 const learnMore = 'https://github.com/stolostron/react-data-view'
 
 export function ControlPlane() {
+    const history = useHistory()
+
     const cards = useMemo(() => {
         const cards: ICatalogCard[] = [
             {
@@ -70,7 +72,7 @@ export function ControlPlane() {
             },
         ]
         return cards
-    }, [])
+    }, [history])
 
     const keyFn = useCallback((card: ICatalogCard) => card.id, [])
 
@@ -79,7 +81,6 @@ export function ControlPlane() {
         []
     )
 
-    const history = useHistory()
     const onBack = useCallback(() => history.push(RouteE.Infrastructure), [history])
 
     return (
