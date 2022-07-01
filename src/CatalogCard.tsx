@@ -285,7 +285,7 @@ export function CardList(props: { title: string; icon?: ReactNode; items: ICatal
                         )
                     }
                     return (
-                        <ListItem key={index} icon={itemIcon} style={{ opacity: 0.9 }}>
+                        <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
                             {listItem.text}
                         </ListItem>
                     )

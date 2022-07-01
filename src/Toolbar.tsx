@@ -10,8 +10,6 @@ import {
     OverflowMenuDropdownItem,
     OverflowMenuGroup,
     OverflowMenuItem,
-    Pagination,
-    PaginationVariant,
     SearchInput,
     Select,
     SelectOption,
@@ -94,6 +92,7 @@ export function PageToolbar<T extends object>(props: {
     showViewToggle: boolean
 }) {
     const {
+        items,
         searched,
         selected,
         perPage,
@@ -102,9 +101,9 @@ export function PageToolbar<T extends object>(props: {
         selectPage,
         search,
         setSearch,
-        page,
-        onSetPage,
-        onPerPageSelect,
+        // page,
+        // onSetPage,
+        // onPerPageSelect,
         filters,
         filterState,
         setFilterValues,
@@ -181,18 +180,10 @@ export function PageToolbar<T extends object>(props: {
     const showToolbarActions = toolbarActions !== undefined
     const showToolbar = showBulkSelector || showSearchAndFilters || showToolbarActions || showViewToggle
 
-    const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
+    // const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
 
     if (!showToolbar) {
-        return (
-            <div
-                style={{
-                    paddingTop: isXlOrLarger ? 20 : 16,
-                    backgroundColor: 'var(--pf-c-page__main-section--m-light--BackgroundColor)',
-                    borderBottom: 'thin solid var(--pf-global--BorderColor--100)',
-                }}
-            />
-        )
+        return <Fragment />
     }
 
     return (
@@ -221,7 +212,7 @@ export function PageToolbar<T extends object>(props: {
                                 value={search}
                                 onChange={setSearch}
                                 onClear={clearSearch}
-                                resultsCount={searched.length !== 0 ? searched.length : undefined}
+                                // resultsCount={searched.length !== 0 ? searched.length : undefined}
                             />
                         </ToolbarItem>
                         {(view === DataViewTypeE.Table || isXS) && (
@@ -283,6 +274,15 @@ export function PageToolbar<T extends object>(props: {
                     </ToolbarGroup>
                 )}
                 <ToolbarItem variant="pagination" />
+                <ToolbarItem>
+                    {searched.length < items.length ? (
+                        <span>
+                            {searched.length} of {items.length} items
+                        </span>
+                    ) : (
+                        <span>{items.length} items</span>
+                    )}
+                </ToolbarItem>
                 {showViewToggle !== false && (
                     <ToolbarItem>
                         <ToggleGroup>
@@ -301,7 +301,7 @@ export function PageToolbar<T extends object>(props: {
                         </ToggleGroup>
                     </ToolbarItem>
                 )}
-                {view === DataViewTypeE.Catalog && (
+                {/* {view === DataViewTypeE.Catalog && (
                     <ToolbarItem>
                         <Pagination
                             variant={PaginationVariant.top}
@@ -313,7 +313,7 @@ export function PageToolbar<T extends object>(props: {
                             onPerPageSelect={onPerPageSelect}
                         />
                     </ToolbarItem>
-                )}
+                )} */}
             </ToolbarContent>
         </Toolbar>
     )

@@ -1,7 +1,8 @@
-import { Breadcrumb, BreadcrumbItem, PageSection, Stack, Text, Title } from '@patternfly/react-core'
-import { Fragment } from 'react'
+import { Breadcrumb, BreadcrumbItem, PageSection, Text, Title } from '@patternfly/react-core'
+import { Fragment, ReactNode } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
+import { ThemeE, useTheme } from './Theme'
 
 export interface ICatalogBreadcrumb {
     id?: string
@@ -36,28 +37,34 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
     )
 }
 
-export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: string; description?: string }) {
-    const { breadcrumbs, title, description } = props
+export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: string; description?: string; navigation?: ReactNode }) {
+    const { breadcrumbs, title, description, navigation } = props
     const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
+    const [theme] = useTheme()
     return (
-        <Fragment>
+        <div
+            style={{
+                borderBottom: 'thin solid var(--pf-global--BorderColor--100)',
+                backgroundColor:
+                    theme === ThemeE.Dark ? 'var(--pf-global--BackgroundColor--300)' : 'var(--pf-global--BackgroundColor--100)',
+            }}
+        >
             {(title || breadcrumbs) && (
-                <PageSection variant="light" style={{ paddingBottom: 0 }}>
-                    <Stack>
-                        {breadcrumbs !== undefined && (
-                            <div style={{ paddingBottom: isXlOrLarger ? 8 : 6, marginTop: -6 }}>
-                                <Breadcrumbs breadcrumbs={breadcrumbs} />
-                            </div>
-                        )}
-                        {title && <Title headingLevel="h1">{title}</Title>}
-                        {description && (
-                            <Text component="p" style={{ opacity: 0.9, paddingTop: 2 }}>
-                                {description}
-                            </Text>
-                        )}
-                    </Stack>
+                <PageSection style={{ backgroundColor: 'transparent', paddingBottom: navigation ? (isXlOrLarger ? 8 : 4) : undefined }}>
+                    {breadcrumbs !== undefined && (
+                        <div style={{ paddingBottom: isXlOrLarger ? 8 : 6, marginTop: -6 }}>
+                            <Breadcrumbs breadcrumbs={breadcrumbs} />
+                        </div>
+                    )}
+                    {title && <Title headingLevel="h1">{title}</Title>}
+                    {description && (
+                        <Text component="p" style={{ opacity: 0.85, paddingTop: 2 }}>
+                            {description}
+                        </Text>
+                    )}
                 </PageSection>
             )}
-        </Fragment>
+            {navigation && <div style={{ paddingLeft: isXlOrLarger ? 8 : 0 }}>{navigation}</div>}
+        </div>
     )
 }

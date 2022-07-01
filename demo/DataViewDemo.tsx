@@ -1,3 +1,4 @@
+import { Tab, Tabs } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { IAction } from '@patternfly/react-table'
 import { Fragment, useCallback, useMemo } from 'react'
@@ -146,7 +147,15 @@ export function DataViewDemo() {
 
     return (
         <Fragment>
-            <PageHeader title="Data View" breadcrumbs={breadcrumbs} />
+            <PageHeader
+                title="Data View"
+                breadcrumbs={breadcrumbs}
+                navigation={
+                    <Tabs hasBorderBottom={false}>
+                        <Tab title="DataView" eventKey={0}></Tab>
+                    </Tabs>
+                }
+            />
             <DataView
                 items={tasks}
                 columns={columns}

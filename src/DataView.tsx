@@ -205,8 +205,9 @@ export function DataView<T extends object>(props: {
     }, [filterState, searchParams, setSearchParams])
 
     const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns ?? [])
-    const showBackButton = useWindowSizeOrLarger(WindowSize.md) && props.onBack !== undefined
+    const showBackButton = props.onBack !== undefined
     const showPagination = filtered.length > perPage
+    const showBottomToolbarBorder = useWindowSizeOrLarger(WindowSize.md)
     const showBottomToolbar = dataViewType === DataViewTypeE.Catalog && (showBackButton || showPagination)
 
     return (
@@ -216,7 +217,7 @@ export function DataView<T extends object>(props: {
                 Alert content
             </Alert> */}
             <PageToolbar
-                items={filtered}
+                items={props.items ?? []}
                 searched={searched}
                 selected={selected}
                 selectAll={selectAll}
@@ -279,18 +280,20 @@ export function DataView<T extends object>(props: {
                                             )}
                                         </Scrollable>
                                         {showBottomToolbar &&
-                                            (showBackButton ? (
+                                            (showBackButton || showBottomToolbarBorder ? (
                                                 <PageSection
                                                     variant="light"
                                                     padding={{ default: 'noPadding' }}
                                                     style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
                                                 >
                                                     <Split>
-                                                        <Toolbar>
-                                                            <ToolbarContent>
-                                                                {props.onBack && <Button onClick={props.onBack}>Back</Button>}
-                                                            </ToolbarContent>
-                                                        </Toolbar>
+                                                        {showBackButton && (
+                                                            <Toolbar>
+                                                                <ToolbarContent>
+                                                                    {props.onBack && <Button onClick={props.onBack}>Back</Button>}
+                                                                </ToolbarContent>
+                                                            </Toolbar>
+                                                        )}
                                                         {showPagination && (
                                                             <SplitItem isFilled>
                                                                 <Pagination
