@@ -24,7 +24,7 @@ export function DataViewDemo() {
                 header: 'Status',
                 cell: (task) => {
                     const status = getTaskStatus(task)
-                    return <IconText icon={status.icon} text={status.text} />
+                    return <IconText icon={status.icon} text={status.text} iconSize="sm" />
                 },
                 sortFn: (l, r) => l.status.localeCompare(r.status),
             },

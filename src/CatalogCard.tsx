@@ -271,9 +271,17 @@ export function CardList(props: { title: string; icon?: ReactNode; items: ICatal
                 {items?.map((listItem, index) => {
                     let itemIcon: ReactNode
                     if (listItem.icon) {
-                        itemIcon = <IconWrapper size="md">{listItem.icon}</IconWrapper>
+                        itemIcon = (
+                            <IconWrapper size="md" noPadding>
+                                {listItem.icon}
+                            </IconWrapper>
+                        )
                     } else if (icon) {
-                        itemIcon = <IconWrapper size="md">{icon}</IconWrapper>
+                        itemIcon = (
+                            <IconWrapper size="md" noPadding>
+                                {icon}
+                            </IconWrapper>
+                        )
                     }
                     return (
                         <ListItem key={index} icon={itemIcon} style={{ opacity: 0.9 }}>

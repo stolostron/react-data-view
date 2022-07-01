@@ -64,7 +64,38 @@ export function useTableItems<T extends object>(items: T[], keyFn: (item: T) => 
 export function useSelected<T extends object>(items: T[], keyFn: (item: T) => string | number) {
     const [selectedMap, setSelectedMap] = useState<Record<string | number, T>>({})
 
-    // TODO prune items?
+    useEffect(() => {
+        setSelectedMap((selectedMap) => {
+            let changed = false
+
+            const itemsKeys = items.reduce((itemsKeys, item) => {
+                const key = keyFn(item)
+                itemsKeys[key] = item
+                if (selectedMap[key] && selectedMap[key] !== item) {
+                    changed = true
+                    selectedMap[key] = item
+                }
+                return itemsKeys
+            }, {} as Record<string | number, T>)
+
+            const removeKeyMap: Record<string | number, true> = {}
+            for (const key in selectedMap) {
+                if (!itemsKeys[key]) {
+                    removeKeyMap[key] = true
+                }
+            }
+
+            const removeKeys = Object.keys(removeKeyMap)
+            if (removeKeys.length) {
+                changed = true
+                for (const key of removeKeys) {
+                    delete selectedMap[key]
+                }
+            }
+
+            return changed ? { ...selectedMap } : selectedMap
+        })
+    }, [items, keyFn])
 
     const selectItem = useCallback(
         (item: T) => {

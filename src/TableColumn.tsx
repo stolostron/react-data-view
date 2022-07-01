@@ -35,11 +35,11 @@ export function DateCell(props: { value: number | string }) {
     )
 }
 
-export function IconText(props: { icon: ReactNode; text: string }) {
+export function IconText(props: { icon: ReactNode; text: string; iconSize?: 'sm' | 'md' | 'lg' }) {
     return (
-        <Split hasGutter>
+        <Split>
             <SplitItem>
-                <IconWrapper size="md">{props.icon}</IconWrapper>
+                <IconWrapper size={props.iconSize ?? 'md'}>{props.icon}</IconWrapper>
             </SplitItem>
             <SplitItem>{props.text}</SplitItem>
         </Split>
