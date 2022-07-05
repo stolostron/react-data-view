@@ -10,7 +10,7 @@ import {
 } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import { CatalogCardItemType, CatalogColor, DataView, ICatalogCard } from '../src'
+import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
 
@@ -145,7 +145,7 @@ export function Infrastructure() {
     return (
         <Fragment>
             <PageHeader title="Infrastructure" description="First, choose your infrastructure provider." breadcrumbs={breadcrumbs} />
-            <DataView items={cards} itemKeyFn={keyFn} itemToCardFn={(card) => card} onBack={onBack} />
+            <ItemView items={cards} itemKeyFn={keyFn} itemToCardFn={(card) => card} onBack={onBack} />
         </Fragment>
     )
 }

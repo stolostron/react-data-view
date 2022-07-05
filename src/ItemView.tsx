@@ -29,12 +29,12 @@ import { ITableColumn } from './TableColumn'
 import { IToolbarAction, PageToolbar } from './Toolbar'
 import { useTableItems } from './useTableItems'
 
-export enum DataViewTypeE {
+export enum ItemViewTypeE {
     Table = 'table',
     Catalog = 'catalog',
 }
 
-export function DataView<T extends object>(props: {
+export function ItemView<T extends object>(props: {
     items?: T[]
     onBack?: () => void
     columns?: ITableColumn<T>[]
@@ -52,14 +52,14 @@ export function DataView<T extends object>(props: {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [dataViewType, setDataViewType] = useState<DataViewTypeE>(() => {
-        if (!props.columns) return DataViewTypeE.Catalog
-        if (!props.itemToCardFn) return DataViewTypeE.Table
+    const [viewType, setViewType] = useState<ItemViewTypeE>(() => {
+        if (!props.columns) return ItemViewTypeE.Catalog
+        if (!props.itemToCardFn) return ItemViewTypeE.Table
         switch (searchParams.get('view')) {
-            case DataViewTypeE.Catalog:
-                return DataViewTypeE.Catalog
+            case ItemViewTypeE.Catalog:
+                return ItemViewTypeE.Catalog
             default:
-                return DataViewTypeE.Table
+                return ItemViewTypeE.Table
         }
     })
 
@@ -148,12 +148,12 @@ export function DataView<T extends object>(props: {
                 setSearchParams(searchParams)
             }
         } else {
-            if (searchParams.get('view') !== dataViewType.toString()) {
-                searchParams.set('view', dataViewType.toString())
+            if (searchParams.get('view') !== viewType.toString()) {
+                searchParams.set('view', viewType.toString())
                 setSearchParams(searchParams)
             }
         }
-    }, [columns, dataViewType, itemToCardFn, searchParams, setSearchParams])
+    }, [columns, viewType, itemToCardFn, searchParams, setSearchParams])
 
     // Search QueryString support
     useEffect(() => {
@@ -210,7 +210,7 @@ export function DataView<T extends object>(props: {
     const showBackButton = props.onBack !== undefined
     const showPagination = filtered.length > perPage
     const showBottomToolbarBorder = useWindowSizeOrLarger(WindowSize.md)
-    const showBottomToolbar = dataViewType === DataViewTypeE.Catalog && (showBackButton || showPagination)
+    const showBottomToolbar = viewType === ItemViewTypeE.Catalog && (showBackButton || showPagination)
     const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
 
     return (
@@ -232,8 +232,8 @@ export function DataView<T extends object>(props: {
                 selectPage={selectPage}
                 onSetPage={onSetPage}
                 onPerPageSelect={onPerPageSelect}
-                view={dataViewType}
-                setView={setDataViewType}
+                view={viewType}
+                setView={setViewType}
                 filters={filters}
                 filterState={filterState}
                 setFilterValues={setFilterValues}
@@ -251,7 +251,7 @@ export function DataView<T extends object>(props: {
                         <Drawer position="left" isStatic>
                             <DrawerContent
                                 panelContent={
-                                    dataViewType === DataViewTypeE.Catalog ? (
+                                    viewType === ItemViewTypeE.Catalog ? (
                                         <FilterDrawer
                                             filters={hideFilters ? undefined : filters}
                                             filterState={filterState}
@@ -265,7 +265,7 @@ export function DataView<T extends object>(props: {
                                 <DrawerContentBody>
                                     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                                         <Scrollable>
-                                            {dataViewType === DataViewTypeE.Catalog ? (
+                                            {viewType === ItemViewTypeE.Catalog ? (
                                                 <Catalog
                                                     keyFn={props.itemKeyFn}
                                                     items={paged}

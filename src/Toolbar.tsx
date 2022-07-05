@@ -30,7 +30,7 @@ import { BulkSelector } from './components/BulkSelector'
 import { DropdownControlled } from './components/DropdownControlled'
 import { useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
-import { DataViewTypeE } from './DataView'
+import { ItemViewTypeE } from './ItemView'
 
 export interface IToolbarActionPrimary<T extends object> {
     type: 'primary'
@@ -80,8 +80,8 @@ export function PageToolbar<T extends object>(props: {
     page: number
     onSetPage: OnSetPage
     onPerPageSelect: OnPerPageSelect
-    view: DataViewTypeE
-    setView: (view: DataViewTypeE) => void
+    view: ItemViewTypeE
+    setView: (view: ItemViewTypeE) => void
     filters?: IDataFilter<T>[]
     filterState: IFilterState
     setFilterValues: SetFilterValues<T>
@@ -218,7 +218,7 @@ export function PageToolbar<T extends object>(props: {
                                 // resultsCount={searched.length !== 0 ? searched.length : undefined}
                             />
                         </ToolbarItem>
-                        {(view === DataViewTypeE.Table || hideFilters) && (
+                        {(view === ItemViewTypeE.Table || hideFilters) && (
                             <ToolbarGroup variant="filter-group">
                                 {filters &&
                                     filters.map((filter) => {
@@ -269,7 +269,7 @@ export function PageToolbar<T extends object>(props: {
                         </ToolbarItem>
                     </ToolbarGroup>
                 )}
-                {view === DataViewTypeE.Table && (
+                {view === ItemViewTypeE.Table && (
                     <ToolbarGroup variant="button-group">
                         <ToolbarItem>
                             <Button variant="plain" icon={<ColumnsIcon />} onClick={openColumnModal} />
@@ -293,19 +293,19 @@ export function PageToolbar<T extends object>(props: {
                             <ToggleGroupItem
                                 aria-label="list"
                                 icon={<ListIcon />}
-                                isSelected={props.view === DataViewTypeE.Table}
-                                onClick={() => props.setView(DataViewTypeE.Table)}
+                                isSelected={props.view === ItemViewTypeE.Table}
+                                onClick={() => props.setView(ItemViewTypeE.Table)}
                             />
                             <ToggleGroupItem
                                 aria-label="catalog"
                                 icon={<ThIcon />}
-                                isSelected={props.view === DataViewTypeE.Catalog}
-                                onClick={() => props.setView(DataViewTypeE.Catalog)}
+                                isSelected={props.view === ItemViewTypeE.Catalog}
+                                onClick={() => props.setView(ItemViewTypeE.Catalog)}
                             />
                         </ToggleGroup>
                     </ToolbarItem>
                 )}
-                {/* {view === DataViewTypeE.Catalog && (
+                {/* {view === ItemViewTypeE.Catalog && (
                     <ToolbarItem>
                         <Pagination
                             variant={PaginationVariant.top}

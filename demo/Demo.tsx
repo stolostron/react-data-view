@@ -18,7 +18,6 @@ import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher } from '../src/Theme'
 import { ControlPlane } from './ControlPlane'
-import { DataViewDemo } from './DataViewDemo'
 import { Home } from './Home'
 import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
@@ -44,7 +43,7 @@ export function DemoRouter(): JSX.Element {
     const location = useLocation()
     const history = useHistory()
     if (location.search.startsWith(RouteE.Home)) return <Home />
-    if (location.search.startsWith(RouteE.Demo)) return <DataViewDemo />
+    if (location.search.startsWith(RouteE.Demo)) return <itemViewDemo />
     if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
     if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
     if (location.search.startsWith(RouteE.Hosted)) return <Hosted />

@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
-import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IconText, IDataFilter, ITableColumn, IToolbarAction, Labels } from '../src'
+import { CatalogCardItemType, DateCell, ICatalogCard, IconText, IDataFilter, ITableColumn, ItemView, IToolbarAction, Labels } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { IItemAction } from '../src/ItemActions'
 import { PageHeader } from '../src/PageHeader'
@@ -9,7 +9,7 @@ import { colors } from './mock'
 import { RouteE } from './route'
 import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 
-export function DataViewDemo() {
+export function ItemViewDemo() {
     const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
@@ -156,7 +156,7 @@ export function DataViewDemo() {
                     </Tabs>
                 }
             />
-            <DataView
+            <ItemView
                 items={tasks}
                 columns={columns}
                 itemKeyFn={keyFn}
