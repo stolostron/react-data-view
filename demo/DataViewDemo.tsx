@@ -1,9 +1,9 @@
 import { Tab, Tabs } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
-import { IAction } from '@patternfly/react-table'
 import { Fragment, useCallback, useMemo } from 'react'
 import { CatalogCardItemType, DataView, DateCell, ICatalogCard, IconText, IDataFilter, ITableColumn, IToolbarAction, Labels } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
+import { IItemAction } from '../src/ItemActions'
 import { PageHeader } from '../src/PageHeader'
 import { colors } from './mock'
 import { RouteE } from './route'
@@ -51,11 +51,11 @@ export function DataViewDemo() {
         },
     ]
 
-    const actions: IAction[] = [
-        { title: 'Some action', onClick: () => null },
-        { title: <div>Another action</div>, onClick: () => null },
+    const actions: IItemAction<IMockTask>[] = [
+        { label: 'Some action', onClick: () => null },
+        { label: 'Another action', onClick: () => null },
         { isSeparator: true },
-        { title: 'Third action', onClick: () => null },
+        { label: 'Third action', onClick: () => null },
     ]
 
     const statusFilter = useMemo<IDataFilter<IMockTask>>(

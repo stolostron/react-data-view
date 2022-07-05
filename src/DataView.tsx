@@ -13,7 +13,6 @@ import {
     Toolbar,
     ToolbarContent,
 } from '@patternfly/react-core'
-import { IAction } from '@patternfly/react-table'
 import Fuse from 'fuse.js'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { Catalog } from './Catalog'
@@ -24,6 +23,7 @@ import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './com
 import { useSearchParams } from './components/useWindowLocation'
 import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
+import { IItemAction } from './ItemActions'
 import { DataTable } from './Table'
 import { ITableColumn } from './TableColumn'
 import { IToolbarAction, PageToolbar } from './Toolbar'
@@ -38,7 +38,7 @@ export function DataView<T extends object>(props: {
     items?: T[]
     onBack?: () => void
     columns?: ITableColumn<T>[]
-    itemActions?: IAction[]
+    itemActions?: IItemAction<T>[]
     itemKeyFn: (item: T) => string
     toolbarActions?: IToolbarAction<T>[]
     filters?: IDataFilter<T>[]

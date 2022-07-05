@@ -2,6 +2,7 @@ import { ActionsColumn, IAction, ISortBy, SortByDirection, TableComposable, Tbod
 import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
 import useResizeObserver from '@react-hook/resize-observer'
 import { Fragment, MouseEvent, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { IItemAction, isItemActionClick } from './ItemActions'
 import { ITableColumn } from './TableColumn'
 import { ISort } from './useTableItems'
 import './virtual-table.css'
@@ -27,7 +28,7 @@ export function DataTable<T extends object>(props: {
     unselectItem: (item: T) => void
     isSelected: (item: T) => boolean
     keyFn: (item: T) => string
-    rowActions?: IAction[]
+    rowActions?: IItemAction<T>[]
     sort: ISort<T> | undefined
     setSort: (sort: ISort<T>) => void
 }) {
@@ -141,7 +142,7 @@ export function DataTable<T extends object>(props: {
 
 function TableHead<T extends object>(props: {
     columns: ITableColumn<T>[]
-    rowActions?: IAction[]
+    rowActions?: IItemAction<T>[]
     sort: ISort<T> | undefined
     setSort: (sort: ISort<T>) => void
 }) {
@@ -219,7 +220,7 @@ function TableRow<T extends object>(props: {
     isItemSelected: boolean
     selectItem: (item: T) => void
     unselectItem: (item: T) => void
-    rowActions?: IAction[]
+    rowActions?: IItemAction<T>[]
     rowIndex: number
 }) {
     const { columns, selectItem, unselectItem, isItemSelected, item, rowActions, rowIndex } = props
@@ -245,8 +246,23 @@ function TableRow<T extends object>(props: {
     )
 }
 
-function TableCells<T extends object>(props: { rowIndex: number; columns: ITableColumn<T>[]; item: T; rowActions?: IAction[] }) {
+function TableCells<T extends object>(props: { rowIndex: number; columns: ITableColumn<T>[]; item: T; rowActions?: IItemAction<T>[] }) {
     const { columns, item, rowActions, rowIndex } = props
+    const actions: IAction[] | undefined = useMemo(
+        () =>
+            rowActions?.map((rowAction) => {
+                if (isItemActionClick(rowAction)) {
+                    return {
+                        title: rowAction.label,
+                        onClick: () => {
+                            rowAction.onClick(item)
+                        },
+                    }
+                }
+                return { isSeparator: true }
+            }),
+        [item, rowActions]
+    )
     return useMemo(
         () => (
             <Fragment>
@@ -259,11 +275,11 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
                             </Td>
                         )
                     })}
-                {rowActions !== undefined && (
+                {actions !== undefined && (
                     <Td isActionCell style={{ zIndex: 100000 - rowIndex }}>
                         <ActionsColumn
                             // dropdownDirection="up" // TODO handle....
-                            items={rowActions}
+                            items={actions}
                             // isDisabled={repo.name === '4'} // Also arbitrary for the example
                             // actionsToggle={exampleChoice === 'customToggle' ? customActionsToggle : undefined}
                         />
@@ -271,7 +287,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
                 )}
             </Fragment>
         ),
-        [columns, item, rowActions, rowIndex]
+        [actions, columns, item, rowIndex]
     )
 }
 
