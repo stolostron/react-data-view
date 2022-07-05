@@ -84,12 +84,12 @@ export function DataTable<T extends object>(props: {
         if (scroll.bottom > 1) className += 'scroll-bottom '
         if (scroll.left > 1) className += 'scroll-left '
         if (scroll.right > 1) className += 'scroll-right '
-        return className
+        return className.trim()
     }, [scroll])
 
     return useMemo(
         () => (
-            <div style={{ overflow: 'hidden', height: '100%' }} ref={sizeRef}>
+            <div style={{ overflow: 'hidden', height: '100%' }} className="vtable" ref={sizeRef}>
                 <div onScroll={onScroll} style={{ height: '100%', overflow: 'auto' }} ref={scrollRef}>
                     <TableComposable
                         aria-label="Simple table"
@@ -276,7 +276,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
                         )
                     })}
                 {actions !== undefined && (
-                    <Td isActionCell style={{ zIndex: 100000 - rowIndex }}>
+                    <Td isActionCell style={{ zIndex: 100000 - rowIndex, paddingRight: 8 }}>
                         <ActionsColumn
                             // dropdownDirection="up" // TODO handle....
                             items={actions}
