@@ -109,7 +109,7 @@ export function DataView<T extends object>(props: {
 
     const [filterState, setFilterState] = useState<IFilterState>(() => {
         const filterState: IFilterState = {}
-        for (const [key, value] of searchParams.entries()) {
+        searchParams.forEach((key, value) => {
             switch (key) {
                 case 'view':
                 case 'route':
@@ -118,7 +118,7 @@ export function DataView<T extends object>(props: {
                 default:
                     filterState[key] = value.split(',')
             }
-        }
+        })
         return filterState
     })
     const setFilterValues = useCallback((filter: IDataFilter<T>, values: string[]) => {
@@ -188,7 +188,7 @@ export function DataView<T extends object>(props: {
                 }
             }
         }
-        for (const [key] of searchParams.entries()) {
+        searchParams.forEach((key) => {
             switch (key) {
                 case 'route':
                 case 'search':
@@ -200,7 +200,7 @@ export function DataView<T extends object>(props: {
                         change = true
                     }
             }
-        }
+        })
         if (change) {
             setSearchParams(searchParams)
         }
