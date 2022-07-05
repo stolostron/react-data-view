@@ -273,6 +273,7 @@ export function DataView<T extends object>(props: {
                                                     selectItem={selectItem}
                                                     unselectItem={unselectItem}
                                                     isSelected={isSelected}
+                                                    itemActions={props.itemActions}
                                                 />
                                             ) : (
                                                 <DataTable

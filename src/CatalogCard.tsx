@@ -28,6 +28,7 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
+import { IItemAction, isItemActionClick } from './ItemActions'
 
 export enum CatalogIconColor {
     'red' = 'red',
@@ -94,8 +95,9 @@ export function CatalogCard<T extends object>(props: {
     isSelected: (item: T) => boolean
     selectItem: (item: T) => void
     unselectItem: (item: T) => void
+    itemActions?: IItemAction<T>[]
 }) {
-    const { item, itemToCardFn, isSelected, selectItem, unselectItem } = props
+    const { item, itemToCardFn, isSelected, selectItem, unselectItem, itemActions } = props
 
     const card = useMemo(() => itemToCardFn(item), [item, itemToCardFn])
 
@@ -110,8 +112,29 @@ export function CatalogCard<T extends object>(props: {
     }, [isSelected, item, selectItem, unselectItem])
 
     const showSelect = false
-    const showDropdown = false
+    const showDropdown = itemActions !== undefined && itemActions.length > 0
     const showActions = showSelect || showDropdown
+
+    const dropdownItems = useMemo(
+        () =>
+            itemActions?.map((itemAction, index) => {
+                if (isItemActionClick(itemAction)) {
+                    return (
+                        <DropdownItem
+                            key={itemAction.label}
+                            onClick={() => {
+                                itemAction.onClick(item)
+                                setIsOpen(false)
+                            }}
+                        >
+                            {itemAction.label}
+                        </DropdownItem>
+                    )
+                }
+                return <DropdownSeparator key={index} />
+            }),
+        [item, itemActions]
+    )
 
     return (
         <Card
@@ -160,22 +183,26 @@ export function CatalogCard<T extends object>(props: {
                     )}
                 </Split>
                 {showActions && (
-                    <CardActions hasNoOffset={true}>
-                        <Dropdown
-                            onSelect={onSelect}
-                            toggle={<KebabToggle onToggle={setIsOpen} />}
-                            isOpen={isOpen}
-                            isPlain
-                            dropdownItems={dropdownItems}
-                            position={'right'}
-                        />
-                        <Checkbox
-                            isChecked={isSelected(item)}
-                            onChange={onClick}
-                            aria-label="card checkbox example"
-                            id="check-1"
-                            name="check1"
-                        />
+                    <CardActions hasNoOffset>
+                        {showDropdown && (
+                            <Dropdown
+                                onSelect={onSelect}
+                                toggle={<KebabToggle onToggle={setIsOpen} />}
+                                isOpen={isOpen}
+                                isPlain
+                                dropdownItems={dropdownItems}
+                                position="right"
+                            />
+                        )}
+                        {showSelect && (
+                            <Checkbox
+                                isChecked={isSelected(item)}
+                                onChange={onClick}
+                                aria-label="card checkbox example"
+                                id="check-1"
+                                name="check1"
+                            />
+                        )}
                     </CardActions>
                 )}
             </CardHeader>
@@ -230,24 +257,6 @@ export function CatalogCard<T extends object>(props: {
         </Card>
     )
 }
-
-const dropdownItems = [
-    <DropdownItem key="link">Link</DropdownItem>,
-    <DropdownItem key="action" component="button">
-        Action
-    </DropdownItem>,
-    <DropdownItem key="disabled link" isDisabled>
-        Disabled Link
-    </DropdownItem>,
-    <DropdownItem key="disabled action" isDisabled component="button">
-        Disabled Action
-    </DropdownItem>,
-    <DropdownSeparator key="separator" />,
-    <DropdownItem key="separated link">Separated Link</DropdownItem>,
-    <DropdownItem key="separated action" component="button">
-        Separated Action
-    </DropdownItem>,
-]
 
 export function CardSection(props: { title?: string; children: ReactNode }) {
     return (

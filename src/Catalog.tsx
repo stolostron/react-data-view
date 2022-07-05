@@ -4,6 +4,7 @@ import { PageSection } from '@patternfly/react-core'
 import { useMemo } from 'react'
 import { CatalogCard, ICatalogCard } from './CatalogCard'
 import { Grid } from './components/Grid'
+import { IItemAction } from './ItemActions'
 
 type CatalogFilterValue = string
 
@@ -30,8 +31,9 @@ export function Catalog<T extends object>(props: {
     selectItem: (item: T) => void
     unselectItem: (item: T) => void
     isSelected: (item: T) => boolean
+    itemActions?: IItemAction<T>[]
 }) {
-    const { keyFn, items, itemToCardFn, isSelected, selectItem, unselectItem } = props
+    const { keyFn, items, itemToCardFn, isSelected, selectItem, unselectItem, itemActions } = props
 
     const catalogCards = useMemo(() => {
         return (
@@ -44,6 +46,7 @@ export function Catalog<T extends object>(props: {
                         isSelected={isSelected}
                         selectItem={selectItem}
                         unselectItem={unselectItem}
+                        itemActions={itemActions}
                     />
                 ))}
             </Grid>
