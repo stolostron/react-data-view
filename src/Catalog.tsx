@@ -51,7 +51,7 @@ export function Catalog<T extends object>(props: {
                 ))}
             </Grid>
         )
-    }, [props.cardWidth, items, keyFn, itemToCardFn, isSelected, selectItem, unselectItem])
+    }, [props.cardWidth, items, keyFn, itemToCardFn, isSelected, selectItem, unselectItem, itemActions])
 
     return (
         <PageSection style={{ flexGrow: 1 }}>

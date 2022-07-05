@@ -10,7 +10,7 @@ import {
 } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import { CatalogCardItemType, DataView, ICatalogCard } from '../src'
+import { CatalogCardItemType, CatalogColor, DataView, ICatalogCard } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
 
@@ -30,7 +30,7 @@ export function Infrastructure() {
                         description: 'An OpenShift cluster in your AWS account that uses the ACM multicloud API.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -44,7 +44,7 @@ export function Infrastructure() {
                         description: 'An OpenShift cluster running in a bare metal environment in you on-premises data center.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -58,7 +58,7 @@ export function Infrastructure() {
                         description: 'An OpenShift cluster running in your ALIBABA subscription that uses the ACM multicloud API.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 // onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -72,7 +72,7 @@ export function Infrastructure() {
                         description: 'An OpenShift cluster running in your Google Cloud subscription that uses the ACM multicloud API.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -86,7 +86,7 @@ export function Infrastructure() {
                         description: 'An OpenShift cluster running in your Azure subscription that uses the ACM multicloud API.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -100,7 +100,7 @@ export function Infrastructure() {
                         description: 'Create and manage your clusters hosted on virtual machines.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -114,7 +114,7 @@ export function Infrastructure() {
                         description: 'Create and manage your clusters hosted on virtual machines.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },
@@ -128,7 +128,7 @@ export function Infrastructure() {
                         description: 'An OpenShift cluster running in a vSphere environment in your on-premises data center.',
                     },
                 ],
-                labels: [{ label: 'Saved credentials', color: 'green' }],
+                labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
             },

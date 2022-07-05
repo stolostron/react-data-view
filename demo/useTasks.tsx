@@ -35,11 +35,11 @@ function createMockTask(index: number): IMockTask {
     switch (Math.floor(Math.random() * 4)) {
         case 1:
             badge.name = 'Tech Preview'
-            badge.color = 'blue'
+            badge.color = CatalogColor.blue
             break
         case 2:
             badge.name = 'Deprecated'
-            badge.color = 'orange'
+            badge.color = CatalogColor.orange
             break
     }
     let status = 'online'

@@ -37,7 +37,15 @@ export enum CatalogIconColor {
     'yellow' = 'yellow',
 }
 
-export type CatalogColor = 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'red' | 'grey'
+export enum CatalogColor {
+    blue = 'blue',
+    cyan = 'cyan',
+    green = 'green',
+    orange = 'orange',
+    purple = 'purple',
+    red = 'red',
+    grey = 'grey',
+}
 
 export interface ICatalogCard {
     id: string
