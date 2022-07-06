@@ -21,6 +21,7 @@ import { ControlPlane } from './ControlPlane'
 import { Home } from './Home'
 import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
+import { ItemViewDemo } from './ItemViewDemo'
 import { RouteE } from './route'
 
 export default function Demo() {
@@ -43,7 +44,7 @@ export function DemoRouter(): JSX.Element {
     const location = useLocation()
     const history = useHistory()
     if (location.search.startsWith(RouteE.Home)) return <Home />
-    if (location.search.startsWith(RouteE.Demo)) return <itemViewDemo />
+    if (location.search.startsWith(RouteE.Demo)) return <ItemViewDemo />
     if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
     if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
     if (location.search.startsWith(RouteE.Hosted)) return <Hosted />
