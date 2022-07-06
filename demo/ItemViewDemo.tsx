@@ -24,7 +24,6 @@ export function ItemViewDemo() {
     const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
 
     const [actionsOpen, setActionsOpen] = useState(false)
-    const [useBulkActions, setUseBuldActions] = useState(true)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
 
@@ -52,6 +51,7 @@ export function ItemViewDemo() {
         []
     )
 
+    const [useBulkActions, setUseBuldActions] = useState(true)
     const toolbarActions = useMemo(() => {
         const newToolbarActions: IToolbarAction<IMockTask>[] = [
             {
@@ -72,12 +72,11 @@ export function ItemViewDemo() {
         return newToolbarActions
     }, [createItem, deleteItems, useBulkActions])
 
-    const actions: IItemAction<IMockTask>[] = [
-        { label: 'Some action', onClick: () => null },
-        { label: 'Another action', onClick: () => null },
-        { isSeparator: true },
-        { label: 'Third action', onClick: () => null },
-    ]
+    const [useItemActions, setUseItemActions] = useState(true)
+    const actions: IItemAction<IMockTask>[] | undefined = useMemo(
+        () => (useItemActions ? [{ label: 'Delete', onClick: (item) => deleteItems([item]) }] : undefined),
+        [deleteItems, useItemActions]
+    )
 
     const statusFilter = useMemo<IItemFilter<IMockTask>>(
         () => ({
@@ -162,7 +161,8 @@ export function ItemViewDemo() {
         return card
     }, [])
 
-    const searchKeys = useMemo(() => [{ name: 'name' }], [])
+    const [useSearch, setUseSearch] = useState(true)
+    const searchKeys = useMemo(() => (useSearch ? [{ name: 'name' }] : undefined), [useSearch])
 
     const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Demo' }], [])
 
@@ -191,9 +191,18 @@ export function ItemViewDemo() {
                                     id="useBulkActions"
                                     label="Use bulk actions"
                                     isChecked={useBulkActions}
-                                    onClick={() => {
-                                        setUseBuldActions(!useBulkActions)
-                                    }}
+                                    onChange={setUseBuldActions}
+                                />
+                            </DropdownItem>,
+                            <DropdownItem key="useSearch">
+                                <Checkbox id="useSearch" label="Use search" isChecked={useSearch} onChange={setUseSearch} />
+                            </DropdownItem>,
+                            <DropdownItem key="useItemActions">
+                                <Checkbox
+                                    id="useItemActions"
+                                    label="Use item actions"
+                                    isChecked={useItemActions}
+                                    onChange={setUseItemActions}
                                 />
                             </DropdownItem>,
                         ]}
