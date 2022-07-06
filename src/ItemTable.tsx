@@ -21,7 +21,7 @@ interface IScroll {
 //     setScroll: () => null,
 // })
 
-export function DataTable<T extends object>(props: {
+export function ItemTable<T extends object>(props: {
     columns: ITableColumn<T>[]
     items: T[]
     selectItem: (item: T) => void
@@ -31,8 +31,9 @@ export function DataTable<T extends object>(props: {
     rowActions?: IItemAction<T>[]
     sort: ISort<T> | undefined
     setSort: (sort: ISort<T>) => void
+    showSelect: boolean
 }) {
-    const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions, sort, setSort } = props
+    const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions, sort, setSort, showSelect } = props
     const sizeRef = useRef<HTMLDivElement>(null)
     const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -99,7 +100,7 @@ export function DataTable<T extends object>(props: {
                         gridBreakPoint=""
                         className={className}
                     >
-                        <TableHead columns={columns} rowActions={rowActions} sort={sort} setSort={setSort} />
+                        <TableHead columns={columns} rowActions={rowActions} sort={sort} setSort={setSort} showSelect={showSelect} />
                         <Tbody>
                             {beforeHeight !== 0 && <Tr style={{ height: beforeHeight, border: 0 }} />}
                             {items.slice(firstRow, firstRow + visibleRowCount).map((item, rowIndex) => (
@@ -112,6 +113,7 @@ export function DataTable<T extends object>(props: {
                                     unselectItem={unselectItem}
                                     rowActions={rowActions}
                                     rowIndex={rowIndex + firstRow}
+                                    showSelect={showSelect}
                                 />
                             ))}
                             {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
@@ -136,6 +138,7 @@ export function DataTable<T extends object>(props: {
             isSelected,
             selectItem,
             unselectItem,
+            showSelect,
         ]
     )
 }
@@ -145,8 +148,9 @@ function TableHead<T extends object>(props: {
     rowActions?: IItemAction<T>[]
     sort: ISort<T> | undefined
     setSort: (sort: ISort<T>) => void
+    showSelect: boolean
 }) {
-    const { columns, rowActions, sort, setSort } = props
+    const { columns, rowActions, sort, setSort, showSelect } = props
 
     const sortBy = useMemo<ISortBy>(() => {
         let index: number | undefined = columns.findIndex((column) => column.header === sort?.id)
@@ -196,7 +200,7 @@ function TableHead<T extends object>(props: {
         () => (
             <Thead>
                 <Tr>
-                    <Th />
+                    {showSelect && <Th />}
                     {columns
                         .filter((column) => column.enabled !== false)
                         .map((column, index) => {
@@ -210,7 +214,7 @@ function TableHead<T extends object>(props: {
                 </Tr>
             </Thead>
         ),
-        [columns, getColumnSort, rowActions]
+        [columns, getColumnSort, rowActions, showSelect]
     )
 }
 
@@ -222,27 +226,30 @@ function TableRow<T extends object>(props: {
     unselectItem: (item: T) => void
     rowActions?: IItemAction<T>[]
     rowIndex: number
+    showSelect: boolean
 }) {
-    const { columns, selectItem, unselectItem, isItemSelected, item, rowActions, rowIndex } = props
+    const { columns, selectItem, unselectItem, isItemSelected, item, rowActions, rowIndex, showSelect } = props
     return useMemo(
         () => (
             <Tr className={isItemSelected ? 'selected' : undefined}>
-                <Th
-                    select={{
-                        onSelect: (_event, isSelecting) => {
-                            if (isSelecting) {
-                                selectItem(item)
-                            } else {
-                                unselectItem(item)
-                            }
-                        },
-                        isSelected: isItemSelected,
-                    }}
-                />
+                {showSelect && (
+                    <Th
+                        select={{
+                            onSelect: (_event, isSelecting) => {
+                                if (isSelecting) {
+                                    selectItem(item)
+                                } else {
+                                    unselectItem(item)
+                                }
+                            },
+                            isSelected: isItemSelected,
+                        }}
+                    />
+                )}
                 <TableCells rowIndex={rowIndex} columns={columns} item={item} rowActions={rowActions} />
             </Tr>
         ),
-        [columns, isItemSelected, item, rowActions, rowIndex, selectItem, unselectItem]
+        [columns, isItemSelected, item, rowActions, rowIndex, selectItem, showSelect, unselectItem]
     )
 }
 

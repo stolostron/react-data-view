@@ -21,12 +21,12 @@ import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
 import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { useSearchParams } from './components/useWindowLocation'
-import { IDataFilter, IFilterState } from './DataFilter'
 import { FilterDrawer } from './FilterDrawer'
 import { IItemAction } from './ItemActions'
-import { DataTable } from './Table'
+import { IFilterState, IItemFilter } from './ItemFilter'
+import { ItemTable } from './ItemTable'
 import { ITableColumn } from './TableColumn'
-import { IToolbarAction, PageToolbar } from './Toolbar'
+import { IToolbarAction, PageToolbar, toolbarActionsHaveBulkActions } from './Toolbar'
 import { useTableItems } from './useTableItems'
 
 export enum ItemViewTypeE {
@@ -41,7 +41,7 @@ export function ItemView<T extends object>(props: {
     itemActions?: IItemAction<T>[]
     itemKeyFn: (item: T) => string
     toolbarActions?: IToolbarAction<T>[]
-    filters?: IDataFilter<T>[]
+    filters?: IItemFilter<T>[]
     itemToCardFn?: (item: T) => ICatalogCard
     searchKeys?: { name: string; weight?: number }[]
     localKey?: string
@@ -121,7 +121,7 @@ export function ItemView<T extends object>(props: {
         })
         return filterState
     })
-    const setFilterValues = useCallback((filter: IDataFilter<T>, values: string[]) => {
+    const setFilterValues = useCallback((filter: IItemFilter<T>, values: string[]) => {
         setFilterState((filtersState) => ({ ...filtersState, ...{ [filter.label]: values } }))
     }, [])
     const clearAllFilters = useCallback(() => {
@@ -213,6 +213,8 @@ export function ItemView<T extends object>(props: {
     const showBottomToolbar = viewType === ItemViewTypeE.Catalog && (showBackButton || showPagination)
     const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
 
+    const showSelect = toolbarActionsHaveBulkActions(toolbarActions)
+
     return (
         <Fragment>
             {columnModal}
@@ -244,6 +246,7 @@ export function ItemView<T extends object>(props: {
                 showViewToggle={showViewToggle}
                 singular={singular}
                 plural={plural}
+                showSelect={showSelect}
             />
             <Drawer position="right" isStatic>
                 <DrawerContent panelContent={<Fragment />}>
@@ -274,9 +277,10 @@ export function ItemView<T extends object>(props: {
                                                     unselectItem={unselectItem}
                                                     isSelected={isSelected}
                                                     itemActions={props.itemActions}
+                                                    showSelect={showSelect}
                                                 />
                                             ) : (
-                                                <DataTable
+                                                <ItemTable
                                                     columns={managedColumns}
                                                     items={searched}
                                                     rowActions={props.itemActions}
@@ -286,6 +290,7 @@ export function ItemView<T extends object>(props: {
                                                     isSelected={isSelected}
                                                     sort={sort}
                                                     setSort={setSort}
+                                                    showSelect={showSelect}
                                                 />
                                             )}
                                         </Scrollable>

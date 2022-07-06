@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-export interface IDataFilter<T extends object> {
+export interface IItemFilter<T extends object> {
     label: string
     options: {
         label: string
@@ -9,7 +9,7 @@ export interface IDataFilter<T extends object> {
     filter: (item: T, values: string[]) => boolean
 }
 
-export function useDataFilter<T extends object>(items: T[], label: string, getItemValue: (item: T) => void): IDataFilter<T> {
+export function useItemFilter<T extends object>(items: T[], label: string, getItemValue: (item: T) => void): IItemFilter<T> {
     const values: Record<string, string> = {}
     for (const item of items) {
         const value = getItemValue(item)
@@ -53,4 +53,4 @@ export function useDataFilter<T extends object>(items: T[], label: string, getIt
 
 export type IFilterState = Record<string, string[] | undefined>
 
-export type SetFilterValues<T extends object> = (filter: IDataFilter<T>, values: string[]) => void
+export type SetFilterValues<T extends object> = (filter: IItemFilter<T>, values: string[]) => void

@@ -104,8 +104,9 @@ export function CatalogCard<T extends object>(props: {
     selectItem: (item: T) => void
     unselectItem: (item: T) => void
     itemActions?: IItemAction<T>[]
+    showSelect: boolean
 }) {
-    const { item, itemToCardFn, isSelected, selectItem, unselectItem, itemActions } = props
+    const { item, itemToCardFn, isSelected, selectItem, unselectItem, itemActions, showSelect } = props
 
     const card = useMemo(() => itemToCardFn(item), [item, itemToCardFn])
 
@@ -119,7 +120,6 @@ export function CatalogCard<T extends object>(props: {
         }
     }, [isSelected, item, selectItem, unselectItem])
 
-    const showSelect = false
     const showDropdown = itemActions !== undefined && itemActions.length > 0
     const showActions = showSelect || showDropdown
 

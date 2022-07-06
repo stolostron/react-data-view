@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, PageSection, Text, Title } from '@patternfly/react-core'
+import { Breadcrumb, BreadcrumbItem, PageSection, Split, SplitItem, Text, Title } from '@patternfly/react-core'
 import { Fragment, ReactNode } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
@@ -37,8 +37,14 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
     )
 }
 
-export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: string; description?: string; navigation?: ReactNode }) {
-    const { breadcrumbs, title, description, navigation } = props
+export function PageHeader(props: {
+    breadcrumbs?: ICatalogBreadcrumb[]
+    title?: string
+    description?: string
+    navigation?: ReactNode
+    actions?: ReactNode
+}) {
+    const { breadcrumbs, title, description, navigation, actions } = props
     const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
     const [theme] = useTheme()
     return (
@@ -49,22 +55,35 @@ export function PageHeader(props: { breadcrumbs?: ICatalogBreadcrumb[]; title?: 
                     theme === ThemeE.Dark ? 'var(--pf-global--BackgroundColor--300)' : 'var(--pf-global--BackgroundColor--100)',
             }}
         >
-            {(title || breadcrumbs) && (
-                <PageSection style={{ backgroundColor: 'transparent', paddingBottom: navigation ? (isXlOrLarger ? 8 : 4) : undefined }}>
-                    {breadcrumbs !== undefined && (
-                        <div style={{ paddingBottom: isXlOrLarger ? 8 : 6, marginTop: -6 }}>
-                            <Breadcrumbs breadcrumbs={breadcrumbs} />
-                        </div>
+            <Split>
+                <SplitItem isFilled>
+                    {(title || breadcrumbs) && (
+                        <PageSection
+                            style={{ backgroundColor: 'transparent', paddingBottom: navigation ? (isXlOrLarger ? 8 : 4) : undefined }}
+                        >
+                            {breadcrumbs !== undefined && (
+                                <div style={{ paddingBottom: isXlOrLarger ? 8 : 6, marginTop: -6 }}>
+                                    <Breadcrumbs breadcrumbs={breadcrumbs} />
+                                </div>
+                            )}
+                            {title && <Title headingLevel="h1">{title}</Title>}
+                            {description && (
+                                <Text component="p" style={{ opacity: 0.85, paddingTop: 2 }}>
+                                    {description}
+                                </Text>
+                            )}
+                        </PageSection>
                     )}
-                    {title && <Title headingLevel="h1">{title}</Title>}
-                    {description && (
-                        <Text component="p" style={{ opacity: 0.85, paddingTop: 2 }}>
-                            {description}
-                        </Text>
-                    )}
-                </PageSection>
-            )}
-            {navigation && <div style={{ paddingLeft: isXlOrLarger ? 8 : 0 }}>{navigation}</div>}
+                    {navigation && <div style={{ paddingLeft: isXlOrLarger ? 8 : 0 }}>{navigation}</div>}
+                </SplitItem>
+                {actions && (
+                    <SplitItem>
+                        <PageSection style={{ backgroundColor: 'transparent', height: '100%', display: 'flex', alignItems: 'end' }}>
+                            {actions}
+                        </PageSection>
+                    </SplitItem>
+                )}
+            </Split>
         </div>
     )
 }

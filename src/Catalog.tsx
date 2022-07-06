@@ -32,8 +32,9 @@ export function Catalog<T extends object>(props: {
     unselectItem: (item: T) => void
     isSelected: (item: T) => boolean
     itemActions?: IItemAction<T>[]
+    showSelect: boolean
 }) {
-    const { keyFn, items, itemToCardFn, isSelected, selectItem, unselectItem, itemActions } = props
+    const { keyFn, items, itemToCardFn, isSelected, selectItem, unselectItem, itemActions, showSelect } = props
 
     const catalogCards = useMemo(() => {
         return (
@@ -47,11 +48,12 @@ export function Catalog<T extends object>(props: {
                         selectItem={selectItem}
                         unselectItem={unselectItem}
                         itemActions={itemActions}
+                        showSelect={showSelect}
                     />
                 ))}
             </Grid>
         )
-    }, [props.cardWidth, items, keyFn, itemToCardFn, isSelected, selectItem, unselectItem, itemActions])
+    }, [props.cardWidth, items, keyFn, itemToCardFn, isSelected, selectItem, unselectItem, itemActions, showSelect])
 
     return (
         <PageSection style={{ flexGrow: 1 }}>

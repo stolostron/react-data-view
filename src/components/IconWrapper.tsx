@@ -19,11 +19,11 @@ export function IconWrapper(props: { children: ReactNode; color?: PatternFlyColo
                 break
             case 'md':
                 marginOffset = -2
-                marginRight = 14
+                marginRight = 12
                 break
             case 'lg':
                 marginOffset = -6
-                marginRight = 18
+                marginRight = 16
                 break
         }
     }

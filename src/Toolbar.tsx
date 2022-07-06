@@ -29,43 +29,42 @@ import { Fragment, useCallback, useMemo, useState } from 'react'
 import { BulkSelector } from './components/BulkSelector'
 import { DropdownControlled } from './components/DropdownControlled'
 import { useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
-import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
+import { IFilterState, IItemFilter, SetFilterValues } from './ItemFilter'
 import { ItemViewTypeE } from './ItemView'
 
-export interface IToolbarActionPrimary<T extends object> {
-    type: 'primary'
-    label: string
-    onClick: (selectedItems: T[]) => void
-}
-
-export interface IToolbarActionSecondary<T extends object> {
-    type: 'secondary'
-    label: string
-    onClick: (selectedItems: T[]) => void
+export enum ToolbarActionType {
+    seperator = 'seperator',
+    button = 'button',
+    bulk = 'bulk',
 }
 
 export interface IToolbarActionSeperator {
-    type: 'seperator'
+    type: ToolbarActionType.seperator
 }
 
-export interface IToolbarActionButton<T extends object> {
-    type: 'button'
+export interface IToolbarActionButton {
+    type: ToolbarActionType.button
+    variant?: ButtonVariant
+    label: string
+    onClick: () => void
+}
+
+export interface IToolbarBulkAction<T extends object> {
+    type: ToolbarActionType.bulk
+    variant?: ButtonVariant
     label: string
     onClick: (selectedItems: T[]) => void
 }
 
-export interface IToolbarActionBulk<T extends object> {
-    type: 'bulk'
-    label: string
-    onClick: (selectedItems: T[]) => void
-}
+export type IToolbarAction<T extends object> = IToolbarActionSeperator | IToolbarActionButton | IToolbarBulkAction<T>
 
-export type IToolbarAction<T extends object> =
-    | IToolbarActionPrimary<T>
-    | IToolbarActionSecondary<T>
-    | IToolbarActionSeperator
-    | IToolbarActionButton<T>
-    | IToolbarActionBulk<T>
+export function toolbarActionsHaveBulkActions<T extends object>(actions?: IToolbarAction<T>[]) {
+    if (!actions) return false
+    for (const action of actions) {
+        if (action.type === 'bulk') return true
+    }
+    return false
+}
 
 export function PageToolbar<T extends object>(props: {
     items: T[]
@@ -82,7 +81,7 @@ export function PageToolbar<T extends object>(props: {
     onPerPageSelect: OnPerPageSelect
     view: ItemViewTypeE
     setView: (view: ItemViewTypeE) => void
-    filters?: IDataFilter<T>[]
+    filters?: IItemFilter<T>[]
     filterState: IFilterState
     setFilterValues: SetFilterValues<T>
     clearAllFilters: () => void
@@ -92,6 +91,7 @@ export function PageToolbar<T extends object>(props: {
     showViewToggle: boolean
     singular?: string
     plural?: string
+    showSelect: boolean
 }) {
     const {
         items,
@@ -117,6 +117,7 @@ export function PageToolbar<T extends object>(props: {
         showViewToggle,
         singular,
         plural,
+        showSelect,
     } = props
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
     const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
@@ -124,21 +125,27 @@ export function PageToolbar<T extends object>(props: {
     const toolbarActionButtons = useMemo(
         () => (
             <Fragment>
-                {toolbarActions?.map((action) => {
-                    switch (action.type) {
-                        case ButtonVariant.primary:
-                        case ButtonVariant.secondary:
-                            return (
-                                <OverflowMenuItem key={action.label}>
-                                    <Button variant={action.type} onClick={() => action.onClick(selected)}>
-                                        {action.label}
-                                    </Button>
-                                </OverflowMenuItem>
-                            )
-                        default:
-                            return <Fragment />
-                    }
-                })}
+                {toolbarActions
+                    ?.map((action) => {
+                        switch (action.type) {
+                            case ToolbarActionType.button:
+                            case ToolbarActionType.bulk:
+                                switch (action.variant) {
+                                    case ButtonVariant.primary:
+                                    case ButtonVariant.secondary:
+                                        return (
+                                            <OverflowMenuItem key={action.label}>
+                                                <Button variant={action.variant} onClick={() => action.onClick(selected)}>
+                                                    {action.label}
+                                                </Button>
+                                            </OverflowMenuItem>
+                                        )
+                                }
+                                break
+                        }
+                        return undefined
+                    })
+                    .filter((e) => !!e)}
             </Fragment>
         ),
         [selected, toolbarActions]
@@ -146,42 +153,42 @@ export function PageToolbar<T extends object>(props: {
 
     const toolbarActionDropDownItems = useMemo(
         () =>
-            toolbarActions?.map((action) => {
-                switch (action.type) {
-                    case ButtonVariant.primary:
-                    case ButtonVariant.secondary:
-                        return (
-                            <OverflowMenuDropdownItem key={action.label} isShared onClick={() => action.onClick(selected)}>
-                                {action.label}
-                            </OverflowMenuDropdownItem>
-                        )
-                    case 'seperator':
-                        return <DropdownSeparator key="separator" />
-                    case 'bulk':
-                        return (
-                            <OverflowMenuDropdownItem
-                                key={action.label}
-                                onClick={() => action.onClick(selected)}
-                                isDisabled={selected.length === 0}
-                            >
-                                {action.label}
-                            </OverflowMenuDropdownItem>
-                        )
-                    default:
-                        return (
-                            <OverflowMenuDropdownItem key={action.label} onClick={() => action.onClick(selected)}>
-                                {action.label}
-                            </OverflowMenuDropdownItem>
-                        )
-                }
-            }),
+            toolbarActions
+                ?.map((action) => {
+                    switch (action.type) {
+                        case ToolbarActionType.button:
+                        case ToolbarActionType.bulk:
+                            switch (action.variant) {
+                                case ButtonVariant.primary:
+                                case ButtonVariant.secondary:
+                                    return (
+                                        <OverflowMenuDropdownItem key={action.label} isShared onClick={() => action.onClick(selected)}>
+                                            {action.label}
+                                        </OverflowMenuDropdownItem>
+                                    )
+                                default:
+                                    return (
+                                        <OverflowMenuDropdownItem
+                                            key={action.label}
+                                            onClick={() => action.onClick(selected)}
+                                            isDisabled={action.type === ToolbarActionType.bulk && selected.length === 0}
+                                        >
+                                            {action.label}
+                                        </OverflowMenuDropdownItem>
+                                    )
+                            }
+                        case 'seperator':
+                            return <DropdownSeparator key="separator" />
+                    }
+                    return undefined
+                })
+                .filter((a) => !!a),
         [selected, toolbarActions]
     )
 
-    const showBulkSelector = toolbarActions !== undefined
     const showSearchAndFilters = showSearch || filters !== undefined
     const showToolbarActions = toolbarActions !== undefined
-    const showToolbar = showBulkSelector || showSearchAndFilters || showToolbarActions || showViewToggle
+    const showToolbar = showSelect || showSearchAndFilters || showToolbarActions || showViewToggle
 
     // const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
 
@@ -192,7 +199,7 @@ export function PageToolbar<T extends object>(props: {
     return (
         <Toolbar style={{ borderBottom: 'thin solid var(--pf-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
-                {showBulkSelector && (
+                {showSelect && (
                     <ToolbarGroup>
                         <ToolbarItem variant="bulk-select">
                             <BulkSelector

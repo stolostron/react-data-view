@@ -2,16 +2,16 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Checkbox, DrawerPanelBody, DrawerPanelContent, DrawerSection, Stack, Title } from '@patternfly/react-core'
 import { Fragment, useCallback } from 'react'
-import { IDataFilter, IFilterState, SetFilterValues } from './DataFilter'
+import { IFilterState, IItemFilter, SetFilterValues } from './ItemFilter'
 
 export function FilterDrawer<T extends object>(props: {
-    filters?: IDataFilter<T>[]
+    filters?: IItemFilter<T>[]
     filterState: IFilterState
     setFilterValues: SetFilterValues<T>
 }) {
     const { filters, filterState, setFilterValues } = props
     const toggleFilterValue = useCallback(
-        (filter: IDataFilter<T>, filterValues: string[] | undefined, option: string) => {
+        (filter: IItemFilter<T>, filterValues: string[] | undefined, option: string) => {
             if (filterValues?.includes(option)) {
                 setFilterValues(
                     filter,

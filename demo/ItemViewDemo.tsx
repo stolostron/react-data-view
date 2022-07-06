@@ -1,7 +1,18 @@
-import { Tab, Tabs } from '@patternfly/react-core'
+import { ButtonVariant, Checkbox, Dropdown, DropdownItem, DropdownPosition, DropdownToggle, Tab, Tabs } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
-import { Fragment, useCallback, useMemo } from 'react'
-import { CatalogCardItemType, DateCell, ICatalogCard, IconText, IDataFilter, ITableColumn, ItemView, IToolbarAction, Labels } from '../src'
+import { Fragment, useCallback, useMemo, useState } from 'react'
+import {
+    CatalogCardItemType,
+    DateCell,
+    ICatalogCard,
+    IconText,
+    IItemFilter,
+    ITableColumn,
+    ItemView,
+    IToolbarAction,
+    Labels,
+    ToolbarActionType,
+} from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { IItemAction } from '../src/ItemActions'
 import { PageHeader } from '../src/PageHeader'
@@ -11,6 +22,9 @@ import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 
 export function ItemViewDemo() {
     const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
+
+    const [actionsOpen, setActionsOpen] = useState(false)
+    const [useBulkActions, setUseBuldActions] = useState(true)
 
     const keyFn = useCallback((task: IMockTask) => task.id, [])
 
@@ -38,18 +52,25 @@ export function ItemViewDemo() {
         []
     )
 
-    const toolbarActions: IToolbarAction<IMockTask>[] = [
-        {
-            type: 'primary',
-            label: 'Create',
-            onClick: createItem,
-        },
-        {
-            type: 'bulk',
-            label: 'Delete',
-            onClick: deleteItems,
-        },
-    ]
+    const toolbarActions = useMemo(() => {
+        const newToolbarActions: IToolbarAction<IMockTask>[] = [
+            {
+                type: ToolbarActionType.button,
+                variant: ButtonVariant.primary,
+                label: 'Create',
+                onClick: createItem,
+            },
+        ]
+        if (useBulkActions) {
+            newToolbarActions.push({
+                type: ToolbarActionType.bulk,
+                variant: ButtonVariant.secondary,
+                label: 'Delete',
+                onClick: deleteItems,
+            })
+        }
+        return newToolbarActions
+    }, [createItem, deleteItems, useBulkActions])
 
     const actions: IItemAction<IMockTask>[] = [
         { label: 'Some action', onClick: () => null },
@@ -58,7 +79,7 @@ export function ItemViewDemo() {
         { label: 'Third action', onClick: () => null },
     ]
 
-    const statusFilter = useMemo<IDataFilter<IMockTask>>(
+    const statusFilter = useMemo<IItemFilter<IMockTask>>(
         () => ({
             label: 'Status',
             options: [
@@ -69,7 +90,7 @@ export function ItemViewDemo() {
         }),
         []
     )
-    const colorsFilter = useMemo<IDataFilter<IMockTask>>(
+    const colorsFilter = useMemo<IItemFilter<IMockTask>>(
         () => ({
             label: 'Colors',
             options: colors.map((color) => ({ label: color, value: color })),
@@ -86,7 +107,7 @@ export function ItemViewDemo() {
         []
     )
 
-    const labelFilter = useMemo<IDataFilter<IMockTask>>(
+    const labelFilter = useMemo<IItemFilter<IMockTask>>(
         () => ({
             label: 'Labels',
             options: mockLabels.map((label) => ({ label: label, value: label })),
@@ -154,6 +175,29 @@ export function ItemViewDemo() {
                     <Tabs hasBorderBottom={false}>
                         <Tab title="DataView" eventKey={0}></Tab>
                     </Tabs>
+                }
+                actions={
+                    <Dropdown
+                        position={DropdownPosition.right}
+                        toggle={
+                            <DropdownToggle isPrimary id="toggle-position-right" onToggle={() => setActionsOpen((open) => !open)}>
+                                Options
+                            </DropdownToggle>
+                        }
+                        isOpen={actionsOpen}
+                        dropdownItems={[
+                            <DropdownItem key="useBulkActions">
+                                <Checkbox
+                                    id="useBulkActions"
+                                    label="Use bulk actions"
+                                    isChecked={useBulkActions}
+                                    onClick={() => {
+                                        setUseBuldActions(!useBulkActions)
+                                    }}
+                                />
+                            </DropdownItem>,
+                        ]}
+                    />
                 }
             />
             <ItemView
