@@ -169,11 +169,11 @@ export function ItemViewDemo() {
     return (
         <Fragment>
             <PageHeader
-                title="Data View"
+                title="Item View"
                 breadcrumbs={breadcrumbs}
                 navigation={
                     <Tabs hasBorderBottom={false}>
-                        <Tab title="DataView" eventKey={0}></Tab>
+                        <Tab title="Item demo" eventKey={0}></Tab>
                     </Tabs>
                 }
                 actions={

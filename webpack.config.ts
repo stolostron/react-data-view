@@ -40,7 +40,7 @@ module.exports = function (_env: unknown, argv: { hot: boolean; mode: string | u
                 'process.env.NODE_ENV': isProduction ? JSON.stringify('production') : JSON.stringify('development'),
             }),
             isDevelopment && new ReactRefreshWebpackPlugin(),
-            new HtmlWebpackPlugin({ title: 'Data View', favicon: 'assets/favicon.svg' }),
+            new HtmlWebpackPlugin({ title: 'Item View', favicon: 'assets/favicon.svg' }),
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash:8].css',
                 chunkFilename: '[id].[contenthash:8].css',

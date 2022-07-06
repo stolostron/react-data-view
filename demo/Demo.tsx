@@ -65,7 +65,7 @@ function DemoHeader() {
                 <MastheadMain>
                     <MastheadBrand>
                         <Title headingLevel="h2" style={{ color: 'white' }}>
-                            <Truncate content="Stolostron / React Data View" />
+                            <Truncate content="Stolostron / React Item View" />
                         </Title>
                     </MastheadBrand>
                 </MastheadMain>
@@ -73,7 +73,7 @@ function DemoHeader() {
                 <MastheadMain>
                     <MastheadBrand>
                         <Title headingLevel="h2" style={{ color: 'white' }}>
-                            <Truncate content="Data View" />
+                            <Truncate content="Item View" />
                         </Title>
                     </MastheadBrand>
                 </MastheadMain>

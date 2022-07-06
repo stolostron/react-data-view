@@ -13,11 +13,11 @@ export function Home() {
         const cards: ICatalogCard[] = [
             {
                 id: 'demo',
-                title: 'Data View Demo',
+                title: 'Item View Demo',
                 items: [
                     {
                         type: CatalogCardItemType.Description,
-                        description: 'Demo showing a data view with 100,000 items.',
+                        description: 'Demo showing an item view with 100,000 items.',
                     },
                     {
                         type: CatalogCardItemType.List,
@@ -61,8 +61,8 @@ export function Home() {
     return (
         <Fragment>
             <PageHeader
-                title="React Data View"
-                description="A react component for viewing data as a table or catalog card view."
+                title="React Item View"
+                description="A react component for viewing items as a table or catalog card view."
                 breadcrumbs={breadcrumbs}
             />
             <ItemView items={cards} itemKeyFn={keyFn} itemToCardFn={(card) => card} />
