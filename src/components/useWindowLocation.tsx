@@ -51,12 +51,13 @@ export function useWindowHistory() {
 
 export function useSearchParams(): [URLSearchParams, (setSearchParams: URLSearchParams) => void] {
     const history = useWindowHistory()
+    const pathname = history.location?.pathname || '/'
     const searchParams = useMemo<URLSearchParams>(() => new URLSearchParams(history.location?.search ?? '/'), [history.location?.search])
     const setSearchParams = useCallback(
         (searchParams: URLSearchParams) => {
             const newSearch = searchParams.toString()
             if (newSearch) history.update('?' + newSearch)
-            else history.update('/')
+            else history.update(pathname)   // retain the existing pathname
         },
         [history]
     )
