@@ -57,9 +57,9 @@ export function useSearchParams(): [URLSearchParams, (setSearchParams: URLSearch
         (searchParams: URLSearchParams) => {
             const newSearch = searchParams.toString()
             if (newSearch) history.update('?' + newSearch)
-            else history.update(pathname)   // retain the existing pathname
+            else history.update(pathname) // retain the existing pathname
         },
-        [history]
+        [history, pathname]
     )
     return [searchParams, setSearchParams]
 }
