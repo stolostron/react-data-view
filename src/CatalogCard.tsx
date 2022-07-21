@@ -57,6 +57,7 @@ export interface ICatalogCard {
     badge?: string
     badgeColor?: CatalogColor
     onClick?: () => void
+    additionalContent?: React.ReactNode
 }
 
 export interface ICatalogCardFeatureGroup {
@@ -156,8 +157,8 @@ export function CatalogCard<T extends object>(props: {
             style={{
                 transition: 'box-shadow 0.25s',
                 cursor: card.onClick ? 'pointer' : undefined,
-                opacity: card.onClick ? undefined : '0.5',
             }}
+            isDisabledRaised={!card.onClick}
         >
             <CardHeader>
                 <Split hasGutter style={{ width: '100%' }}>
@@ -262,6 +263,7 @@ export function CatalogCard<T extends object>(props: {
                     </div>
                 </CardFooter>
             )}
+            {card.additionalContent}
         </Card>
     )
 }
