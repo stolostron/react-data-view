@@ -12,6 +12,7 @@ import {
     SplitItem,
     Toolbar,
     ToolbarContent,
+    ToolbarItem,
 } from '@patternfly/react-core'
 import Fuse from 'fuse.js'
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -37,6 +38,7 @@ export enum ItemViewTypeE {
 export function ItemView<T extends object>(props: {
     items?: T[]
     onBack?: () => void
+    onCancel?: () => void
     columns?: ITableColumn<T>[]
     itemActions?: IItemAction<T>[]
     itemKeyFn: (item: T) => string
@@ -208,9 +210,10 @@ export function ItemView<T extends object>(props: {
 
     const { openColumnModal, columnModal, managedColumns } = useColumnModal(columns ?? [])
     const showBackButton = props.onBack !== undefined
+    const showCancelButton = props.onCancel !== undefined
     const showPagination = filtered.length > perPage
     const showBottomToolbarBorder = useWindowSizeOrLarger(WindowSize.md)
-    const showBottomToolbar = viewType === ItemViewTypeE.Catalog && (showBackButton || showPagination)
+    const showBottomToolbar = viewType === ItemViewTypeE.Catalog && (showBackButton || showCancelButton || showPagination)
     const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
 
     const showSelect = toolbarActionsHaveBulkActions(toolbarActions)
@@ -295,17 +298,30 @@ export function ItemView<T extends object>(props: {
                                             )}
                                         </Scrollable>
                                         {showBottomToolbar &&
-                                            (showBackButton || showBottomToolbarBorder ? (
+                                            (showBackButton || showCancelButton || showBottomToolbarBorder ? (
                                                 <PageSection
                                                     variant="light"
                                                     padding={{ default: 'noPadding' }}
                                                     style={{ borderTop: 'thin solid var(--pf-global--BorderColor--100)', flexGrow: 0 }}
                                                 >
                                                     <Split>
-                                                        {showBackButton && (
+                                                        {(showBackButton || showCancelButton) && (
                                                             <Toolbar>
                                                                 <ToolbarContent>
-                                                                    {props.onBack && <Button onClick={props.onBack}>Back</Button>}
+                                                                    {props.onBack && (
+                                                                        <ToolbarItem>
+                                                                            <Button onClick={props.onBack} variant="secondary">
+                                                                                Back
+                                                                            </Button>
+                                                                        </ToolbarItem>
+                                                                    )}
+                                                                    {props.onCancel && (
+                                                                        <ToolbarItem>
+                                                                            <Button onClick={props.onCancel} variant="link">
+                                                                                Cancel
+                                                                            </Button>
+                                                                        </ToolbarItem>
+                                                                    )}
                                                                 </ToolbarContent>
                                                             </Toolbar>
                                                         )}
