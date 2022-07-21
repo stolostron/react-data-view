@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
+    Alert,
     Button,
     Card,
     CardActions,
@@ -56,6 +57,9 @@ export interface ICatalogCard {
     learnMore?: string
     badge?: string
     badgeColor?: CatalogColor
+    alertTitle?: string
+    alertContent?: ReactNode
+    alertVariant?: 'success' | 'danger' | 'warning' | 'info' | 'default'
     onClick?: () => void
 }
 
@@ -144,6 +148,8 @@ export function CatalogCard<T extends object>(props: {
         [item, itemActions]
     )
 
+    const disabled = !card.onClick
+
     return (
         <Card
             id={card.id}
@@ -151,15 +157,14 @@ export function CatalogCard<T extends object>(props: {
             onClick={card.onClick}
             isFlat
             isLarge
-            isSelectable={card.onClick !== undefined}
+            isSelectable={!disabled}
             isRounded
             style={{
                 transition: 'box-shadow 0.25s',
-                cursor: card.onClick ? 'pointer' : undefined,
-                opacity: card.onClick ? undefined : '0.5',
+                cursor: !disabled ? 'pointer' : undefined,
             }}
         >
-            <CardHeader>
+            <CardHeader style={{ opacity: !disabled ? undefined : '0.5' }}>
                 <Split hasGutter style={{ width: '100%' }}>
                     <SplitItem isFilled>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -216,7 +221,7 @@ export function CatalogCard<T extends object>(props: {
             </CardHeader>
             {card.items && (
                 <Scrollable>
-                    <CardBody style={{ paddingTop: 0 }}>
+                    <CardBody style={{ paddingTop: 0, opacity: !disabled ? undefined : '0.5' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                             {card.items &&
                                 card.items.map((item, index) => {
@@ -238,7 +243,7 @@ export function CatalogCard<T extends object>(props: {
             {(card.labels || card.learnMore) && (
                 <CardFooter>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', gap: 16 }}>
-                        <div style={{ flexGrow: 1 }}>
+                        <div style={{ flexGrow: 1, opacity: !disabled ? undefined : '0.5' }}>
                             {card.labels && (
                                 <LabelGroup>
                                     {card.labels.map((item) => (
@@ -261,6 +266,11 @@ export function CatalogCard<T extends object>(props: {
                         )}
                     </div>
                 </CardFooter>
+            )}
+            {card.alertTitle && (
+                <Alert title={card.alertTitle} isInline variant={card.alertVariant}>
+                    {card.alertContent}
+                </Alert>
             )}
         </Card>
     )

@@ -1,7 +1,9 @@
+import { Split, SplitItem } from '@patternfly/react-core'
 import {
     AmazonIcon,
     AzureIcon,
     CloudIcon,
+    ExternalLinkAltIcon,
     GoogleIcon,
     OpenstackIcon,
     RedhatIcon,
@@ -61,6 +63,16 @@ export function Infrastructure() {
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 // onClick: () => history.push(RouteE.ControlPlane),
+                alertTitle: 'Operator must be enabled in order to continue',
+                alertVariant: 'info',
+                alertContent: (
+                    <a href=".">
+                        <Split hasGutter>
+                            <SplitItem>View documentation</SplitItem>
+                            <ExternalLinkAltIcon />
+                        </Split>
+                    </a>
+                ),
             },
             {
                 id: 'google',
