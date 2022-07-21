@@ -316,7 +316,11 @@ export function ItemView<T extends object>(props: {
                                                                         </ToolbarItem>
                                                                     )}
                                                                     {props.onCancel && (
-                                                                        <ToolbarItem>
+                                                                        <ToolbarItem
+                                                                            style={{
+                                                                                paddingLeft: 32, // var(--pf-c-wizard__footer-cancel--MarginLeft)
+                                                                            }}
+                                                                        >
                                                                             <Button onClick={props.onCancel} variant="link">
                                                                                 Cancel
                                                                             </Button>

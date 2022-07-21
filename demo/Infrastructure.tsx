@@ -141,11 +141,12 @@ export function Infrastructure() {
     const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Infrastructure' }], [])
 
     const onBack = useCallback(() => history.push(RouteE.Home), [history])
+    const onCancel = useCallback(() => history.push(RouteE.Home), [history])
 
     return (
         <Fragment>
             <PageHeader title="Infrastructure" description="First, choose your infrastructure provider." breadcrumbs={breadcrumbs} />
-            <ItemView items={cards} itemKeyFn={keyFn} itemToCardFn={(card) => card} onBack={onBack} />
+            <ItemView items={cards} itemKeyFn={keyFn} itemToCardFn={(card) => card} onBack={onBack} onCancel={onCancel} />
         </Fragment>
     )
 }
