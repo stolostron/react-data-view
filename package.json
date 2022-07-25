@@ -17,7 +17,7 @@
         "eslint": "eslint src demo",
         "prettier": "prettier --check src demo",
         "prettier:fix": "prettier --write src demo",
-        "upgrade": "npx npm-check-updates '/^@patternfly.*$/' --upgrade --target latest && npx npm-check-updates '/^(?!@patternfly).*$/' --upgrade --target minor"
+        "upgrade": "npx npm-check-updates '/^@patternfly.*$/' --upgrade --target latest && npx npm-check-updates '/^(?!@patternfly).*$/' --upgrade --target minor && npm audit fix"
     },
     "repository": {
         "type": "git",
