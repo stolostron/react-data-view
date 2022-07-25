@@ -7,6 +7,7 @@ jobs:
     npm-check-updates:
         if: (github.event_name == 'schedule' && github.repository == 'stolostron/react-data-view') || (github.event_name != 'schedule')
         runs-on: ubuntu-latest
+        concurrency: react-data-view
         steps:
             - uses: actions/checkout@v2
               with:
@@ -20,4 +21,4 @@ jobs:
             - uses: EndBug/add-and-commit@v7
               with:
                   default_author: github_actions
-                  message: Upgraded package dependencies (skip-ci)
+                  message: Upgraded package dependencies [skip ci]
