@@ -18,6 +18,7 @@ import {
     LabelGroup,
     List,
     ListItem,
+    Popover,
     Split,
     SplitItem,
     Stack,
@@ -25,7 +26,7 @@ import {
     Title,
     Truncate,
 } from '@patternfly/react-core'
-import { ExternalLinkAltIcon } from '@patternfly/react-icons'
+import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
@@ -96,6 +97,12 @@ export enum CatalogCardListItemIcon {
 
 export interface ICatalogCardListItem {
     icon?: ReactNode
+    text: string
+    help?: ICatalogPopover
+}
+
+export interface ICatalogPopover {
+    title?: string
     text: string
 }
 
@@ -314,6 +321,24 @@ export function CardList(props: { title: string; icon?: ReactNode; items: ICatal
                     return (
                         <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
                             {listItem.text}
+
+                            {listItem.help && (
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                                <div onClick={(e) => e.stopPropagation()}>
+                                    <Popover headerContent={listItem.help.title} bodyContent={listItem.help.text}>
+                                        <Button
+                                            variant="link"
+                                            style={{
+                                                padding: 0,
+                                                marginLeft: '8px',
+                                                verticalAlign: 'middle',
+                                            }}
+                                        >
+                                            <OutlinedQuestionCircleIcon />
+                                        </Button>
+                                    </Popover>
+                                </div>
+                            )}
                         </ListItem>
                     )
                 })}
