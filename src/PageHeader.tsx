@@ -108,28 +108,3 @@ export function PageHeader(props: {
         </div>
     )
 }
-
-{
-    /* <TextContent>
-                                                    <Title headingLevel="h1">
-                                                        {props.title}
-                                                        {props.titleTooltip && (
-                                                            <Popover
-                                                                bodyContent={props.titleTooltip}
-                                                              
-                                                            >
-                                                                <Button
-                                                                    variant="link"
-                                                                    style={{
-                                                                        padding: 0,
-                                                                        marginLeft: '8px',
-                                                                        verticalAlign: 'middle',
-                                                                    }}
-                                                                >
-                                                                    <OutlinedQuestionCircleIcon />
-                                                                </Button>
-                                                            </Popover>
-                                                        )}
-                                                    </Title>
-                                                </TextContent> */
-}
