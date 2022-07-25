@@ -96,7 +96,7 @@ export enum CatalogCardListItemIcon {
 
 export interface ICatalogCardListItem {
     icon?: ReactNode
-    text: string
+    text: string | ReactNode
 }
 
 export type CatalogCardItem = ICatalogCardDescription | ICatalogCardList
