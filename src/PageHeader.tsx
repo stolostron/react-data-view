@@ -1,6 +1,8 @@
-import { Breadcrumb, BreadcrumbItem, PageSection, Split, SplitItem, Text, Title } from '@patternfly/react-core'
+import { Breadcrumb, BreadcrumbItem, Button, PageSection, Popover, Split, SplitItem, Text, Title } from '@patternfly/react-core'
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode } from 'react'
 import { useHistory } from 'react-router-dom'
+import { ICatalogPopover } from './CatalogCard'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { ThemeE, useTheme } from './Theme'
 
@@ -40,6 +42,7 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
 export function PageHeader(props: {
     breadcrumbs?: ICatalogBreadcrumb[]
     title?: string
+    titleHelp?: ICatalogPopover
     description?: string
     navigation?: ReactNode
     actions?: ReactNode
@@ -66,7 +69,25 @@ export function PageHeader(props: {
                                     <Breadcrumbs breadcrumbs={breadcrumbs} />
                                 </div>
                             )}
-                            {title && <Title headingLevel="h1">{title}</Title>}
+                            {title && (
+                                <Title headingLevel="h1">
+                                    {title}
+                                    {props.titleHelp && (
+                                        <Popover headerContent={props.titleHelp.title} bodyContent={props.titleHelp.text}>
+                                            <Button
+                                                variant="link"
+                                                style={{
+                                                    padding: 0,
+                                                    marginLeft: '8px',
+                                                    verticalAlign: 'middle',
+                                                }}
+                                            >
+                                                <OutlinedQuestionCircleIcon />
+                                            </Button>
+                                        </Popover>
+                                    )}
+                                </Title>
+                            )}
                             {description && (
                                 <Text component="p" style={{ opacity: 0.85, paddingTop: 2 }}>
                                     {description}
@@ -86,4 +107,29 @@ export function PageHeader(props: {
             </Split>
         </div>
     )
+}
+
+{
+    /* <TextContent>
+                                                    <Title headingLevel="h1">
+                                                        {props.title}
+                                                        {props.titleTooltip && (
+                                                            <Popover
+                                                                bodyContent={props.titleTooltip}
+                                                              
+                                                            >
+                                                                <Button
+                                                                    variant="link"
+                                                                    style={{
+                                                                        padding: 0,
+                                                                        marginLeft: '8px',
+                                                                        verticalAlign: 'middle',
+                                                                    }}
+                                                                >
+                                                                    <OutlinedQuestionCircleIcon />
+                                                                </Button>
+                                                            </Popover>
+                                                        )}
+                                                    </Title>
+                                                </TextContent> */
 }
