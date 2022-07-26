@@ -1,8 +1,9 @@
-import { Label, LabelGroup, Split, SplitItem } from '@patternfly/react-core'
+import { ClipboardCopy, Label, LabelGroup, Split, SplitItem, Truncate } from '@patternfly/react-core'
 import { DateTime } from 'luxon'
 import { Fragment, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { IconWrapper } from './components/IconWrapper'
+import { getPatternflyColor, PatternFlyColor } from './components/patternfly-colors'
 
 type CellFn<T extends object> = (item: T) => ReactNode
 
@@ -37,7 +38,13 @@ export function DateCell(props: { value: number | string }) {
     )
 }
 
-export function TextCell(props: { icon?: ReactNode; text: string; iconSize?: 'sm' | 'md' | 'lg'; to?: string }) {
+export function TextCell(props: {
+    icon?: ReactNode
+    text: string
+    iconSize?: 'sm' | 'md' | 'lg'
+    to?: string
+    textColor?: PatternFlyColor
+}) {
     return (
         <Split>
             {props.icon && (
@@ -50,9 +57,26 @@ export function TextCell(props: { icon?: ReactNode; text: string; iconSize?: 'sm
                     <Link to={props.to}>{props.text}</Link>
                 </SplitItem>
             ) : (
-                <SplitItem>{props.text}</SplitItem>
+                <SplitItem style={{ color: props.textColor ? getPatternflyColor(props.textColor) : undefined }}>{props.text}</SplitItem>
             )}
         </Split>
+    )
+}
+
+export function CopyCell(props: { text?: string; minWidth?: number }) {
+    if (!props.text) return <></>
+    return (
+        <ClipboardCopy
+            hoverTip="Copy"
+            clickTip="Copied"
+            variant="inline-compact"
+            style={{ display: 'flex', flexWrap: 'nowrap', borderRadius: 4 }}
+            onCopy={() => {
+                void navigator.clipboard.writeText(props.text ?? '')
+            }}
+        >
+            <Truncate content={props.text} style={{ minWidth: props.minWidth }} />
+        </ClipboardCopy>
     )
 }
 

@@ -135,7 +135,11 @@ export function PageToolbar<T extends object>(props: {
                                     case ButtonVariant.secondary:
                                         return (
                                             <OverflowMenuItem key={action.label}>
-                                                <Button variant={action.variant} onClick={() => action.onClick(selected)}>
+                                                <Button
+                                                    variant={action.variant}
+                                                    onClick={() => action.onClick(selected)}
+                                                    isDisabled={action.type === ToolbarActionType.bulk && selected.length === 0}
+                                                >
                                                     {action.label}
                                                 </Button>
                                             </OverflowMenuItem>

@@ -10,6 +10,10 @@ import {
     CardHeader,
     CardTitle,
     Checkbox,
+    DescriptionList,
+    DescriptionListDescription,
+    DescriptionListGroup,
+    DescriptionListTerm,
     Dropdown,
     DropdownItem,
     DropdownSeparator,
@@ -85,6 +89,7 @@ export interface ICatalogCardList {
     type: CatalogCardItemType.List
     title: string
     items: ICatalogCardListItem[]
+    horizontal?: boolean
     icon?: ReactNode
 }
 
@@ -229,21 +234,34 @@ export function CatalogCard<T extends object>(props: {
             {card.items && (
                 <Scrollable>
                     <CardBody style={{ paddingTop: 0, opacity: !disabled ? undefined : '0.5' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                        <DescriptionList>
                             {card.items &&
                                 card.items.map((item, index) => {
                                     switch (item.type) {
                                         case CatalogCardItemType.Description:
                                             return (
-                                                <CardSection key={index} title={item.title}>
-                                                    <span style={{ opacity: 9 }}>{item.description}</span>
-                                                </CardSection>
+                                                <DescriptionList>
+                                                    <DescriptionListGroup>
+                                                        <CardSection key={index} title={item.title}>
+                                                            <span style={{ opacity: 9 }}>{item.description}</span>
+                                                        </CardSection>
+                                                    </DescriptionListGroup>
+                                                </DescriptionList>
                                             )
                                         case CatalogCardItemType.List:
-                                            return <CardList title={item.title} icon={item.icon} items={item.items} />
+                                            return (
+                                                <DescriptionList orientation={item.horizontal ? { sm: 'horizontal' } : undefined}>
+                                                    <DescriptionListGroup>
+                                                        <DescriptionListTerm>{item.title}</DescriptionListTerm>
+                                                        <DescriptionListDescription>
+                                                            <CardList icon={item.icon} items={item.items} />
+                                                        </DescriptionListDescription>
+                                                    </DescriptionListGroup>
+                                                </DescriptionList>
+                                            )
                                     }
                                 })}
-                        </div>
+                        </DescriptionList>
                     </CardBody>
                 </Scrollable>
             )}
@@ -298,51 +316,51 @@ export function CardSection(props: { title?: string; children: ReactNode }) {
     )
 }
 
-export function CardList(props: { title: string; icon?: ReactNode; items: ICatalogCardListItem[] }) {
+export function CardList(props: { title?: string; icon?: ReactNode; items: ICatalogCardListItem[] }) {
     const { title, items, icon } = props
     return (
-        <CardSection title={title}>
-            <List isPlain>
-                {items?.map((listItem, index) => {
-                    let itemIcon: ReactNode
-                    if (listItem.icon) {
-                        itemIcon = (
-                            <IconWrapper size="md" noPadding>
-                                {listItem.icon}
-                            </IconWrapper>
-                        )
-                    } else if (icon) {
-                        itemIcon = (
-                            <IconWrapper size="md" noPadding>
-                                {icon}
-                            </IconWrapper>
-                        )
-                    }
-                    return (
-                        <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
-                            {listItem.text}
-
-                            {listItem.help && (
-                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                                <div onClick={(e) => e.stopPropagation()}>
-                                    <Popover headerContent={listItem.help.title} bodyContent={listItem.help.text}>
-                                        <Button
-                                            variant="link"
-                                            style={{
-                                                padding: 0,
-                                                marginLeft: '8px',
-                                                verticalAlign: 'middle',
-                                            }}
-                                        >
-                                            <OutlinedQuestionCircleIcon />
-                                        </Button>
-                                    </Popover>
-                                </div>
-                            )}
-                        </ListItem>
+        // <CardSection title={title}>
+        <List isPlain>
+            {items?.map((listItem, index) => {
+                let itemIcon: ReactNode
+                if (listItem.icon) {
+                    itemIcon = (
+                        <IconWrapper size="md" noPadding>
+                            {listItem.icon}
+                        </IconWrapper>
                     )
-                })}
-            </List>
-        </CardSection>
+                } else if (icon) {
+                    itemIcon = (
+                        <IconWrapper size="md" noPadding>
+                            {icon}
+                        </IconWrapper>
+                    )
+                }
+                return (
+                    <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
+                        {listItem.text}
+
+                        {listItem.help && (
+                            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                            <div onClick={(e) => e.stopPropagation()}>
+                                <Popover headerContent={listItem.help.title} bodyContent={listItem.help.text}>
+                                    <Button
+                                        variant="link"
+                                        style={{
+                                            padding: 0,
+                                            marginLeft: '8px',
+                                            verticalAlign: 'middle',
+                                        }}
+                                    >
+                                        <OutlinedQuestionCircleIcon />
+                                    </Button>
+                                </Popover>
+                            </div>
+                        )}
+                    </ListItem>
+                )
+            })}
+        </List>
+        // </CardSection>
     )
 }

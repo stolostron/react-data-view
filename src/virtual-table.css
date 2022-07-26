@@ -90,7 +90,9 @@
 }
 :root:where(.pf-theme-dark) .vtable table.scroll-left tr th:nth-child(2):after,
 :root:where(.pf-theme-dark) .vtable table.scroll-left tr td:nth-child(2):after {
-    background: linear-gradient(to right, #0007, #0000);
+    background: linear-gradient(to right, #0008, #0000);
+    right: -12px;
+    width: 12px;
 }
 .vtable table.scroll-left tr th:nth-child(2):after,
 .vtable table.scroll-left tr td:nth-child(2):after {
@@ -124,7 +126,9 @@
 :root:where(.pf-theme-dark) .vtable table.scroll-left tr td:nth-child(2):before,
 :root:where(.pf-theme-dark) .vtable table.scroll-right tr th:last-child::before,
 :root:where(.pf-theme-dark) .vtable table.scroll-right tr td:last-child::before {
-    background: linear-gradient(to left, #0007, #0000);
+    background: linear-gradient(to left, #0008, #0000);
+    width: 12px;
+    left: -12px;
 }
 .vtable table.scroll-left tr th:nth-child(2):before,
 .vtable table.scroll-left tr td:nth-child(2):before,

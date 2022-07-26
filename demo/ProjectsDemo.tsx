@@ -1,17 +1,11 @@
-import {
-    ButtonVariant,
-    Checkbox,
-    ClipboardCopy,
-    Dropdown,
-    DropdownItem,
-    DropdownPosition,
-    DropdownToggle,
-    Truncate,
-} from '@patternfly/react-core'
+import { ButtonVariant } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon, GitAltIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
+    CatalogCardItemType,
+    CopyCell,
     getPatternflyColor,
+    ICatalogCard,
     IItemFilter,
     ITableColumn,
     ItemView,
@@ -593,6 +587,8 @@ const data: RootObject = {
 export function ProjectsDemo() {
     const [items, setItems] = useState(data.results)
 
+    const createItem = () => null
+
     const deleteItems = useCallback((deleteItems: IProject[]) => {
         setItems((items) => {
             items = items.filter((item) => !deleteItems.includes(item))
@@ -617,7 +613,7 @@ export function ProjectsDemo() {
                 header: 'Status',
                 cell: (project) => {
                     const status = getProjectStatus(project)
-                    return <TextCell icon={status.icon} text={status.text} iconSize="sm" />
+                    return <TextCell icon={status.icon} text={status.text} iconSize="sm" textColor={PatternFlyColor.Green} />
                 },
                 sortFn: (l, r) => l.status.localeCompare(r.status),
             },
@@ -631,17 +627,7 @@ export function ProjectsDemo() {
             },
             {
                 header: 'Revision',
-                cell: (project) => (
-                    <ClipboardCopy
-                        hoverTip="Copy"
-                        clickTip="Copied"
-                        variant="inline-compact"
-                        // isCode
-                        style={{ display: 'flex', flexWrap: 'nowrap', borderRadius: 4 }}
-                    >
-                        <Truncate content={project.scm_revision} />
-                    </ClipboardCopy>
-                ),
+                cell: (project) => <CopyCell text={project.scm_revision} minWidth={60} />,
                 sortFn: (l, r) => l.scm_revision.localeCompare(r.scm_revision),
             },
             {
@@ -656,7 +642,14 @@ export function ProjectsDemo() {
                             />
                         )
                     }
-                    return <span style={{ color: getPatternflyColor(PatternFlyColor.Red) }}>Deleted</span>
+                    return (
+                        <TextCell
+                            icon={<ExclamationCircleIcon color={getPatternflyColor(PatternFlyColor.Red)} />}
+                            iconSize="sm"
+                            text="Deleted"
+                            textColor={PatternFlyColor.Red}
+                        />
+                    )
                 },
                 sortFn: (l, r) => (l.summary_fields.organization?.name ?? '').localeCompare(r.summary_fields.organization?.name ?? ''),
             },
@@ -680,32 +673,37 @@ export function ProjectsDemo() {
         []
     )
 
-    const [useBulkActions, setUseBuldActions] = useState(true)
     const toolbarActions = useMemo(() => {
-        const newToolbarActions: IToolbarAction<IProject>[] = []
-
-        //     {
-        //         type: ToolbarActionType.button,
-        //         variant: ButtonVariant.primary,
-        //         label: 'Create',
-        //         onClick: createItem,
-        //     },
-        // ]
-        if (useBulkActions) {
-            newToolbarActions.push({
-                type: ToolbarActionType.bulk,
-                variant: ButtonVariant.secondary,
-                label: 'Delete',
-                onClick: deleteItems,
-            })
-        }
+        const newToolbarActions: IToolbarAction<IProject>[] = [
+            {
+                type: ToolbarActionType.button,
+                variant: ButtonVariant.primary,
+                label: 'Create',
+                onClick: createItem,
+            },
+        ]
+        newToolbarActions.push({
+            type: ToolbarActionType.bulk,
+            variant: ButtonVariant.secondary,
+            label: 'Delete',
+            onClick: deleteItems,
+        })
+        newToolbarActions.push({
+            type: ToolbarActionType.bulk,
+            label: 'Sync',
+            onClick: () => null,
+        })
         return newToolbarActions
-    }, [deleteItems, useBulkActions])
+    }, [deleteItems])
 
-    const [useItemActions, setUseItemActions] = useState(true)
     const actions: IItemAction<IProject>[] | undefined = useMemo(
-        () => (useItemActions ? [{ label: 'Delete', onClick: (item) => deleteItems([item]) }] : undefined),
-        [deleteItems, useItemActions]
+        () => [
+            { label: 'Sync', onClick: () => null },
+            { label: 'Edit', onClick: () => null },
+            { label: 'Copy', onClick: () => null },
+            { label: 'Delete', onClick: (item: IProject) => deleteItems([item]) },
+        ],
+        [deleteItems]
     )
 
     const statusFilter = useMemo<IItemFilter<IProject>>(
@@ -719,85 +717,125 @@ export function ProjectsDemo() {
         }),
         []
     )
-    // const colorsFilter = useMemo<IItemFilter<IProject>>(
-    //     () => ({
-    //         label: 'Colors',
-    //         options: colors.map((color) => ({ label: color, value: color })),
-    //         filter: (item: IProject, values: string[]) => {
-    //             // TODO values as Record<string,boolean> for performance
-    //             for (const value of values) {
-    //                 if (item.colors.includes(value)) {
-    //                     return true
-    //                 }
-    //             }
-    //             return false
-    //         },
-    //     }),
-    //     []
-    // )
+    const typeFilter = useMemo<IItemFilter<IProject>>(
+        () => ({
+            label: 'Type',
+            options: [{ label: 'Git', value: 'git' }],
+            filter: (item: IProject, values: string[]) => {
+                // TODO values as Record<string,boolean> for performance
+                for (const value of values) {
+                    if (item.scm_type === value) {
+                        return true
+                    }
+                }
+                return false
+            },
+        }),
+        []
+    )
 
-    // const labelFilter = useMemo<IItemFilter<IProject>>(
-    //     () => ({
-    //         label: 'Labels',
-    //         options: mockLabels.map((label) => ({ label: label, value: label })),
-    //         filter: (item: IProject, values: string[]) => {
-    //             // TODO values as Record<string,boolean> for performance
-    //             for (const value of values) {
-    //                 if (item.labels.includes(value)) {
-    //                     return true
-    //                 }
-    //             }
-    //             return false
-    //         },
-    //     }),
-    //     []
-    // )
+    const filters = useMemo(() => [statusFilter, typeFilter], [statusFilter, typeFilter])
 
-    // const filters = useMemo(() => [statusFilter, colorsFilter, labelFilter], [labelFilter, colorsFilter, statusFilter])
-    const filters = useMemo(() => [statusFilter], [statusFilter])
+    const horizontal = true
+    const taskToCardFn = useCallback<(task: IProject) => ICatalogCard>(
+        (project) => {
+            const card: ICatalogCard = {
+                // icon: task.icon,
+                id: project.id.toString(),
+                title: project.name,
+                // labels: task.labels.map((label) => ({ label })),
+                onClick: () => null,
+            }
+            if (!card.items) card.items = []
 
-    // const taskToCardFn = useCallback<(task: IProject) => ICatalogCard>((project) => {
-    //     const card: ICatalogCard = {
-    //         // icon: task.icon,
-    //         id: project.id.toString(),
-    //         title: project.name,
-    //         // labels: task.labels.map((label) => ({ label })),
-    //         onClick: () => null,
-    //     }
-    //     // if (task.description) {
-    //     //     if (!card.items) card.items = []
-    //     //     card.items.push({
-    //     //         type: CatalogCardItemType.Description,
-    //     //         description: task.description,
-    //     //     })
-    //     // }
-    //     if (project.status) {
-    //         if (!card.items) card.items = []
-    //         card.items.push({
-    //             type: CatalogCardItemType.List,
-    //             title: 'Status',
-    //             items: [
-    //                 {
-    //                     text: project.status,
-    //                     icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
-    //                 },
-    //             ],
-    //         })
-    //     }
-    //     // if (task.colors.length) {
-    //     //     if (!card.items) card.items = []
-    //     //     card.items.push({
-    //     //         type: CatalogCardItemType.List,
-    //     //         title: 'Colors',
-    //     //         items: task.colors.map((color) => ({ text: color })),
-    //     //         icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
-    //     //     })
-    //     // }
-    //     return card
-    // }, [])
+            if (project.description) {
+                card.items.push({
+                    type: CatalogCardItemType.Description,
+                    description: project.description,
+                })
+            }
 
-    const [useSearch, setUseSearch] = useState(true)
-    const searchKeys = useMemo(() => (useSearch ? [{ name: 'name' }] : undefined), [useSearch])
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Organization',
+                horizontal,
+                items: [{ text: project.summary_fields.organization?.name }],
+            })
+
+            const status = getProjectStatus(project)
+            if (project.status) {
+                if (!card.items) card.items = []
+                card.items.push({
+                    type: CatalogCardItemType.List,
+                    title: 'Last job status',
+                    horizontal,
+                    items: [status],
+                })
+            }
+
+            const scm = getProjectScm(project)
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Source control type',
+                horizontal,
+                items: [scm],
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Source control revision',
+                horizontal,
+                items: [{ text: project.scm_revision }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Source control URL',
+                horizontal,
+                items: [{ text: project.scm_url }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Branch',
+                horizontal,
+                items: [{ text: project.scm_branch }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Cache timeout',
+                horizontal,
+                items: [{ text: project.scm_update_cache_timeout.toString() }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Playbook directory',
+                horizontal,
+                items: [{ text: project.local_path }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Created',
+                horizontal,
+                items: [{ text: project.created }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Last modified',
+                horizontal,
+                items: [{ text: project.modified }], // TODO <CopyCell text={project.scm_revision} />
+            })
+
+            return card
+        },
+        [horizontal]
+    )
+
+    const searchKeys = useMemo(() => [{ name: 'name' }, { name: 'summary_fields.organization.name' }], [])
 
     const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Projects' }], [])
 
@@ -806,43 +844,10 @@ export function ProjectsDemo() {
             <PageHeader
                 title="Projects"
                 breadcrumbs={breadcrumbs}
-                // navigation={
-                //     <Tabs hasBorderBottom={false}>
-                //         <Tab title="Projects" eventKey={0}></Tab>
-                //     </Tabs>
-                // }
-                actions={
-                    <Dropdown
-                        position={DropdownPosition.right}
-                        toggle={
-                            <DropdownToggle isPrimary id="toggle-position-right" onToggle={() => setActionsOpen((open) => !open)}>
-                                Options
-                            </DropdownToggle>
-                        }
-                        isOpen={actionsOpen}
-                        dropdownItems={[
-                            <DropdownItem key="useBulkActions">
-                                <Checkbox
-                                    id="useBulkActions"
-                                    label="Use bulk actions"
-                                    isChecked={useBulkActions}
-                                    onChange={setUseBuldActions}
-                                />
-                            </DropdownItem>,
-                            <DropdownItem key="useSearch">
-                                <Checkbox id="useSearch" label="Use search" isChecked={useSearch} onChange={setUseSearch} />
-                            </DropdownItem>,
-                            <DropdownItem key="useItemActions">
-                                <Checkbox
-                                    id="useItemActions"
-                                    label="Use item actions"
-                                    isChecked={useItemActions}
-                                    onChange={setUseItemActions}
-                                />
-                            </DropdownItem>,
-                        ]}
-                    />
-                }
+                description="A project is a logical collection of Ansible playbooks, represented in Tower."
+                titleHelp={{
+                    text: 'You can manage playbooks and playbook directories by either placing them manually under the Project Base Path on your Tower server, or by placing your playbooks into a source code management (SCM) system supported by Tower, including Git, Subversion, Mercurial, and Red Hat Insights.',
+                }}
             />
             <ItemView
                 items={items}
@@ -851,7 +856,7 @@ export function ProjectsDemo() {
                 itemActions={actions}
                 toolbarActions={toolbarActions}
                 filters={filters}
-                // itemToCardFn={taskToCardFn}
+                itemToCardFn={taskToCardFn}
                 searchKeys={searchKeys}
                 singular="project"
                 plural="projects"
