@@ -855,6 +855,7 @@ export function ProjectsDemo() {
                 searchKeys={searchKeys}
                 singular="project"
                 plural="projects"
+                article="a"
             />
         </Fragment>
     )

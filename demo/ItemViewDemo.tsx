@@ -220,6 +220,8 @@ export function ItemViewDemo() {
                 searchKeys={searchKeys}
                 singular="item"
                 plural="items"
+                article="an"
+                createItem={createItem}
             />
         </Fragment>
     )
