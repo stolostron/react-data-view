@@ -35,12 +35,14 @@ export function DateCell(props: { value: number | string }) {
     )
 }
 
-export function IconText(props: { icon: ReactNode; text: string; iconSize?: 'sm' | 'md' | 'lg' }) {
+export function IconText(props: { icon?: ReactNode; text: string; iconSize?: 'sm' | 'md' | 'lg' }) {
     return (
         <Split>
-            <SplitItem>
-                <IconWrapper size={props.iconSize ?? 'md'}>{props.icon}</IconWrapper>
-            </SplitItem>
+            {props.icon && (
+                <SplitItem>
+                    <IconWrapper size={props.iconSize ?? 'md'}>{props.icon}</IconWrapper>
+                </SplitItem>
+            )}
             <SplitItem>{props.text}</SplitItem>
         </Split>
     )

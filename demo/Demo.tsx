@@ -22,6 +22,7 @@ import { Home } from './Home'
 import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
 import { ItemViewDemo } from './ItemViewDemo'
+import { ProjectsDemo } from './ProjectsDemo'
 import { RouteE } from './route'
 
 export default function Demo() {
@@ -48,6 +49,7 @@ export function DemoRouter(): JSX.Element {
     if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
     if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
     if (location.search.startsWith(RouteE.Hosted)) return <Hosted />
+    if (location.search.startsWith(RouteE.Projects)) return <ProjectsDemo />
     history.push(RouteE.Home)
     return <div />
 }
@@ -98,6 +100,9 @@ function DemoSidebar() {
                         </NavItem>
                         <NavItem isActive={location.search === RouteE.Infrastructure}>
                             <Link to={RouteE.Infrastructure}>Hyershift Demo</Link>
+                        </NavItem>
+                        <NavItem isActive={location.search === RouteE.Projects}>
+                            <Link to={RouteE.Projects}>Projects</Link>
                         </NavItem>
                     </NavList>
                 </Nav>
