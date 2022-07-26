@@ -5,12 +5,12 @@ import {
     CatalogCardItemType,
     DateCell,
     ICatalogCard,
-    IconText,
     IItemFilter,
     ITableColumn,
     ItemView,
     IToolbarAction,
     Labels,
+    TextCell,
     ToolbarActionType,
 } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
@@ -31,14 +31,14 @@ export function ItemViewDemo() {
         () => [
             {
                 header: 'Name',
-                cell: (task) => <IconText icon={task.icon} text={task.name} />,
+                cell: (task) => <TextCell icon={task.icon} text={task.name} />,
                 sortFn: (l, r) => l.name.localeCompare(r.name),
             },
             {
                 header: 'Status',
                 cell: (task) => {
                     const status = getTaskStatus(task)
-                    return <IconText icon={status.icon} text={status.text} iconSize="sm" />
+                    return <TextCell icon={status.icon} text={status.text} iconSize="sm" />
                 },
                 sortFn: (l, r) => l.status.localeCompare(r.status),
             },

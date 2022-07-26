@@ -6,22 +6,21 @@ import {
     DropdownItem,
     DropdownPosition,
     DropdownToggle,
-    Tab,
-    Tabs,
     Truncate,
 } from '@patternfly/react-core'
-import { CheckCircleIcon, GitAltIcon } from '@patternfly/react-icons'
-import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
+import { CheckCircleIcon, CheckIcon, CircleNotchIcon, ExclamationCircleIcon, GitAltIcon } from '@patternfly/react-icons'
+import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
     CatalogCardItemType,
-    DateCell,
     getPatternflyColor,
     ICatalogCard,
-    IconText,
+    IItemFilter,
     ITableColumn,
     ItemView,
     IToolbarAction,
     PatternFlyColor,
+    SinceCell,
+    TextCell,
     ToolbarActionType,
 } from '../src'
 import { IItemAction } from '../src/ItemActions'
@@ -611,52 +610,71 @@ export function ProjectsDemo() {
         () => [
             {
                 header: 'Name',
-                cell: (task) => {
-                    let icon: ReactNode | undefined
-                    if (task.status === 'successful') {
-                        icon = <CheckCircleIcon color={getPatternflyColor(PatternFlyColor.Green)} />
-                    }
-                    return <IconText icon={icon} text={task.name} iconSize="md" />
+                cell: (project) => {
+                    return <TextCell text={project.name} iconSize="sm" to={project.url} />
                 },
                 sortFn: (l, r) => l.name.localeCompare(r.name),
             },
-            // {
-            //     header: 'Status',
-            //     cell: (task) => {
-            //         const status = getTaskStatus(task)
-            //         return <IconText icon={status.icon} text={status.text} iconSize="sm" />
-            //     },
-            //     sortFn: (l, r) => l.status.localeCompare(r.status),
-            // },
-            { header: 'Type', cell: (task) => <IconText icon={<GitAltIcon color="#F1502F" />} text={task.scm_type} iconSize="md" /> },
+            {
+                header: 'Status',
+                cell: (project) => {
+                    const status = getProjectStatus(project)
+                    return <TextCell icon={status.icon} text={status.text} iconSize="sm" />
+                },
+                sortFn: (l, r) => l.status.localeCompare(r.status),
+            },
+            {
+                header: 'Type',
+                cell: (project) => {
+                    const scmType = getProjectScm(project)
+                    return <TextCell icon={scmType.icon} text={scmType.text} iconSize="md" />
+                },
+                sortFn: (l, r) => l.scm_type.localeCompare(r.scm_type),
+            },
             {
                 header: 'Revision',
-                cell: (task) => (
+                cell: (project) => (
                     <ClipboardCopy
                         hoverTip="Copy"
                         clickTip="Copied"
                         variant="inline-compact"
-                        isCode
+                        // isCode
                         style={{ display: 'flex', flexWrap: 'nowrap', borderRadius: 4 }}
                     >
-                        <Truncate content={task.scm_revision} />
+                        <Truncate content={project.scm_revision} />
                     </ClipboardCopy>
                 ),
-            },
-            { header: 'Organization', cell: (task) => task.summary_fields.organization?.name },
-            {
-                header: 'last modified',
-                cell: (task) => <DateCell value={task.last_updated} />,
-                sortFn: (l, r) => l.last_updated.localeCompare(r.last_updated),
+                sortFn: (l, r) => l.scm_revision.localeCompare(r.scm_revision),
             },
             {
-                header: 'Last used',
-                cell: (task) => <DateCell value={task.last_job_run} />,
+                header: 'Organization',
+
+                cell: (task) => {
+                    if (task.organization) {
+                        return (
+                            <TextCell
+                                text={task.summary_fields.organization.name}
+                                to={`/organizations/${task.organization.toString()}/details}`}
+                            />
+                        )
+                    }
+                    return <span style={{ color: getPatternflyColor(PatternFlyColor.Red) }}>Deleted</span>
+                },
+                sortFn: (l, r) => (l.summary_fields.organization?.name ?? '').localeCompare(r.summary_fields.organization?.name ?? ''),
+            },
+            {
+                header: 'Last Used',
+                cell: (task) => <SinceCell value={task.last_job_run} />,
                 sortFn: (l, r) => l.last_job_run.localeCompare(r.last_job_run),
             },
             {
+                header: 'Last Modified',
+                cell: (task) => <SinceCell value={task.last_updated} />,
+                sortFn: (l, r) => l.last_updated.localeCompare(r.last_updated),
+            },
+            {
                 header: 'Created',
-                cell: (task) => <DateCell value={task.created} />,
+                cell: (task) => <SinceCell value={task.created} />,
                 sortFn: (l, r) => l.created.localeCompare(r.created),
             },
             // { header: 'Modified', cell: (task) => <DateCell value={task.modified} />, sortFn: (l, r) => l.modified - r.modified },
@@ -688,22 +706,21 @@ export function ProjectsDemo() {
 
     const [useItemActions, setUseItemActions] = useState(true)
     const actions: IItemAction<IProject>[] | undefined = useMemo(
-        // () => (useItemActions ? [{ label: 'Delete', onClick: (item) => deleteItems([item]) }] : undefined),
-        () => (useItemActions ? [] : undefined),
-        [useItemActions]
+        () => (useItemActions ? [{ label: 'Delete', onClick: (item) => deleteItems([item]) }] : undefined),
+        [deleteItems, useItemActions]
     )
 
-    // const statusFilter = useMemo<IItemFilter<IProject>>(
-    //     () => ({
-    //         label: 'Status',
-    //         options: [
-    //             { label: 'Online', value: 'online' },
-    //             { label: 'Offline', value: 'offline' },
-    //         ],
-    //         filter: (item: IProject, values: string[]) => values.includes(item.status),
-    //     }),
-    //     []
-    // )
+    const statusFilter = useMemo<IItemFilter<IProject>>(
+        () => ({
+            label: 'Status',
+            options: [
+                { label: 'Successful', value: 'successful' },
+                { label: 'Failure', value: 'failure' },
+            ],
+            filter: (item: IProject, values: string[]) => values.includes(item.status),
+        }),
+        []
+    )
     // const colorsFilter = useMemo<IItemFilter<IProject>>(
     //     () => ({
     //         label: 'Colors',
@@ -739,32 +756,36 @@ export function ProjectsDemo() {
     // )
 
     // const filters = useMemo(() => [statusFilter, colorsFilter, labelFilter], [labelFilter, colorsFilter, statusFilter])
-    const filters = useMemo(() => [], [])
+    const filters = useMemo(() => [statusFilter], [statusFilter])
 
-    const taskToCardFn = useCallback<(task: IProject) => ICatalogCard>((task) => {
+    const taskToCardFn = useCallback<(task: IProject) => ICatalogCard>((project) => {
         const card: ICatalogCard = {
             // icon: task.icon,
-            id: task.id.toString(),
-            title: task.name,
+            id: project.id.toString(),
+            title: project.name,
             // labels: task.labels.map((label) => ({ label })),
             onClick: () => null,
         }
-        if (task.description) {
-            if (!card.items) card.items = []
-            card.items.push({
-                type: CatalogCardItemType.Description,
-                description: task.description,
-            })
-        }
-        // if (task.status) {
+        // if (task.description) {
         //     if (!card.items) card.items = []
         //     card.items.push({
-        //         type: CatalogCardItemType.List,
-        //         title: 'Status',
-        //         items: [getTaskStatus(task)],
-        //         icon: <CheckIcon />,
+        //         type: CatalogCardItemType.Description,
+        //         description: task.description,
         //     })
         // }
+        if (project.status) {
+            if (!card.items) card.items = []
+            card.items.push({
+                type: CatalogCardItemType.List,
+                title: 'Status',
+                items: [
+                    {
+                        text: project.status,
+                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                    },
+                ],
+            })
+        }
         // if (task.colors.length) {
         //     if (!card.items) card.items = []
         //     card.items.push({
@@ -780,18 +801,18 @@ export function ProjectsDemo() {
     const [useSearch, setUseSearch] = useState(true)
     const searchKeys = useMemo(() => (useSearch ? [{ name: 'name' }] : undefined), [useSearch])
 
-    const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Demo' }], [])
+    const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Projects' }], [])
 
     return (
         <Fragment>
             <PageHeader
-                title="Item View"
+                title="Projects"
                 breadcrumbs={breadcrumbs}
-                navigation={
-                    <Tabs hasBorderBottom={false}>
-                        <Tab title="Item demo" eventKey={0}></Tab>
-                    </Tabs>
-                }
+                // navigation={
+                //     <Tabs hasBorderBottom={false}>
+                //         <Tab title="Projects" eventKey={0}></Tab>
+                //     </Tabs>
+                // }
                 actions={
                     <Dropdown
                         position={DropdownPosition.right}
@@ -834,9 +855,44 @@ export function ProjectsDemo() {
                 filters={filters}
                 itemToCardFn={taskToCardFn}
                 searchKeys={searchKeys}
-                singular="item"
-                plural="items"
+                singular="project"
+                plural="projects"
             />
         </Fragment>
     )
+}
+
+export function getProjectStatus(project: IProject) {
+    switch (project.status) {
+        case 'successful':
+            return {
+                text: 'Successful',
+                icon: <CheckCircleIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+            }
+        case 'failure':
+            return {
+                text: 'Failure',
+                icon: <ExclamationCircleIcon color={getPatternflyColor(PatternFlyColor.Red)} />,
+            }
+        default:
+            return {
+                text: 'Unknown',
+                icon: <CircleNotchIcon color={getPatternflyColor(PatternFlyColor.Grey)} />,
+            }
+    }
+}
+
+export function getProjectScm(project: IProject) {
+    switch (project.scm_type) {
+        case 'git':
+            return {
+                text: 'Git',
+                icon: <GitAltIcon color="#F1502F" />,
+            }
+        default:
+            return {
+                text: 'Unknown',
+                icon: <CircleNotchIcon color={getPatternflyColor(PatternFlyColor.Grey)} />,
+            }
+    }
 }

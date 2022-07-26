@@ -1,5 +1,7 @@
 import { Label, LabelGroup, Split, SplitItem } from '@patternfly/react-core'
-import { ReactNode } from 'react'
+import { DateTime } from 'luxon'
+import { Fragment, ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { IconWrapper } from './components/IconWrapper'
 
 type CellFn<T extends object> = (item: T) => ReactNode
@@ -35,7 +37,7 @@ export function DateCell(props: { value: number | string }) {
     )
 }
 
-export function IconText(props: { icon?: ReactNode; text: string; iconSize?: 'sm' | 'md' | 'lg' }) {
+export function TextCell(props: { icon?: ReactNode; text: string; iconSize?: 'sm' | 'md' | 'lg'; to?: string }) {
     return (
         <Split>
             {props.icon && (
@@ -43,7 +45,18 @@ export function IconText(props: { icon?: ReactNode; text: string; iconSize?: 'sm
                     <IconWrapper size={props.iconSize ?? 'md'}>{props.icon}</IconWrapper>
                 </SplitItem>
             )}
-            <SplitItem>{props.text}</SplitItem>
+            {props.to ? (
+                <SplitItem>
+                    <Link to={props.to}>{props.text}</Link>
+                </SplitItem>
+            ) : (
+                <SplitItem>{props.text}</SplitItem>
+            )}
         </Split>
     )
+}
+
+export function SinceCell(props: { value: string }) {
+    const dateTime = DateTime.fromISO(props.value)
+    return <Fragment>{dateTime.toRelative()}</Fragment>
 }

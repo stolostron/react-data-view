@@ -205,7 +205,12 @@ function TableHead<T extends object>(props: {
                         .filter((column) => column.enabled !== false)
                         .map((column, index) => {
                             return (
-                                <Th key={column.header} style={{ minWidth: column.minWidth }} sort={getColumnSort(index, column)}>
+                                <Th
+                                    modifier="fitContent"
+                                    key={column.header}
+                                    style={{ minWidth: column.minWidth }}
+                                    sort={getColumnSort(index, column)}
+                                >
                                     {column.header}
                                 </Th>
                             )
