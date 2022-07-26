@@ -111,7 +111,7 @@ export function ItemView<T extends object>(props: {
 
     const [filterState, setFilterState] = useState<IFilterState>(() => {
         const filterState: IFilterState = {}
-        searchParams.forEach((key, value) => {
+        searchParams.forEach((value, key) => {
             switch (key) {
                 case 'view':
                 case 'route':
@@ -190,7 +190,7 @@ export function ItemView<T extends object>(props: {
                 }
             }
         }
-        searchParams.forEach((key) => {
+        searchParams.forEach((_value, key) => {
             switch (key) {
                 case 'route':
                 case 'search':
@@ -286,6 +286,7 @@ export function ItemView<T extends object>(props: {
                                                 <ItemTable
                                                     columns={managedColumns}
                                                     items={searched}
+                                                    totalCount={props.items?.length ?? 0}
                                                     rowActions={props.itemActions}
                                                     keyFn={props.itemKeyFn}
                                                     selectItem={selectItem}
@@ -294,6 +295,7 @@ export function ItemView<T extends object>(props: {
                                                     sort={sort}
                                                     setSort={setSort}
                                                     showSelect={showSelect}
+                                                    clearAllFilters={clearAllFilters}
                                                 />
                                             )}
                                         </Scrollable>

@@ -8,12 +8,10 @@ import {
     DropdownToggle,
     Truncate,
 } from '@patternfly/react-core'
-import { CheckCircleIcon, CheckIcon, CircleNotchIcon, ExclamationCircleIcon, GitAltIcon } from '@patternfly/react-icons'
+import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon, GitAltIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
-    CatalogCardItemType,
     getPatternflyColor,
-    ICatalogCard,
     IItemFilter,
     ITableColumn,
     ItemView,
@@ -758,45 +756,45 @@ export function ProjectsDemo() {
     // const filters = useMemo(() => [statusFilter, colorsFilter, labelFilter], [labelFilter, colorsFilter, statusFilter])
     const filters = useMemo(() => [statusFilter], [statusFilter])
 
-    const taskToCardFn = useCallback<(task: IProject) => ICatalogCard>((project) => {
-        const card: ICatalogCard = {
-            // icon: task.icon,
-            id: project.id.toString(),
-            title: project.name,
-            // labels: task.labels.map((label) => ({ label })),
-            onClick: () => null,
-        }
-        // if (task.description) {
-        //     if (!card.items) card.items = []
-        //     card.items.push({
-        //         type: CatalogCardItemType.Description,
-        //         description: task.description,
-        //     })
-        // }
-        if (project.status) {
-            if (!card.items) card.items = []
-            card.items.push({
-                type: CatalogCardItemType.List,
-                title: 'Status',
-                items: [
-                    {
-                        text: project.status,
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
-                    },
-                ],
-            })
-        }
-        // if (task.colors.length) {
-        //     if (!card.items) card.items = []
-        //     card.items.push({
-        //         type: CatalogCardItemType.List,
-        //         title: 'Colors',
-        //         items: task.colors.map((color) => ({ text: color })),
-        //         icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
-        //     })
-        // }
-        return card
-    }, [])
+    // const taskToCardFn = useCallback<(task: IProject) => ICatalogCard>((project) => {
+    //     const card: ICatalogCard = {
+    //         // icon: task.icon,
+    //         id: project.id.toString(),
+    //         title: project.name,
+    //         // labels: task.labels.map((label) => ({ label })),
+    //         onClick: () => null,
+    //     }
+    //     // if (task.description) {
+    //     //     if (!card.items) card.items = []
+    //     //     card.items.push({
+    //     //         type: CatalogCardItemType.Description,
+    //     //         description: task.description,
+    //     //     })
+    //     // }
+    //     if (project.status) {
+    //         if (!card.items) card.items = []
+    //         card.items.push({
+    //             type: CatalogCardItemType.List,
+    //             title: 'Status',
+    //             items: [
+    //                 {
+    //                     text: project.status,
+    //                     icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+    //                 },
+    //             ],
+    //         })
+    //     }
+    //     // if (task.colors.length) {
+    //     //     if (!card.items) card.items = []
+    //     //     card.items.push({
+    //     //         type: CatalogCardItemType.List,
+    //     //         title: 'Colors',
+    //     //         items: task.colors.map((color) => ({ text: color })),
+    //     //         icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+    //     //     })
+    //     // }
+    //     return card
+    // }, [])
 
     const [useSearch, setUseSearch] = useState(true)
     const searchKeys = useMemo(() => (useSearch ? [{ name: 'name' }] : undefined), [useSearch])
@@ -853,7 +851,7 @@ export function ProjectsDemo() {
                 itemActions={actions}
                 toolbarActions={toolbarActions}
                 filters={filters}
-                itemToCardFn={taskToCardFn}
+                // itemToCardFn={taskToCardFn}
                 searchKeys={searchKeys}
                 singular="project"
                 plural="projects"

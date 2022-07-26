@@ -1,3 +1,5 @@
+import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateSecondaryActions, Title } from '@patternfly/react-core'
+import { PlusCircleIcon, SearchIcon } from '@patternfly/react-icons'
 import { ActionsColumn, IAction, ISortBy, SortByDirection, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
 import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
 import useResizeObserver from '@react-hook/resize-observer'
@@ -24,6 +26,7 @@ interface IScroll {
 export function ItemTable<T extends object>(props: {
     columns: ITableColumn<T>[]
     items: T[]
+    totalCount: number
     selectItem: (item: T) => void
     unselectItem: (item: T) => void
     isSelected: (item: T) => boolean
@@ -32,8 +35,22 @@ export function ItemTable<T extends object>(props: {
     sort: ISort<T> | undefined
     setSort: (sort: ISort<T>) => void
     showSelect: boolean
+    clearAllFilters: () => void
 }) {
-    const { columns, items, selectItem, unselectItem, isSelected, keyFn, rowActions, sort, setSort, showSelect } = props
+    const {
+        columns,
+        items,
+        totalCount,
+        selectItem,
+        unselectItem,
+        isSelected,
+        keyFn,
+        rowActions,
+        sort,
+        setSort,
+        showSelect,
+        clearAllFilters,
+    } = props
     const sizeRef = useRef<HTMLDivElement>(null)
     const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -119,6 +136,39 @@ export function ItemTable<T extends object>(props: {
                             {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
                         </Tbody>
                     </TableComposable>
+                    {totalCount === 0 ? (
+                        <div style={{ paddingTop: 16 }}>
+                            <EmptyState>
+                                <EmptyStateIcon icon={PlusCircleIcon} />
+                                <Title headingLevel="h2" size="lg">
+                                    No items yet
+                                </Title>
+                                <EmptyStateBody>To get started, create an item.</EmptyStateBody>
+                                <EmptyStateSecondaryActions>
+                                    <Button variant="primary" onClick={clearAllFilters}>
+                                        Create item
+                                    </Button>
+                                </EmptyStateSecondaryActions>
+                            </EmptyState>
+                        </div>
+                    ) : items.length === 0 ? (
+                        <div style={{ paddingTop: 16 }}>
+                            <EmptyState>
+                                <EmptyStateIcon icon={SearchIcon} />
+                                <Title headingLevel="h2" size="lg">
+                                    No results found
+                                </Title>
+                                <EmptyStateBody>No results match this filter criteria. Adjust your filters and try again.</EmptyStateBody>
+                                <EmptyStateSecondaryActions>
+                                    <Button variant="link" onClick={clearAllFilters}>
+                                        Clear all filters
+                                    </Button>
+                                </EmptyStateSecondaryActions>
+                            </EmptyState>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         ),
@@ -129,16 +179,17 @@ export function ItemTable<T extends object>(props: {
             rowActions,
             sort,
             setSort,
+            showSelect,
             beforeHeight,
             items,
             firstRow,
             visibleRowCount,
             afterHeight,
+            clearAllFilters,
             keyFn,
             isSelected,
             selectItem,
             unselectItem,
-            showSelect,
         ]
     )
 }
@@ -249,6 +300,7 @@ function TableRow<T extends object>(props: {
                             },
                             isSelected: isItemSelected,
                         }}
+                        style={{ width: '0%' }}
                     />
                 )}
                 <TableCells rowIndex={rowIndex} columns={columns} item={item} rowActions={rowActions} />
@@ -288,7 +340,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
                         )
                     })}
                 {actions !== undefined && (
-                    <Td isActionCell style={{ zIndex: 100000 - rowIndex, paddingRight: 8 }}>
+                    <Td isActionCell style={{ zIndex: 100000 - rowIndex, paddingRight: 8, width: '0%' }}>
                         <ActionsColumn
                             // dropdownDirection="up" // TODO handle....
                             items={actions}
