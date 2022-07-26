@@ -185,6 +185,7 @@ export function ItemTable<T extends object>(props: {
             firstRow,
             visibleRowCount,
             afterHeight,
+            totalCount,
             clearAllFilters,
             keyFn,
             isSelected,
