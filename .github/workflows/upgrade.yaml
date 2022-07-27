@@ -2,7 +2,7 @@ name: Upgrade
 on:
     workflow_dispatch:
     schedule:
-        - cron: '0 12 * * 0'
+        - cron: '20 4 * * *'
 jobs:
     npm-check-updates:
         if: (github.event_name == 'schedule' && github.repository == 'stolostron/react-data-view') || (github.event_name != 'schedule')
