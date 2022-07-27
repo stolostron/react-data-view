@@ -34,7 +34,7 @@ function createMockTask(index: number): IMockTask {
 
     switch (Math.floor(Math.random() * 4)) {
         case 1:
-            badge.name = 'Tech Preview'
+            badge.name = 'Technology preview'
             badge.color = CatalogColor.blue
             break
         case 2:

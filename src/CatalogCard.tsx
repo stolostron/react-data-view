@@ -31,7 +31,7 @@ import {
     Truncate,
 } from '@patternfly/react-core'
 import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
-import { ReactNode, useCallback, useMemo, useState } from 'react'
+import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
 import { IItemAction, isItemActionClick } from './ItemActions'
@@ -199,18 +199,17 @@ export function CatalogCard<T extends object>(props: {
                     </SplitItem>
                     {card.badge && card.badgeTooltip && (
                         <SplitItem>
-                            <Label isCompact color={card.badgeColor}>
-                                {card.badge}
-                            </Label>
+                            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+                            <div onClick={(e) => e.stopPropagation()}>
+                                <Popover headerContent={card.badgeTooltipTitle} bodyContent={card.badgeTooltip}>
+                                    <Label color={card.badgeColor}>{card.badge}</Label>
+                                </Popover>
+                            </div>
                         </SplitItem>
                     )}
                     {card.badge && !card.badgeTooltip && (
                         <SplitItem>
-                            <Popover headerContent={card.badgeTooltipTitle} bodyContent={card.badgeTooltip}>
-                                <Label isCompact color={card.badgeColor}>
-                                    {card.badge}
-                                </Label>
-                            </Popover>
+                            <Label color={card.badgeColor}>{card.badge}</Label>
                         </SplitItem>
                     )}
                 </Split>
@@ -247,17 +246,18 @@ export function CatalogCard<T extends object>(props: {
                                     switch (item.type) {
                                         case CatalogCardItemType.Description:
                                             return (
-                                                <DescriptionList>
+                                                <DescriptionList key={index}>
                                                     <DescriptionListGroup>
-                                                        <CardSection key={index} title={item.title}>
-                                                            <span style={{ opacity: 9 }}>{item.description}</span>
-                                                        </CardSection>
+                                                        <span style={{ opacity: 9 }}>{item.description}</span>
                                                     </DescriptionListGroup>
                                                 </DescriptionList>
                                             )
                                         case CatalogCardItemType.List:
                                             return (
-                                                <DescriptionList orientation={item.horizontal ? { sm: 'horizontal' } : undefined}>
+                                                <DescriptionList
+                                                    key={index}
+                                                    orientation={item.horizontal ? { sm: 'horizontal' } : undefined}
+                                                >
                                                     <DescriptionListGroup>
                                                         <DescriptionListTerm>{item.title}</DescriptionListTerm>
                                                         <DescriptionListDescription>
@@ -266,6 +266,8 @@ export function CatalogCard<T extends object>(props: {
                                                     </DescriptionListGroup>
                                                 </DescriptionList>
                                             )
+                                        default:
+                                            return <Fragment key={index} />
                                     }
                                 })}
                         </DescriptionList>

@@ -49,6 +49,10 @@ export function Infrastructure() {
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
                 onClick: () => history.push(RouteE.ControlPlane),
+                badge: 'Technology preview',
+                badgeColor: CatalogColor.orange,
+                badgeTooltip: 'Technology preview description goes here.',
+                badgeTooltipTitle: 'Technology preview',
             },
             {
                 id: 'alibaba',
