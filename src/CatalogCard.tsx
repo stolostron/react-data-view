@@ -62,6 +62,8 @@ export interface ICatalogCard {
     learnMore?: string
     badge?: string
     badgeColor?: CatalogColor
+    badgeTooltip?: string
+    badgeTooltipTitle?: string
     alertTitle?: string
     alertContent?: ReactNode
     alertVariant?: 'success' | 'danger' | 'warning' | 'info' | 'default'
@@ -103,12 +105,8 @@ export enum CatalogCardListItemIcon {
 export interface ICatalogCardListItem {
     icon?: ReactNode
     text: string
-    help?: ICatalogPopover
-}
-
-export interface ICatalogPopover {
-    title?: string
-    text: string
+    helpTitle?: string
+    help?: ReactNode
 }
 
 export type CatalogCardItem = ICatalogCardDescription | ICatalogCardList
@@ -199,11 +197,20 @@ export function CatalogCard<T extends object>(props: {
                             <CardTitle>{card.title}</CardTitle>
                         </div>
                     </SplitItem>
-                    {card.badge && (
+                    {card.badge && card.badgeTooltip && (
                         <SplitItem>
                             <Label isCompact color={card.badgeColor}>
                                 {card.badge}
                             </Label>
+                        </SplitItem>
+                    )}
+                    {card.badge && !card.badgeTooltip && (
+                        <SplitItem>
+                            <Popover headerContent={card.badgeTooltipTitle} bodyContent={card.badgeTooltip}>
+                                <Label isCompact color={card.badgeColor}>
+                                    {card.badge}
+                                </Label>
+                            </Popover>
                         </SplitItem>
                     )}
                 </Split>
@@ -316,10 +323,9 @@ export function CardSection(props: { title?: string; children: ReactNode }) {
     )
 }
 
-export function CardList(props: { title?: string; icon?: ReactNode; items: ICatalogCardListItem[] }) {
-    const { title, items, icon } = props
+export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[] }) {
+    const { items, icon } = props
     return (
-        // <CardSection title={title}>
         <List isPlain>
             {items?.map((listItem, index) => {
                 let itemIcon: ReactNode
@@ -339,11 +345,10 @@ export function CardList(props: { title?: string; icon?: ReactNode; items: ICata
                 return (
                     <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
                         {listItem.text}
-
                         {listItem.help && (
                             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                             <div onClick={(e) => e.stopPropagation()}>
-                                <Popover headerContent={listItem.help.title} bodyContent={listItem.help.text}>
+                                <Popover headerContent={listItem.helpTitle} bodyContent={listItem.help}>
                                     <Button
                                         variant="link"
                                         style={{
@@ -361,6 +366,5 @@ export function CardList(props: { title?: string; icon?: ReactNode; items: ICata
                 )
             })}
         </List>
-        // </CardSection>
     )
 }

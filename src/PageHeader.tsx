@@ -2,7 +2,6 @@ import { Breadcrumb, BreadcrumbItem, Button, PageSection, Popover, Split, SplitI
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ICatalogPopover } from './CatalogCard'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { ThemeE, useTheme } from './Theme'
 
@@ -42,7 +41,8 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
 export function PageHeader(props: {
     breadcrumbs?: ICatalogBreadcrumb[]
     title?: string
-    titleHelp?: ICatalogPopover
+    titleHelpTitle?: string
+    titleHelp?: ReactNode
     description?: string
     navigation?: ReactNode
     actions?: ReactNode
@@ -73,7 +73,7 @@ export function PageHeader(props: {
                                 <Title headingLevel="h1">
                                     {title}
                                     {props.titleHelp && (
-                                        <Popover headerContent={props.titleHelp.title} bodyContent={props.titleHelp.text}>
+                                        <Popover headerContent={props.titleHelpTitle} bodyContent={props.titleHelp}>
                                             <Button
                                                 variant="link"
                                                 style={{

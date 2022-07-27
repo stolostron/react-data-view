@@ -27,7 +27,7 @@ export function ControlPlane() {
                         title: 'Features',
                         icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
                         items: [
-                            { text: 'Better hardware utilization', help: { text: 'Popover example' } },
+                            { text: 'Better hardware utilization', help: 'Popover example' },
                             { text: 'Network and trusted segmentation between control plane and workers' },
                             { text: 'Rapid cluster creation' },
                         ],
@@ -87,7 +87,7 @@ export function ControlPlane() {
         <Fragment>
             <PageHeader
                 title="Control Plane"
-                titleHelp={{ text: 'Example popup help' }}
+                titleHelp="Example popup help"
                 description="Next, select a control plane type for your on-premise machine."
                 breadcrumbs={breadcrumbs}
             />
