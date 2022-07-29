@@ -28,7 +28,6 @@ import {
     Stack,
     StackItem,
     Title,
-    Truncate,
 } from '@patternfly/react-core'
 import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
@@ -282,7 +281,7 @@ export function CatalogCard<T extends object>(props: {
                                 <LabelGroup>
                                     {card.labels.map((item) => (
                                         <Label key={item.label} color={item.color}>
-                                            <Truncate content={item.label} style={{ minWidth: 0 }} />
+                                            {item.label}
                                         </Label>
                                     ))}
                                 </LabelGroup>
