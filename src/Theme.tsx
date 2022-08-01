@@ -7,9 +7,8 @@ export enum ThemeE {
     Dark = 'dark',
 }
 
-function themeInit() {
+export function themeInit() {
     let theme = localStorage.getItem('theme') as ThemeE
-
     if (!theme) {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             theme = ThemeE.Dark
@@ -22,7 +21,6 @@ function themeInit() {
         document.documentElement.classList.add('pf-theme-dark')
     }
 }
-themeInit()
 
 interface IThemeState {
     theme?: ThemeE
@@ -30,7 +28,7 @@ interface IThemeState {
 }
 const ThemeContext = createContext<IThemeState>({})
 
-export function ThemeProvider(props: { children: ReactNode }) {
+export function ThemeProvider(props: { children?: ReactNode }) {
     const [theme, setThemeState] = useState<ThemeE>(
         document.documentElement.classList.contains('pf-theme-dark') ? ThemeE.Dark : ThemeE.Light
     )
