@@ -1,9 +1,10 @@
-import { ClipboardCopy, Label, LabelGroup, Split, SplitItem, Truncate } from '@patternfly/react-core'
+import { ClipboardCopy, Label, LabelGroup, Split, SplitItem } from '@patternfly/react-core'
 import { DateTime } from 'luxon'
 import { Fragment, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { IconWrapper } from './components/IconWrapper'
 import { getPatternflyColor, PatternFlyColor } from './components/patternfly-colors'
+import { Truncate } from './components/Truncate'
 
 type CellFn<T extends object> = (item: T) => ReactNode
 
@@ -75,7 +76,7 @@ export function CopyCell(props: { text?: string; minWidth?: number }) {
                 void navigator.clipboard.writeText(props.text ?? '')
             }}
         >
-            <Truncate content={props.text} style={{ minWidth: props.minWidth }} />
+            <Truncate content={props.text} />
         </ClipboardCopy>
     )
 }
