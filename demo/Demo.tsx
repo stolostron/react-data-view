@@ -11,7 +11,6 @@ import {
     PageSidebar,
     PageToggleButton,
     Title,
-    Truncate,
 } from '@patternfly/react-core'
 import { BarsIcon } from '@patternfly/react-icons'
 import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
@@ -23,6 +22,7 @@ import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
 import { ItemViewDemo } from './ItemViewDemo'
 import { RouteE } from './route'
+import { Truncate } from '../src/components/Truncate'
 
 export default function Demo() {
     return (

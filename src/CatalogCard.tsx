@@ -33,6 +33,7 @@ import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/rea
 import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
+import { Truncate } from './components/Truncate'
 import { IItemAction, isItemActionClick } from './ItemActions'
 
 export enum CatalogIconColor {
@@ -281,7 +282,7 @@ export function CatalogCard<T extends object>(props: {
                                 <LabelGroup>
                                     {card.labels.map((item) => (
                                         <Label key={item.label} color={item.color}>
-                                            {item.label}
+                                            <Truncate content={item.label} />
                                         </Label>
                                     ))}
                                 </LabelGroup>
