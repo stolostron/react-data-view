@@ -88,7 +88,7 @@ export function ControlPlane() {
             <PageHeader
                 title="Control Plane"
                 titleHelp="Example popup help"
-                description="Next, select a control plane type for your on-premise machine."
+                description="Choose a control plane type for your cluster."
                 breadcrumbs={breadcrumbs}
             />
             <ItemView items={cards} itemKeyFn={keyFn} itemToCardFn={(card) => card} onBack={onBack} />
