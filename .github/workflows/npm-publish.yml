@@ -1,4 +1,4 @@
-name: Publish
+name: NPM Publish
 on:
     push:
         branches:
@@ -10,16 +10,16 @@ on:
             versionIncrement:
                 description: Version Increment
                 required: true
-                default: patch
+                default: minor
                 type: choice
                 options:
                     - major
                     - minor
                     - patch
 jobs:
-    publish:
+    npm-publish:
         runs-on: ubuntu-latest
-        concurrency: react-data-view
+        concurrency: repository
         steps:
             - uses: actions/checkout@v2
               with:
@@ -29,9 +29,9 @@ jobs:
                   node-version: '14'
                   registry-url: https://registry.npmjs.org/
                   cache: 'npm'
-            - name: npm version ${{ inputs.versionIncrement || 'patch' }}
+            - name: npm version ${{ inputs.versionIncrement || 'minor' }}
               run: |
-                  TAG=$(npm version ${{ inputs.versionIncrement || 'patch' }} --no-git-tag-version)
+                  TAG=$(npm version ${{ inputs.versionIncrement || 'minor' }} --no-git-tag-version)
                   echo "TAG=$(echo $TAG)" >> $GITHUB_ENV
             - run: npm ci
             - run: npm run build
