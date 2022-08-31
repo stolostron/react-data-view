@@ -1,5 +1,8 @@
-name: Publish
+name: NPM Publish
 on:
+    push:
+        branches:
+            - v**z
     workflow_dispatch:
         inputs:
             versionIncrement:
@@ -10,9 +13,9 @@ on:
                 options:
                     - patch
 jobs:
-    publish:
+    npm-publish:
         runs-on: ubuntu-latest
-        concurrency: react-data-view
+        concurrency: repository
         steps:
             - uses: actions/checkout@v2
               with:
