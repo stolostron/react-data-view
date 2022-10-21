@@ -32,7 +32,7 @@ export function useWindowHistory() {
 
     const push = useCallback(
         (url?: string | URL | null) => {
-            window.history.replaceState(null, '', url)
+            window.history.replaceState(window.history.state, '', url)
             setWindowLocation()
         },
         [setWindowLocation]
@@ -40,7 +40,7 @@ export function useWindowHistory() {
 
     const update = useCallback(
         (url?: string | URL | null) => {
-            window.history.replaceState(null, '', url)
+            window.history.replaceState(window.history.state, '', url)
             setWindowLocation()
         },
         [setWindowLocation]
