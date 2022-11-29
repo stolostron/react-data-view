@@ -1,7 +1,7 @@
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import { CatalogCardItemType, ICatalogCard, ItemView } from '../src'
+import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
@@ -25,10 +25,23 @@ export function Home() {
                         icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
                         items: [
                             { text: 'Supports sorting, filtering, and fuzzy searching.' },
-                            { text: 'Support table and catalog views.' },
-                            { text: 'Horizontal table scrolling with shadows.' },
+                            { text: 'Support table and catalog views.', subTitles: ['First demo subtitle', 'Second demo subtitle'] },
+                            {
+                                text: 'Horizontal table scrolling with shadows.',
+                                subTitles: ['First demo subtitle', 'Second demo subtitle'],
+                            },
                             { text: 'Virtual table rensdering for performance.' },
                         ],
+                    },
+                ],
+                badgeList: [
+                    {
+                        badge: 'Tech Preview',
+                        badgeColor: CatalogColor.orange,
+                    },
+                    {
+                        badge: 'CLI Creation',
+                        badgeColor: CatalogColor.orange,
                     },
                 ],
                 onClick: () => history.push(RouteE.Demo),
@@ -45,9 +58,16 @@ export function Home() {
                         type: CatalogCardItemType.List,
                         title: 'Features',
                         icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
-                        items: [{ text: 'Catalog views with the table view hidden.' }],
+                        items: [
+                            {
+                                text: 'Catalog views with the table view hidden.',
+                                subTitles: ['First demo subtitle', 'Second demo subtitle'],
+                            },
+                        ],
                     },
                 ],
+                badge: 'Classic',
+                badgeColor: CatalogColor.purple,
                 onClick: () => history.push(RouteE.Infrastructure),
             },
         ]
