@@ -64,6 +64,7 @@ export interface ICatalogCard {
     badgeColor?: CatalogColor
     badgeTooltip?: string
     badgeTooltipTitle?: string
+    badgeList?: { badge?: string; badgeColor?: CatalogColor }[]
     alertTitle?: string
     alertContent?: ReactNode
     alertVariant?: 'success' | 'danger' | 'warning' | 'info' | 'default'
@@ -107,6 +108,7 @@ export interface ICatalogCardListItem {
     text: string
     helpTitle?: string
     help?: ReactNode
+    subTitles?: string[]
 }
 
 export type CatalogCardItem = ICatalogCardDescription | ICatalogCardList
@@ -160,6 +162,42 @@ export function CatalogCard<T extends object>(props: {
 
     const disabled = !card.onClick
 
+    function renderCardBadgelist() {
+        const { badgeList } = card
+        return (
+            badgeList &&
+            badgeList.map((badgeList) => (
+                <SplitItem key={badgeList.badge}>
+                    <Label color={badgeList.badgeColor}>{badgeList.badge}</Label>
+                </SplitItem>
+            ))
+        )
+    }
+
+    function renderCardSingleBadge() {
+        if (card.badge) {
+            if (card.badgeTooltip) {
+                return (
+                    <SplitItem>
+                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+                        <div onClick={(e) => e.stopPropagation()}>
+                            <Popover headerContent={card.badgeTooltipTitle} bodyContent={card.badgeTooltip}>
+                                <Label color={card.badgeColor}>{card.badge}</Label>
+                            </Popover>
+                        </div>
+                    </SplitItem>
+                )
+            } else {
+                return (
+                    <SplitItem>
+                        <Label color={card.badgeColor}>{card.badge}</Label>
+                    </SplitItem>
+                )
+            }
+        }
+        return
+    }
+
     return (
         <Card
             id={card.id}
@@ -197,21 +235,7 @@ export function CatalogCard<T extends object>(props: {
                             <CardTitle>{card.title}</CardTitle>
                         </div>
                     </SplitItem>
-                    {card.badge && card.badgeTooltip && (
-                        <SplitItem>
-                            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                            <div onClick={(e) => e.stopPropagation()}>
-                                <Popover headerContent={card.badgeTooltipTitle} bodyContent={card.badgeTooltip}>
-                                    <Label color={card.badgeColor}>{card.badge}</Label>
-                                </Popover>
-                            </div>
-                        </SplitItem>
-                    )}
-                    {card.badge && !card.badgeTooltip && (
-                        <SplitItem>
-                            <Label color={card.badgeColor}>{card.badge}</Label>
-                        </SplitItem>
-                    )}
+                    {card.badgeList ? renderCardBadgelist() : renderCardSingleBadge()}
                 </Split>
                 {showActions && (
                     <CardActions hasNoOffset>
@@ -344,8 +368,9 @@ export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[
                         </IconWrapper>
                     )
                 }
+                const marginBottom = listItem.subTitles?.length ? listItem.subTitles?.length + 2 : 0
                 return (
-                    <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
+                    <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85, marginBottom: `${marginBottom}em` }}>
                         {listItem.text}
                         {listItem.help && (
                             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -362,6 +387,11 @@ export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[
                                         <OutlinedQuestionCircleIcon />
                                     </Button>
                                 </Popover>
+                            </div>
+                        )}
+                        {listItem.subTitles && (
+                            <div style={{ textAlign: 'left', margin: `${listItem.subTitles.length}em`, position: 'absolute' }}>
+                                {listItem.subTitles && listItem.subTitles.map((subTitle) => <p key={subTitle}>- {subTitle}</p>)}
                             </div>
                         )}
                     </ListItem>
