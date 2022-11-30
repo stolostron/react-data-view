@@ -36,7 +36,7 @@
         "debounce": "1.2.1",
         "fuse.js": "6.6.2",
         "get-value": "3.0.1",
-        "luxon": "^3.1.0"
+        "luxon": "^3.1.1"
     },
     "devDependencies": {
         "@babel/core": "7.20.5",
@@ -82,7 +82,7 @@
         "eslint-plugin-react": "7.31.11",
         "eslint-plugin-react-hooks": "4.6.0",
         "html-webpack-plugin": "5.5.0",
-        "mini-css-extract-plugin": "2.7.0",
+        "mini-css-extract-plugin": "2.7.1",
         "prettier": "2.8.0",
         "react": "17.0.2",
         "react-dom": "17.0.2",
