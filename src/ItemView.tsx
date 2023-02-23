@@ -28,6 +28,7 @@ import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
 import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
 import { useSearchParams } from './components/useWindowLocation'
+import { useStringContext } from './contexts/StringContext'
 import { FilterDrawer } from './FilterDrawer'
 import { IItemAction } from './ItemActions'
 import { IFilterState, IItemFilter } from './ItemFilter'
@@ -226,6 +227,8 @@ export function ItemView<T extends object>(props: {
 
     const showSelect = toolbarActionsHaveBulkActions(toolbarActions)
 
+    const { backLabel, cancelLabel, noItemsString, getStartedMessage, createItemString } = useStringContext()
+
     return (
         <Fragment>
             {columnModal}
@@ -285,15 +288,15 @@ export function ItemView<T extends object>(props: {
                                                 <EmptyState>
                                                     <EmptyStateIcon icon={PlusCircleIcon} />
                                                     <Title headingLevel="h2" size="lg">
-                                                        No {plural} yet
+                                                        {plural && noItemsString(plural)}
                                                     </Title>
                                                     <EmptyStateBody>
-                                                        To get started, create {article} {singular}.
+                                                        {article && singular && getStartedMessage(article, singular)}
                                                     </EmptyStateBody>
                                                     {createItem && (
                                                         <EmptyStateSecondaryActions>
                                                             <Button variant="primary" onClick={createItem}>
-                                                                Create item
+                                                                {createItemString}
                                                             </Button>
                                                         </EmptyStateSecondaryActions>
                                                     )}
@@ -346,7 +349,7 @@ export function ItemView<T extends object>(props: {
                                                                             {props.onBack && (
                                                                                 <ToolbarItem>
                                                                                     <Button onClick={props.onBack} variant="secondary">
-                                                                                        Back
+                                                                                        {backLabel}
                                                                                     </Button>
                                                                                 </ToolbarItem>
                                                                             )}
@@ -357,7 +360,7 @@ export function ItemView<T extends object>(props: {
                                                                                     }}
                                                                                 >
                                                                                     <Button onClick={props.onCancel} variant="link">
-                                                                                        Cancel
+                                                                                        {cancelLabel}
                                                                                     </Button>
                                                                                 </ToolbarItem>
                                                                             )}
