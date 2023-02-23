@@ -288,11 +288,9 @@ export function ItemView<T extends object>(props: {
                                                 <EmptyState>
                                                     <EmptyStateIcon icon={PlusCircleIcon} />
                                                     <Title headingLevel="h2" size="lg">
-                                                        {plural && noItemsString(plural)}
+                                                        {noItemsString}
                                                     </Title>
-                                                    <EmptyStateBody>
-                                                        {article && singular && getStartedMessage(article, singular)}
-                                                    </EmptyStateBody>
+                                                    <EmptyStateBody>{getStartedMessage}</EmptyStateBody>
                                                     {createItem && (
                                                         <EmptyStateSecondaryActions>
                                                             <Button variant="primary" onClick={createItem}>
