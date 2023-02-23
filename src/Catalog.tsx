@@ -33,6 +33,7 @@ export function Catalog<T extends object>(props: {
     isSelected: (item: T) => boolean
     itemActions?: IItemAction<T>[]
     showSelect: boolean
+    hasCustomSection: boolean
 }) {
     const { keyFn, items, itemToCardFn, isSelected, selectItem, unselectItem, itemActions, showSelect } = props
 
@@ -56,7 +57,7 @@ export function Catalog<T extends object>(props: {
     }, [props.cardWidth, items, keyFn, itemToCardFn, isSelected, selectItem, unselectItem, itemActions, showSelect])
 
     return (
-        <PageSection style={{ flexGrow: 1 }}>
+        <PageSection style={{ flexGrow: props.hasCustomSection ? 0 : 1 }}>
             {/* <Flex style={{ paddingBottom: 16 }}>
                 <FlexItem>
                     <span style={{ paddingRight: 8 }}>

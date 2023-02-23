@@ -21,7 +21,7 @@ import {
 } from '@patternfly/react-core'
 import { PlusCircleIcon } from '@patternfly/react-icons'
 import Fuse from 'fuse.js'
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, ReactNode, useCallback, useEffect, useState } from 'react'
 import { Catalog } from './Catalog'
 import { ICatalogCard } from './CatalogCard'
 import { useColumnModal } from './ColumnModal'
@@ -57,6 +57,7 @@ export function ItemView<T extends object>(props: {
     plural?: string
     article?: string
     createItem?: () => void
+    customCatalogSection?: ReactNode
 }) {
     const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions, singular, plural, article, createItem } = props
 
@@ -303,16 +304,24 @@ export function ItemView<T extends object>(props: {
                                             <>
                                                 <Scrollable>
                                                     {viewType === ItemViewTypeE.Catalog ? (
-                                                        <Catalog
-                                                            keyFn={props.itemKeyFn}
-                                                            items={paged}
-                                                            itemToCardFn={itemToCardFn!}
-                                                            selectItem={selectItem}
-                                                            unselectItem={unselectItem}
-                                                            isSelected={isSelected}
-                                                            itemActions={props.itemActions}
-                                                            showSelect={showSelect}
-                                                        />
+                                                        <>
+                                                          <Catalog
+                                                              keyFn={props.itemKeyFn}
+                                                              items={paged}
+                                                              itemToCardFn={itemToCardFn!}
+                                                              selectItem={selectItem}
+                                                              unselectItem={unselectItem}
+                                                              isSelected={isSelected}
+                                                              itemActions={props.itemActions}
+                                                              showSelect={showSelect}
+                                                              hasCustomSection={props.customCatalogSection ? true : false}
+                                                          />
+                                                          <>
+                                                          {props.customCatalogSection && (
+                                                            props.customCatalogSection
+                                                          )}
+                                                          </>
+                                                        </>
                                                     ) : (
                                                         <ItemTable
                                                             columns={managedColumns}
