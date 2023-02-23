@@ -54,12 +54,9 @@ export function ItemView<T extends object>(props: {
     itemToCardFn?: (item: T) => ICatalogCard
     searchKeys?: { name: string; weight?: number }[]
     localKey?: string
-    singular?: string
-    plural?: string
-    article?: string
     createItem?: () => void
 }) {
-    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions, singular, plural, article, createItem } = props
+    const { filters, itemKeyFn, itemToCardFn, searchKeys, columns, toolbarActions, createItem } = props
 
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -259,8 +256,6 @@ export function ItemView<T extends object>(props: {
                     toolbarActions={toolbarActions}
                     showSearch={searchKeys !== undefined}
                     showViewToggle={showViewToggle}
-                    singular={singular}
-                    plural={plural}
                     showSelect={showSelect}
                 />
             )}
