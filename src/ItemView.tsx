@@ -304,24 +304,19 @@ export function ItemView<T extends object>(props: {
                                             <>
                                                 <Scrollable>
                                                     {viewType === ItemViewTypeE.Catalog ? (
-                                                        <>
-                                                          <Catalog
-                                                              keyFn={props.itemKeyFn}
-                                                              items={paged}
-                                                              itemToCardFn={itemToCardFn!}
-                                                              selectItem={selectItem}
-                                                              unselectItem={unselectItem}
-                                                              isSelected={isSelected}
-                                                              itemActions={props.itemActions}
-                                                              showSelect={showSelect}
-                                                              hasCustomSection={props.customCatalogSection ? true : false}
-                                                          />
-                                                          <>
-                                                          {props.customCatalogSection && (
-                                                            props.customCatalogSection
-                                                          )}
-                                                          </>
-                                                        </>
+                                                        <PageSection style={{ flexGrow: 1 }}>
+                                                            <Catalog
+                                                                keyFn={props.itemKeyFn}
+                                                                items={paged}
+                                                                itemToCardFn={itemToCardFn!}
+                                                                selectItem={selectItem}
+                                                                unselectItem={unselectItem}
+                                                                isSelected={isSelected}
+                                                                itemActions={props.itemActions}
+                                                                showSelect={showSelect}
+                                                            />
+                                                            {props.customCatalogSection && props.customCatalogSection}
+                                                        </PageSection>
                                                     ) : (
                                                         <ItemTable
                                                             columns={managedColumns}
