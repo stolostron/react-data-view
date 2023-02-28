@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { PageSection } from '@patternfly/react-core'
 import { useMemo } from 'react'
 import { CatalogCard, ICatalogCard } from './CatalogCard'
 import { Grid } from './components/Grid'
@@ -55,20 +54,5 @@ export function Catalog<T extends object>(props: {
         )
     }, [props.cardWidth, items, keyFn, itemToCardFn, isSelected, selectItem, unselectItem, itemActions, showSelect])
 
-    return (
-        <PageSection style={{ flexGrow: 1 }}>
-            {/* <Flex style={{ paddingBottom: 16 }}>
-                <FlexItem>
-                    <span style={{ paddingRight: 8 }}>
-                        <b>Cards</b>
-                    </span>
-                    <Chip isReadOnly>{items.length}</Chip>
-                </FlexItem>
-                <FlexItem grow={{ default: 'grow' }} alignSelf={{ default: 'alignSelfCenter' }}>
-                    <Divider />
-                </FlexItem>
-            </Flex> */}
-            <div>{catalogCards}</div>
-        </PageSection>
-    )
+    return catalogCards
 }
