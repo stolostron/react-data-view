@@ -16,8 +16,8 @@ export const defaultStrings: DataViewStrings = {
     createItemString: 'Create item',
 }
 
-export const StringContext = createContext<DataViewStrings>(defaultStrings)
+export const DataViewStringContext = createContext<DataViewStrings>(defaultStrings)
 
 export function useStringContext() {
-    return useContext(StringContext)
+    return useContext(DataViewStringContext)
 }
