@@ -72,7 +72,7 @@
         "cpy-cli": "4.2.0",
         "css-loader": "6.7.3",
         "css-minimizer-webpack-plugin": "4.2.2",
-        "eslint": "8.35.0",
+        "eslint": "8.36.0",
         "eslint-config-prettier": "8.7.0",
         "eslint-plugin-i18n-json": "3.1.0",
         "eslint-plugin-i18next": "5.2.1",
@@ -92,7 +92,7 @@
         "style-loader": "3.3.1",
         "ts-node": "10.9.1",
         "typescript": "4.9.5",
-        "webpack": "5.76.0",
+        "webpack": "5.76.1",
         "webpack-cli": "4.10.0",
         "webpack-dev-server": "4.11.1"
     }
