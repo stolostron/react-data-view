@@ -1,18 +1,19 @@
 import '@patternfly/react-core/dist/styles/base.css'
 import { StrictMode } from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { themeInit, ThemeProvider } from '../src/Theme'
 import Demo from './Demo'
 
 themeInit()
 
-const root = document.createElement('div')
-document.body.appendChild(root)
-render(
+const div = document.createElement('div')
+document.body.appendChild(div)
+const root = createRoot(div)
+
+root.render(
     <StrictMode>
         <ThemeProvider>
             <Demo />
         </ThemeProvider>
-    </StrictMode>,
-    root
+    </StrictMode>
 )
