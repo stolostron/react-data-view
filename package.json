@@ -24,10 +24,10 @@
         "url": "git+https://github.com/stolostron/react-data-view.git"
     },
     "peerDependencies": {
-        "@patternfly/react-icons": "^4",
-        "@patternfly/react-core": "^4",
-        "@patternfly/react-table": "^4",
         "@patternfly/patternfly": "^4",
+        "@patternfly/react-core": "^4",
+        "@patternfly/react-icons": "^4",
+        "@patternfly/react-table": "^4",
         "react": "^17",
         "react-dom": "^17",
         "react-router-dom": "^5"
@@ -44,7 +44,7 @@
         "@babel/preset-typescript": "7.22.5",
         "@faker-js/faker": "7.6.0",
         "@patternfly/patternfly": "4.224.2",
-        "@patternfly/react-core": "4.267.6",
+        "@patternfly/react-core": "^4.267.8",
         "@patternfly/react-icons": "4.93.6",
         "@patternfly/react-table": "4.113.0",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
