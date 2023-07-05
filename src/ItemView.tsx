@@ -9,6 +9,8 @@ import {
     EmptyStateBody,
     EmptyStateIcon,
     EmptyStateSecondaryActions,
+    OnPerPageSelect,
+    OnSetPage,
     PageSection,
     Pagination,
     PaginationVariant,
@@ -97,8 +99,8 @@ export function ItemView<T extends object>(props: {
         unselectAll,
         unselectItem,
     } = useTableItems(props.items ?? [], itemKeyFn, { search: searchParams.get('search') })
-    const onSetPage = useCallback((_event, page) => setPage(page), [setPage])
-    const onPerPageSelect = useCallback((_event, perPage) => setPerPage(perPage), [setPerPage])
+    const onSetPage = useCallback<OnSetPage>((_event, page) => setPage(page), [setPage])
+    const onPerPageSelect = useCallback<OnPerPageSelect>((_event, perPage) => setPerPage(perPage), [setPerPage])
 
     useEffect(() => {
         if (searchKeys) {

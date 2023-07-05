@@ -1,12 +1,17 @@
-import { FormGroup, Select, SelectOption } from '@patternfly/react-core'
+import { FormGroup, Select, SelectOption, SelectOptionObject, SelectProps } from '@patternfly/react-core'
 import { useCallback, useState } from 'react'
 
-export function SingleSelect(props: { options: string[]; value?: string; onChange: (value: string) => void; label?: string }) {
+export function SingleSelect(props: {
+    options: string[]
+    value?: string
+    onChange: (value: string | SelectOptionObject) => void
+    label?: string
+}) {
     const [open, setOpen] = useState(false)
     const onToggle = useCallback(() => {
         setOpen((open) => !open)
     }, [])
-    const onSelect = useCallback(
+    const onSelect = useCallback<Required<SelectProps>['onSelect']>(
         (_e, v) => {
             props.onChange(v)
             setOpen(false)

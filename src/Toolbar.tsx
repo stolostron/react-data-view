@@ -122,6 +122,14 @@ export function PageToolbar<T extends object>(props: {
     const clearSearch = useCallback(() => setSearch(''), [setSearch])
     const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
 
+    const onChange = useCallback(
+        (input: string | React.FormEvent<HTMLInputElement>) => {
+            const search = typeof input === 'string' ? input : (input.target as HTMLInputElement).value
+            setSearch(search)
+        },
+        [setSearch]
+    )
+
     const toolbarActionButtons = useMemo(
         () => (
             <Fragment>
@@ -224,7 +232,7 @@ export function PageToolbar<T extends object>(props: {
                                 aria-label="search"
                                 placeholder="Search"
                                 value={search}
-                                onChange={setSearch}
+                                onChange={onChange}
                                 onClear={clearSearch}
                                 // resultsCount={searched.length !== 0 ? searched.length : undefined}
                             />
