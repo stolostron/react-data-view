@@ -39,7 +39,7 @@
         "luxon": "^3.3.0"
     },
     "devDependencies": {
-        "@babel/core": "7.22.9",
+        "@babel/core": "7.22.10",
         "@babel/preset-react": "7.22.5",
         "@babel/preset-typescript": "7.22.5",
         "@faker-js/faker": "7.6.0",
