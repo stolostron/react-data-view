@@ -36,7 +36,7 @@
         "debounce": "1.2.1",
         "fuse.js": "6.6.2",
         "get-value": "3.0.1",
-        "luxon": "^3.4.1"
+        "luxon": "^3.4.2"
     },
     "devDependencies": {
         "@babel/core": "7.22.11",
