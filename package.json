@@ -36,12 +36,12 @@
         "debounce": "1.2.1",
         "fuse.js": "6.6.2",
         "get-value": "3.0.1",
-        "luxon": "^3.4.2"
+        "luxon": "^3.4.3"
     },
     "devDependencies": {
-        "@babel/core": "7.22.11",
-        "@babel/preset-react": "7.22.5",
-        "@babel/preset-typescript": "7.22.11",
+        "@babel/core": "7.22.15",
+        "@babel/preset-react": "7.22.15",
+        "@babel/preset-typescript": "7.22.15",
         "@faker-js/faker": "7.6.0",
         "@patternfly/patternfly": "5.0.2",
         "@patternfly/react-core": "^4.276.8",
