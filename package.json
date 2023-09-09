@@ -39,7 +39,7 @@
         "luxon": "^3.4.3"
     },
     "devDependencies": {
-        "@babel/core": "7.22.15",
+        "@babel/core": "7.22.17",
         "@babel/preset-react": "7.22.15",
         "@babel/preset-typescript": "7.22.15",
         "@faker-js/faker": "7.6.0",
@@ -56,7 +56,7 @@
         "@types/html-webpack-plugin": "3.2.6",
         "@types/luxon": "^3.3.2",
         "@types/mini-css-extract-plugin": "2.5.0",
-        "@types/node": "14.18.58",
+        "@types/node": "14.18.59",
         "@types/react": "^18.2.21",
         "@types/react-dom": "^18.2.7",
         "@types/react-router-dom": "5.3.3",
@@ -72,7 +72,7 @@
         "cpy-cli": "4.2.0",
         "css-loader": "6.8.1",
         "css-minimizer-webpack-plugin": "4.2.2",
-        "eslint": "8.48.0",
+        "eslint": "8.49.0",
         "eslint-config-prettier": "8.10.0",
         "eslint-plugin-i18n-json": "^4.0.0",
         "eslint-plugin-i18next": "5.2.1",
