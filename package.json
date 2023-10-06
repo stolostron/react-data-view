@@ -43,7 +43,7 @@
         "@babel/preset-react": "7.22.15",
         "@babel/preset-typescript": "7.23.0",
         "@faker-js/faker": "7.6.0",
-        "@patternfly/patternfly": "5.0.4",
+        "@patternfly/patternfly": "5.1.0",
         "@patternfly/react-core": "^4.276.8",
         "@patternfly/react-icons": "4.93.6",
         "@patternfly/react-table": "4.113.0",
