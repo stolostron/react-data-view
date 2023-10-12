@@ -39,9 +39,9 @@
         "luxon": "^3.4.3"
     },
     "devDependencies": {
-        "@babel/core": "7.23.0",
+        "@babel/core": "7.23.2",
         "@babel/preset-react": "7.22.15",
-        "@babel/preset-typescript": "7.23.0",
+        "@babel/preset-typescript": "7.23.2",
         "@faker-js/faker": "7.6.0",
         "@patternfly/patternfly": "5.1.0",
         "@patternfly/react-core": "^4.276.8",
