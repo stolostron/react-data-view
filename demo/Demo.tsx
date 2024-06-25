@@ -13,7 +13,7 @@ import {
     Title,
 } from '@patternfly/react-core'
 import { BarsIcon } from '@patternfly/react-icons'
-import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
+import { BrowserRouter, Link, useLocation, Navigate } from 'react-router-dom-v5-compat'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher } from '../src/Theme'
 import { ControlPlane } from './ControlPlane'
@@ -42,14 +42,12 @@ export default function Demo() {
 
 export function DemoRouter(): JSX.Element {
     const location = useLocation()
-    const history = useHistory()
     if (location.search.startsWith(RouteE.Home)) return <Home />
     if (location.search.startsWith(RouteE.Demo)) return <ItemViewDemo />
     if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
     if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
     if (location.search.startsWith(RouteE.Hosted)) return <Hosted />
-    history.push(RouteE.Home)
-    return <div />
+    return <Navigate to={{ search: RouteE.Home }} />
 }
 
 function DemoHeader() {
