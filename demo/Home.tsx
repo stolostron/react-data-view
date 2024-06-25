@@ -1,13 +1,13 @@
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
 import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
 
 export function Home() {
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const cards = useMemo(() => {
         const cards: ICatalogCard[] = [
@@ -44,7 +44,7 @@ export function Home() {
                         badgeColor: CatalogColor.orange,
                     },
                 ],
-                onClick: () => history.push(RouteE.Demo),
+                onClick: () => navigate(RouteE.Demo),
             },
             {
                 id: 'infrastructure',
@@ -68,11 +68,11 @@ export function Home() {
                 ],
                 badge: 'Classic',
                 badgeColor: CatalogColor.purple,
-                onClick: () => history.push(RouteE.Infrastructure),
+                onClick: () => navigate(RouteE.Infrastructure),
             },
         ]
         return cards
-    }, [history])
+    }, [navigate])
 
     const keyFn = useCallback((card: ICatalogCard) => card.id, [])
 
