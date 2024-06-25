@@ -1,10 +1,9 @@
-import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom-v5-compat'
 import { CatalogCardItemType, ICatalogCard, ItemView } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
+import { GreenCheckIcon } from './GreenCheckIcon'
 
 const learnMore = 'https://github.com/stolostron/react-data-view'
 
@@ -25,7 +24,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Features',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [
                             { text: 'Better hardware utilization', help: 'Popover example' },
                             { text: 'Network and trusted segmentation between control plane and workers' },
@@ -35,7 +34,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Available cluster types',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [{ text: 'Hosted cluster' }],
                     },
                 ],
@@ -53,7 +52,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Features',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [
                             { text: 'Increased resiliency with multiple masters' },
                             { text: 'Isolation of workload creates secure profile' },
@@ -63,7 +62,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Available cluster types',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [{ text: 'ACM Hub' }, { text: 'Hosting service cluster' }],
                     },
                 ],

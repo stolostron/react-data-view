@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { faker } from '@faker-js/faker'
-import { capitalize } from '@patternfly/react-core'
+import { Icon, capitalize } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon } from '@patternfly/react-icons'
 import { ReactNode } from 'react'
 import { CatalogColor } from '../src'
@@ -76,7 +76,11 @@ export function getTaskStatus(task: IMockTask) {
         case 'online':
             return {
                 text: 'Online',
-                icon: <CheckCircleIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                icon: (
+                    <Icon color={getPatternflyColor(PatternFlyColor.Green)}>
+                        <CheckCircleIcon />
+                    </Icon>
+                ),
             }
         case 'offline':
             return {

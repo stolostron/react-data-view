@@ -1,10 +1,9 @@
-import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom-v5-compat'
 import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
+import { GreenCheckIcon } from './GreenCheckIcon'
 
 export function Home() {
     const navigate = useNavigate()
@@ -22,7 +21,7 @@ export function Home() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Features',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [
                             { text: 'Supports sorting, filtering, and fuzzy searching.' },
                             { text: 'Support table and catalog views.', subTitles: ['First demo subtitle', 'Second demo subtitle'] },
@@ -57,7 +56,7 @@ export function Home() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Features',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [
                             {
                                 text: 'Catalog views with the table view hidden.',

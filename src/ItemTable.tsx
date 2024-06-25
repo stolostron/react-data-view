@@ -20,7 +20,7 @@ import {
     Thead,
     Tr,
 } from '@patternfly/react-table'
-import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
+import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base/types'
 import useResizeObserver from '@react-hook/resize-observer'
 import { Fragment, MouseEvent, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { IItemAction, isItemActionClick } from './ItemActions'

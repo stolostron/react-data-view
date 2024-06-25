@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
     Alert,
+    AlertProps,
     Button,
     Card,
     CardBody,
@@ -63,7 +64,7 @@ export interface ICatalogCard {
     badgeList?: { badge?: string; badgeColor?: CatalogColor }[]
     alertTitle?: string
     alertContent?: ReactNode
-    alertVariant?: 'success' | 'danger' | 'warning' | 'info' | 'default'
+    alertVariant?: AlertProps['variant']
     onClick?: () => void
 }
 

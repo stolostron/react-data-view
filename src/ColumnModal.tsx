@@ -40,7 +40,7 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
         })
         //
     }, [])
-    const handleChange = useCallback((checked: boolean, event: FormEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: FormEvent<HTMLInputElement>, checked: boolean) => {
         const columnHeader = (event.target as unknown as { name?: string }).name
         if (columnHeader) {
             setManagedColumns((managedColumns) => {

@@ -14,12 +14,12 @@ import {
     TextCell,
     ToolbarActionType,
 } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { IItemAction } from '../src/ItemActions'
 import { PageHeader } from '../src/PageHeader'
 import { colors } from './mock'
 import { RouteE } from './route'
 import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
+import { GreenCheckIcon } from './GreenCheckIcon'
 
 export function ItemViewDemo() {
     const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
@@ -156,7 +156,7 @@ export function ItemViewDemo() {
                 type: CatalogCardItemType.List,
                 title: 'Colors',
                 items: task.colors.map((color) => ({ text: color })),
-                icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                icon: <GreenCheckIcon />,
             })
         }
         return card
@@ -181,7 +181,11 @@ export function ItemViewDemo() {
                     <Dropdown
                         position={DropdownPosition.right}
                         toggle={
-                            <DropdownToggle isPrimary id="toggle-position-right" onToggle={() => setActionsOpen((open) => !open)}>
+                            <DropdownToggle
+                                toggleVariant="primary"
+                                id="toggle-position-right"
+                                onToggle={() => setActionsOpen((open) => !open)}
+                            >
                                 Options
                             </DropdownToggle>
                         }
