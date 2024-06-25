@@ -1,4 +1,5 @@
-import { ButtonVariant, Checkbox, Dropdown, DropdownItem, DropdownPosition, DropdownToggle, Tab, Tabs } from '@patternfly/react-core'
+import { ButtonVariant, Checkbox, Tab, Tabs } from '@patternfly/react-core'
+import { Dropdown, DropdownItem, DropdownPosition, DropdownToggle } from '@patternfly/react-core/deprecated'
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
@@ -172,7 +173,7 @@ export function ItemViewDemo() {
                 title="Item View"
                 breadcrumbs={breadcrumbs}
                 navigation={
-                    <Tabs hasBorderBottom={false}>
+                    <Tabs hasNoBorderBottom>
                         <Tab title="Item demo" eventKey={0}></Tab>
                     </Tabs>
                 }
@@ -191,18 +192,23 @@ export function ItemViewDemo() {
                                     id="useBulkActions"
                                     label="Use bulk actions"
                                     isChecked={useBulkActions}
-                                    onChange={setUseBuldActions}
+                                    onChange={(_event, val) => setUseBuldActions(val)}
                                 />
                             </DropdownItem>,
                             <DropdownItem key="useSearch">
-                                <Checkbox id="useSearch" label="Use search" isChecked={useSearch} onChange={setUseSearch} />
+                                <Checkbox
+                                    id="useSearch"
+                                    label="Use search"
+                                    isChecked={useSearch}
+                                    onChange={(_event, val) => setUseSearch(val)}
+                                />
                             </DropdownItem>,
                             <DropdownItem key="useItemActions">
                                 <Checkbox
                                     id="useItemActions"
                                     label="Use item actions"
                                     isChecked={useItemActions}
-                                    onChange={setUseItemActions}
+                                    onChange={(_event, val) => setUseItemActions(val)}
                                 />
                             </DropdownItem>,
                         ]}

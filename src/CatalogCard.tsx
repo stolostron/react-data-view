@@ -4,7 +4,6 @@ import {
     Alert,
     Button,
     Card,
-    CardActions,
     CardBody,
     CardFooter,
     CardHeader,
@@ -14,10 +13,6 @@ import {
     DescriptionListDescription,
     DescriptionListGroup,
     DescriptionListTerm,
-    Dropdown,
-    DropdownItem,
-    DropdownSeparator,
-    KebabToggle,
     Label,
     LabelGroup,
     List,
@@ -29,6 +24,7 @@ import {
     StackItem,
     Title,
 } from '@patternfly/react-core'
+import { Dropdown, DropdownItem, DropdownSeparator, KebabToggle } from '@patternfly/react-core/deprecated'
 import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
@@ -212,7 +208,38 @@ export function CatalogCard<T extends object>(props: {
                 cursor: !disabled ? 'pointer' : undefined,
             }}
         >
-            <CardHeader style={{ opacity: !disabled ? undefined : '0.5' }}>
+            <CardHeader
+                {...(showActions && {
+                    actions: {
+                        actions: (
+                            <>
+                                {showDropdown && (
+                                    <Dropdown
+                                        onSelect={onSelect}
+                                        toggle={<KebabToggle onToggle={(_event, val) => setIsOpen(val)} />}
+                                        isOpen={isOpen}
+                                        isPlain
+                                        dropdownItems={dropdownItems}
+                                        position="right"
+                                    />
+                                )}
+                                {showSelect && (
+                                    <Checkbox
+                                        isChecked={isSelected(item)}
+                                        onChange={onClick}
+                                        aria-label="card checkbox example"
+                                        id="check-1"
+                                        name="check1"
+                                    />
+                                )}
+                            </>
+                        ),
+                        hasNoOffset: true,
+                        className: undefined,
+                    },
+                })}
+                style={{ opacity: !disabled ? undefined : '0.5' }}
+            >
                 <Split hasGutter style={{ width: '100%' }}>
                     <SplitItem isFilled>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -237,29 +264,6 @@ export function CatalogCard<T extends object>(props: {
                     </SplitItem>
                     {card.badgeList ? renderCardBadgelist() : renderCardSingleBadge()}
                 </Split>
-                {showActions && (
-                    <CardActions hasNoOffset>
-                        {showDropdown && (
-                            <Dropdown
-                                onSelect={onSelect}
-                                toggle={<KebabToggle onToggle={setIsOpen} />}
-                                isOpen={isOpen}
-                                isPlain
-                                dropdownItems={dropdownItems}
-                                position="right"
-                            />
-                        )}
-                        {showSelect && (
-                            <Checkbox
-                                isChecked={isSelected(item)}
-                                onChange={onClick}
-                                aria-label="card checkbox example"
-                                id="check-1"
-                                name="check1"
-                            />
-                        )}
-                    </CardActions>
-                )}
             </CardHeader>
             {card.items && (
                 <Scrollable>

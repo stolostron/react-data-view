@@ -1,7 +1,6 @@
 import {
     Button,
     ButtonVariant,
-    DropdownSeparator,
     OnPerPageSelect,
     OnSetPage,
     OverflowMenu,
@@ -11,10 +10,6 @@ import {
     OverflowMenuGroup,
     OverflowMenuItem,
     SearchInput,
-    Select,
-    SelectOption,
-    SelectOptionObject,
-    SelectVariant,
     ToggleGroup,
     ToggleGroupItem,
     Toolbar,
@@ -24,6 +19,7 @@ import {
     ToolbarItem,
     ToolbarToggleGroup,
 } from '@patternfly/react-core'
+import { DropdownSeparator, Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core/deprecated'
 import { ColumnsIcon, FilterIcon, ListIcon, ThIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import { BulkSelector } from './components/BulkSelector'

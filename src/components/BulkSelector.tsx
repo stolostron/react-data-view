@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, DropdownToggle, DropdownToggleCheckbox } from '@patternfly/react-core'
+import { Dropdown, DropdownItem, DropdownToggle, DropdownToggleCheckbox } from '@patternfly/react-core/deprecated'
 import { useCallback, useMemo, useState } from 'react'
 import { useWindowSizeOrLarger, WindowSize } from './useBreakPoint'
 
@@ -41,7 +41,7 @@ export function BulkSelector(props: BulkSelectorProps) {
                         {toggleText}
                     </DropdownToggleCheckbox>,
                 ]}
-                onToggle={(isOpen) => setIsOpen(isOpen)}
+                onToggle={(_event, isOpen) => setIsOpen(isOpen)}
             />
         )
     }, [selectedCount, toggleText, onToggleCheckbox])

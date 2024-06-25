@@ -11,6 +11,7 @@ import {
     PageSidebar,
     PageToggleButton,
     Title,
+    PageSidebarBody,
 } from '@patternfly/react-core'
 import { BarsIcon } from '@patternfly/react-icons'
 import { BrowserRouter, Link, useLocation, Navigate } from 'react-router-dom-v5-compat'
@@ -47,7 +48,7 @@ export function DemoRouter(): JSX.Element {
     if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
     if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
     if (location.search.startsWith(RouteE.Hosted)) return <Hosted />
-    return <Navigate to={{ search: RouteE.Home}} />
+    return <Navigate to={{ search: RouteE.Home }} />
 }
 
 function DemoHeader() {
@@ -61,7 +62,7 @@ function DemoHeader() {
             </MastheadToggle>
             {isSmallOrLarger ? (
                 <MastheadMain>
-                    <MastheadBrand>
+                    <MastheadBrand component="a">
                         <Title headingLevel="h2" style={{ color: 'white' }}>
                             <Truncate content="Stolostron / React Item View" />
                         </Title>
@@ -69,7 +70,7 @@ function DemoHeader() {
                 </MastheadMain>
             ) : (
                 <MastheadMain>
-                    <MastheadBrand>
+                    <MastheadBrand component="a">
                         <Title headingLevel="h2" style={{ color: 'white' }}>
                             <Truncate content="Item View" />
                         </Title>
@@ -87,8 +88,8 @@ function DemoHeader() {
 function DemoSidebar() {
     const location = useLocation()
     return (
-        <PageSidebar
-            nav={
+        <PageSidebar>
+            <PageSidebarBody>
                 <Nav>
                     <NavList>
                         <NavItem isActive={location.search === RouteE.Demo}>
@@ -99,7 +100,7 @@ function DemoSidebar() {
                         </NavItem>
                     </NavList>
                 </Nav>
-            }
-        />
+            </PageSidebarBody>
+        </PageSidebar>
     )
 }

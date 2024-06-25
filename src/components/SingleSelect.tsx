@@ -1,4 +1,5 @@
-import { FormGroup, Select, SelectOption, SelectOptionObject, SelectProps } from '@patternfly/react-core'
+import { FormGroup } from '@patternfly/react-core'
+import { Select, SelectOption, SelectOptionObject, SelectProps } from '@patternfly/react-core/deprecated'
 import { useCallback, useState } from 'react'
 
 export function SingleSelect(props: {

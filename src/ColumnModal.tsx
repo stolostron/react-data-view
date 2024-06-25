@@ -75,13 +75,7 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
                 </Button>,
             ]}
         >
-            <DataList
-                aria-label="Table column management"
-                id="table-column-management"
-                isCompact
-                onDragFinish={onDragFinish}
-                itemOrder={managedColumns.map((column) => column.header)}
-            >
+            <DataList aria-label="Table column management" id="table-column-management" isCompact>
                 {managedColumns.map((column) => {
                     // if (index === 0) return <Fragment />
                     return (

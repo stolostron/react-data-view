@@ -1,6 +1,25 @@
-import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateSecondaryActions, Title } from '@patternfly/react-core'
+import {
+    Button,
+    EmptyState,
+    EmptyStateBody,
+    EmptyStateIcon,
+    EmptyStateActions,
+    EmptyStateHeader,
+    EmptyStateFooter,
+} from '@patternfly/react-core'
 import { SearchIcon } from '@patternfly/react-icons'
-import { ActionsColumn, IAction, ISortBy, SortByDirection, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
+import {
+    ActionsColumn,
+    IAction,
+    ISortBy,
+    SortByDirection,
+    Table /* data-codemods */,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+} from '@patternfly/react-table'
 import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
 import useResizeObserver from '@react-hook/resize-observer'
 import { Fragment, MouseEvent, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -95,7 +114,7 @@ export function ItemTable<T extends object>(props: {
         () => (
             <div style={{ overflow: 'hidden', height: '100%' }} className="vtable" ref={sizeRef}>
                 <div onScroll={onScroll} style={{ height: '100%', overflow: 'auto' }} ref={scrollRef}>
-                    <TableComposable
+                    <Table
                         aria-label="Simple table"
                         // variant="compact"
                         // variant={exampleChoice !== 'default' ? 'compact' : undefined}
@@ -121,20 +140,23 @@ export function ItemTable<T extends object>(props: {
                             ))}
                             {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
                         </Tbody>
-                    </TableComposable>
+                    </Table>
                     {items.length === 0 && (
                         <div style={{ paddingTop: 16 }}>
                             <EmptyState>
-                                <EmptyStateIcon icon={SearchIcon} />
-                                <Title headingLevel="h2" size="lg">
-                                    No results found
-                                </Title>
+                                <EmptyStateHeader
+                                    titleText="No results found"
+                                    icon={<EmptyStateIcon icon={SearchIcon} />}
+                                    headingLevel="h2"
+                                />
                                 <EmptyStateBody>No results match this filter criteria. Adjust your filters and try again.</EmptyStateBody>
-                                <EmptyStateSecondaryActions>
-                                    <Button variant="link" onClick={clearAllFilters}>
-                                        Clear all filters
-                                    </Button>
-                                </EmptyStateSecondaryActions>
+                                <EmptyStateFooter>
+                                    <EmptyStateActions>
+                                        <Button variant="link" onClick={clearAllFilters}>
+                                            Clear all filters
+                                        </Button>
+                                    </EmptyStateActions>
+                                </EmptyStateFooter>
                             </EmptyState>
                         </div>
                     )}
