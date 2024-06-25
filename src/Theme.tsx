@@ -18,7 +18,7 @@ export function themeInit() {
     }
 
     if (theme === 'dark') {
-        document.documentElement.classList.add('pf-theme-dark')
+        document.documentElement.classList.add('pf-v5-theme-dark')
     }
 }
 
@@ -30,16 +30,16 @@ const ThemeContext = createContext<IThemeState>({})
 
 export function ThemeProvider(props: { children?: ReactNode }) {
     const [theme, setThemeState] = useState<ThemeE>(
-        document.documentElement.classList.contains('pf-theme-dark') ? ThemeE.Dark : ThemeE.Light
+        document.documentElement.classList.contains('pf-v5-theme-dark') ? ThemeE.Dark : ThemeE.Light
     )
     function setTheme(newTheme: ThemeE) {
         switch (newTheme) {
             case ThemeE.Light:
-                document.documentElement.classList.remove('pf-theme-dark')
+                document.documentElement.classList.remove('pf-v5-theme-dark')
                 localStorage.setItem('theme', 'light')
                 break
             case ThemeE.Dark:
-                document.documentElement.classList.add('pf-theme-dark')
+                document.documentElement.classList.add('pf-v5-theme-dark')
                 localStorage.setItem('theme', 'dark')
                 break
         }

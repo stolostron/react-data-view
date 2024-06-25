@@ -26,7 +26,7 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     onClick={breadcrumb.to ? () => navigate(breadcrumb.to!) : undefined}
                     style={{
-                        color: breadcrumb.to ? 'var(--pf-c-breadcrumb__link--Color)' : undefined,
+                        color: breadcrumb.to ? 'var(--pf-v5-c-breadcrumb__link--Color)' : undefined,
                         cursor: breadcrumb.to ? 'pointer' : undefined,
                     }}
                     isActive={breadcrumb.to === undefined}
@@ -53,9 +53,9 @@ export function PageHeader(props: {
     return (
         <div
             style={{
-                borderBottom: 'thin solid var(--pf-global--BorderColor--100)',
+                borderBottom: 'thin solid var(--pf-v5-global--BorderColor--100)',
                 backgroundColor:
-                    theme === ThemeE.Dark ? 'var(--pf-global--BackgroundColor--300)' : 'var(--pf-global--BackgroundColor--100)',
+                    theme === ThemeE.Dark ? 'var(--pf-v5-global--BackgroundColor--300)' : 'var(--pf-v5-global--BackgroundColor--100)',
             }}
         >
             <Split>

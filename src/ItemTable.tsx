@@ -101,7 +101,7 @@ export function ItemTable<T extends object>(props: {
     const onScroll = useCallback((event: UIEvent<HTMLDivElement>) => updateScroll(event.currentTarget), [updateScroll])
 
     const className = useMemo(() => {
-        // let className = 'pf-c-table '
+        // let className = 'pf-v5-c-table '
         let className = ''
         if (scroll.top > 1) className += 'scroll-top '
         if (scroll.bottom > 1) className += 'scroll-bottom '
@@ -369,7 +369,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
 //                 // variant={PaginationVariant.bottom}
 //                 // onSetPage={this.onSetPage}
 //                 // onPerPageSelect={this.onPerPageSelect}
-//                 style={{ borderTop: '1px solid var(--pf-global--BorderColor--dark-100)', marginTop: -1, zIndex: 300 }}
+//                 style={{ borderTop: '1px solid var(--pf-v5-global--BorderColor--dark-100)', marginTop: -1, zIndex: 300 }}
 //             />
 //         ),
 //         [itemCount, onPerPageSelect, onSetPage, page, perPage]

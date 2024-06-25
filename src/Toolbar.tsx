@@ -205,7 +205,7 @@ export function PageToolbar<T extends object>(props: {
     }
 
     return (
-        <Toolbar style={{ borderBottom: 'thin solid var(--pf-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
+        <Toolbar style={{ borderBottom: 'thin solid var(--pf-v5-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
                 {showSelect && (
                     <ToolbarGroup>

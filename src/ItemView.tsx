@@ -341,7 +341,7 @@ export function ItemView<T extends object>(props: {
                                                             variant="light"
                                                             padding={{ default: 'noPadding' }}
                                                             style={{
-                                                                borderTop: 'thin solid var(--pf-global--BorderColor--100)',
+                                                                borderTop: 'thin solid var(--pf-v5-global--BorderColor--100)',
                                                                 flexGrow: 0,
                                                             }}
                                                         >
@@ -359,7 +359,7 @@ export function ItemView<T extends object>(props: {
                                                                             {props.onCancel && (
                                                                                 <ToolbarItem
                                                                                     style={{
-                                                                                        paddingLeft: 32, // var(--pf-c-wizard__footer-cancel--MarginLeft)
+                                                                                        paddingLeft: 32, // var(--pf-v5-c-wizard__footer-cancel--MarginLeft)
                                                                                     }}
                                                                                 >
                                                                                     <Button onClick={props.onCancel} variant="link">
