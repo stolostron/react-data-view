@@ -14,6 +14,10 @@ import {
     DescriptionListDescription,
     DescriptionListGroup,
     DescriptionListTerm,
+    Divider,
+    Dropdown,
+    DropdownList,
+    DropdownItem,
     Label,
     LabelGroup,
     List,
@@ -24,9 +28,10 @@ import {
     Stack,
     StackItem,
     Title,
+    MenuToggleElement,
+    MenuToggle,
 } from '@patternfly/react-core'
-import { Dropdown, DropdownItem, DropdownSeparator, KebabToggle } from '@patternfly/react-core/deprecated'
-import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
+import { EllipsisVIcon, ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
@@ -152,7 +157,7 @@ export function CatalogCard<T extends object>(props: {
                         </DropdownItem>
                     )
                 }
-                return <DropdownSeparator key={index} />
+                return <Divider key={index} component="li" />
             }),
         [item, itemActions]
     )
@@ -217,12 +222,22 @@ export function CatalogCard<T extends object>(props: {
                                 {showDropdown && (
                                     <Dropdown
                                         onSelect={onSelect}
-                                        toggle={<KebabToggle onToggle={(_event, val) => setIsOpen(val)} />}
+                                        toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                                            <MenuToggle
+                                                ref={toggleRef}
+                                                onClick={() => setIsOpen((open) => !open)}
+                                                isExpanded={isOpen}
+                                                variant="plain"
+                                            >
+                                                <EllipsisVIcon />
+                                            </MenuToggle>
+                                        )}
                                         isOpen={isOpen}
-                                        isPlain
-                                        dropdownItems={dropdownItems}
-                                        position="right"
-                                    />
+                                        onOpenChange={setIsOpen}
+                                        popperProps={{ position: 'right' }}
+                                    >
+                                        <DropdownList>{dropdownItems}</DropdownList>
+                                    </Dropdown>
                                 )}
                                 {showSelect && (
                                     <Checkbox

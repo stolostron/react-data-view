@@ -1,6 +1,6 @@
-import { Dropdown, DropdownItem, DropdownToggle, DropdownToggleCheckbox } from '@patternfly/react-core/deprecated'
 import { useCallback, useMemo, useState } from 'react'
 import { useWindowSizeOrLarger, WindowSize } from './useBreakPoint'
+import { Dropdown, DropdownItem, DropdownList, MenuToggle, MenuToggleCheckbox, MenuToggleElement } from '@patternfly/react-core'
 
 export interface BulkSelectorProps {
     itemCount: number
@@ -27,24 +27,30 @@ export function BulkSelector(props: BulkSelectorProps) {
         else return selectedCount > 0 ? `${selectedCount}` : ''
     }, [isSmallOrLarger, selectedCount])
 
-    const toggle = useMemo(() => {
-        return (
-            <DropdownToggle
-                splitButtonItems={[
-                    <DropdownToggleCheckbox
-                        id="select-all"
-                        key="select-all"
-                        aria-label="Select all"
-                        isChecked={selectedCount > 0}
-                        onChange={onToggleCheckbox}
-                    >
-                        {toggleText}
-                    </DropdownToggleCheckbox>,
-                ]}
-                onToggle={(_event, isOpen) => setIsOpen(isOpen)}
-            />
-        )
-    }, [selectedCount, toggleText, onToggleCheckbox])
+    const toggle = useCallback(
+        (toggleRef: React.Ref<MenuToggleElement>) => {
+            return (
+                <MenuToggle
+                    ref={toggleRef}
+                    onClick={() => setIsOpen((open) => !open)}
+                    splitButtonOptions={{
+                        items: [
+                            <MenuToggleCheckbox
+                                id="select-all"
+                                key="select-all"
+                                aria-label="Select all"
+                                isChecked={selectedCount > 0}
+                                onChange={onToggleCheckbox}
+                            >
+                                {toggleText}
+                            </MenuToggleCheckbox>,
+                        ],
+                    }}
+                />
+            )
+        },
+        [selectedCount, toggleText, onToggleCheckbox]
+    )
 
     const selectNoneDropdownItem = useMemo(() => {
         return (
@@ -96,5 +102,9 @@ export function BulkSelector(props: BulkSelectorProps) {
         [selectNoneDropdownItem, selectPageDropdownItem, selectAllDropdownItem]
     )
 
-    return <Dropdown isOpen={isOpen} toggle={toggle} dropdownItems={dropdownItems} style={{ zIndex: 302 }} />
+    return (
+        <Dropdown isOpen={isOpen} onOpenChange={setIsOpen} toggle={toggle}>
+            <DropdownList>{dropdownItems}</DropdownList>
+        </Dropdown>
+    )
 }

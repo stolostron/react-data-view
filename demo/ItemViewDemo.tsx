@@ -1,5 +1,4 @@
-import { ButtonVariant, Checkbox, Tab, Tabs } from '@patternfly/react-core'
-import { Dropdown, DropdownItem, DropdownPosition, DropdownToggle } from '@patternfly/react-core/deprecated'
+import { ButtonVariant, MenuToggle, MenuToggleElement, Tab, Tabs, Select, SelectList, SelectOption } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
@@ -53,7 +52,7 @@ export function ItemViewDemo() {
         []
     )
 
-    const [useBulkActions, setUseBuldActions] = useState(true)
+    const [useBulkActions, setUseBulkActions] = useState(true)
     const toolbarActions = useMemo(() => {
         const newToolbarActions: IToolbarAction<IMockTask>[] = [
             {
@@ -179,45 +178,50 @@ export function ItemViewDemo() {
                     </Tabs>
                 }
                 actions={
-                    <Dropdown
-                        position={DropdownPosition.right}
-                        toggle={
-                            <DropdownToggle
-                                toggleVariant="primary"
+                    <Select
+                        role="menu"
+                        popperProps={{ position: 'right' }}
+                        toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                            <MenuToggle
+                                ref={toggleRef}
+                                variant="primary"
                                 id="toggle-position-right"
-                                onToggle={() => setActionsOpen((open) => !open)}
+                                onClick={() => setActionsOpen((open) => !open)}
+                                isExpanded={actionsOpen}
                             >
                                 Options
-                            </DropdownToggle>
-                        }
+                            </MenuToggle>
+                        )}
                         isOpen={actionsOpen}
-                        dropdownItems={[
-                            <DropdownItem key="useBulkActions">
-                                <Checkbox
-                                    id="useBulkActions"
-                                    label="Use bulk actions"
-                                    isChecked={useBulkActions}
-                                    onChange={(_event, val) => setUseBuldActions(val)}
-                                />
-                            </DropdownItem>,
-                            <DropdownItem key="useSearch">
-                                <Checkbox
-                                    id="useSearch"
-                                    label="Use search"
-                                    isChecked={useSearch}
-                                    onChange={(_event, val) => setUseSearch(val)}
-                                />
-                            </DropdownItem>,
-                            <DropdownItem key="useItemActions">
-                                <Checkbox
-                                    id="useItemActions"
-                                    label="Use item actions"
-                                    isChecked={useItemActions}
-                                    onChange={(_event, val) => setUseItemActions(val)}
-                                />
-                            </DropdownItem>,
-                        ]}
-                    />
+                        onOpenChange={setActionsOpen}
+                    >
+                        <SelectList>
+                            <SelectOption
+                                key="useBulkActions"
+                                hasCheckbox
+                                isSelected={useBulkActions}
+                                onClick={() => setUseBulkActions((useBulkActions) => !useBulkActions)}
+                            >
+                                Use bulk actions
+                            </SelectOption>
+                            <SelectOption
+                                key="useSearch"
+                                hasCheckbox
+                                isSelected={useSearch}
+                                onClick={() => setUseSearch((useSearch) => !useSearch)}
+                            >
+                                Use search
+                            </SelectOption>
+                            <SelectOption
+                                key="useItemActions"
+                                hasCheckbox
+                                isSelected={useItemActions}
+                                onClick={() => setUseItemActions((useItemActions) => !useItemActions)}
+                            >
+                                Use item actions
+                            </SelectOption>
+                        </SelectList>
+                    </Select>
                 }
             />
             <ItemView
