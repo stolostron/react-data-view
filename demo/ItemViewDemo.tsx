@@ -22,7 +22,8 @@ import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
 import { GreenCheckIcon } from './GreenCheckIcon'
 
 export function ItemViewDemo() {
-    const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
+    // With PF4, performance was good with 100,000 items
+    const { items: tasks, createItem, deleteItems } = useMockTasks(1000)
 
     const [actionsOpen, setActionsOpen] = useState(false)
 

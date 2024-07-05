@@ -16,7 +16,7 @@ export function Home() {
                 items: [
                     {
                         type: CatalogCardItemType.Description,
-                        description: 'Demo showing an item view with 100,000 items.',
+                        description: 'Demo showing an item view with 1,000 items.',
                     },
                     {
                         type: CatalogCardItemType.List,

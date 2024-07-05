@@ -4,18 +4,16 @@ import {
     DataListCell,
     DataListCheck,
     DataListControl,
-    DataListDragButton,
-    DataListItem,
     DataListItemCells,
-    DataListItemRow,
     Modal,
     ModalVariant,
     Text,
     TextContent,
     TextVariants,
 } from '@patternfly/react-core'
-import { FormEvent, useCallback, useState } from 'react'
+import { FormEvent, useCallback, useMemo, useState } from 'react'
 import { ITableColumn } from './TableColumn'
+import { DragDropSort, DragDropSortDragEndEvent, DraggableObject } from '@patternfly/react-drag-drop'
 
 export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
     const [columnModalOpen, setColumnModalOpen] = useState(false)
@@ -34,11 +32,10 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
             return [...managedColumns]
         })
     }, [])
-    const onDragFinish = useCallback((itemOrder: string[]) => {
+    const onDragFinish = useCallback((_: DragDropSortDragEndEvent, itemOrder: DraggableObject[]) => {
         setManagedColumns((managedColumns) => {
-            return itemOrder.map((header) => managedColumns.find((column) => column.header === header)) as ITableColumn<T>[]
+            return itemOrder.map(({ id }) => managedColumns.find((column) => column.header === id)) as ITableColumn<T>[]
         })
-        //
     }, [])
     const handleChange = useCallback((event: FormEvent<HTMLInputElement>, checked: boolean) => {
         const columnHeader = (event.target as unknown as { name?: string }).name
@@ -52,6 +49,34 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
             })
         }
     }, [])
+    const items = useMemo<DraggableObject[]>(
+        () =>
+            managedColumns.map((column) => ({
+                id: column.header,
+                content: (
+                    <>
+                        <DataListControl>
+                            <DataListCheck
+                                aria-labelledby={column.header}
+                                checked={column.enabled !== false}
+                                name={column.header}
+                                id={column.header}
+                                onChange={handleChange}
+                                otherControls
+                            />
+                        </DataListControl>
+                        <DataListItemCells
+                            dataListCells={[
+                                <DataListCell id={column.header} key={column.header}>
+                                    <label htmlFor={column.header}>{column.header}</label>
+                                </DataListCell>,
+                            ]}
+                        />
+                    </>
+                ),
+            })),
+        [handleChange, managedColumns]
+    )
     const columnModal = (
         <Modal
             variant={ModalVariant.medium}
@@ -75,40 +100,9 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
                 </Button>,
             ]}
         >
-            <DataList aria-label="Table column management" id="table-column-management" isCompact>
-                {managedColumns.map((column) => {
-                    // if (index === 0) return <Fragment />
-                    return (
-                        <DataListItem key={column.header} id={column.header} aria-labelledby="table-column-management-item1">
-                            <DataListItemRow>
-                                <DataListControl>
-                                    <DataListDragButton
-                                        aria-label="Reorder"
-                                        aria-labelledby="table-column-management-item1"
-                                        aria-describedby="Press space or enter to begin dragging, and use the arrow keys to navigate up or down. Press enter to confirm the drag, or any other key to cancel the drag operation."
-                                        aria-pressed="false"
-                                    />
-                                    <DataListCheck
-                                        aria-labelledby="table-column-management-item1"
-                                        checked={column.enabled !== false}
-                                        name={column.header}
-                                        id={column.header}
-                                        onChange={handleChange}
-                                        otherControls
-                                    />
-                                </DataListControl>
-                                <DataListItemCells
-                                    dataListCells={[
-                                        <DataListCell id="table-column-management-item1" key={column.header}>
-                                            <label htmlFor={column.header}>{column.header}</label>
-                                        </DataListCell>,
-                                    ]}
-                                />
-                            </DataListItemRow>
-                        </DataListItem>
-                    )
-                })}
-            </DataList>
+            <DragDropSort items={items} onDrop={onDragFinish} variant="DataList">
+                <DataList aria-label="Table column management" id="table-column-management" isCompact />
+            </DragDropSort>
         </Modal>
     )
     return { openColumnModal, columnModal, managedColumns }
