@@ -242,7 +242,7 @@ function TableHead<T extends object>(props: {
         () => (
             <Thead>
                 <Tr>
-                    {showSelect && <Th />}
+                    {showSelect && <Th screenReaderText="Select" />}
                     {columns
                         .filter((column) => column.enabled !== false)
                         .map((column, index) => {
@@ -257,7 +257,7 @@ function TableHead<T extends object>(props: {
                                 </Th>
                             )
                         })}
-                    {rowActions !== undefined && <Th></Th>}
+                    {rowActions !== undefined && <Th screenReaderText="Actions"></Th>}
                 </Tr>
             </Thead>
         ),
@@ -281,6 +281,7 @@ function TableRow<T extends object>(props: {
             <Tr className={isItemSelected ? 'selected' : undefined}>
                 {showSelect && (
                     <Th
+                        screenReaderText="Select"
                         select={{
                             onSelect: (_event, isSelecting) => {
                                 if (isSelecting) {
