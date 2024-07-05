@@ -25,6 +25,7 @@
     },
     "peerDependencies": {
         "@patternfly/react-core": "^5",
+        "@patternfly/react-drag-drop": "^5",
         "@patternfly/react-icons": "^5",
         "@patternfly/react-table": "^5",
         "react": ">=17",
@@ -43,6 +44,7 @@
         "@babel/preset-typescript": "7.24.1",
         "@faker-js/faker": "7.6.0",
         "@patternfly/react-core": "^5.3.3",
+        "@patternfly/react-drag-drop": "^5.3.3",
         "@patternfly/react-icons": "^5.3.2",
         "@patternfly/react-table": "^5.3.3",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.13",
