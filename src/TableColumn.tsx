@@ -1,7 +1,7 @@
 import { ClipboardCopy, Label, LabelGroup, Split, SplitItem } from '@patternfly/react-core'
 import { DateTime } from 'luxon'
 import { Fragment, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom-v5-compat'
 import { IconWrapper } from './components/IconWrapper'
 import { getPatternflyColor, PatternFlyColor } from './components/patternfly-colors'
 import { Truncate } from './components/Truncate'

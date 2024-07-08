@@ -1,4 +1,4 @@
-import { ButtonVariant, Checkbox, Dropdown, DropdownItem, DropdownPosition, DropdownToggle, Tab, Tabs } from '@patternfly/react-core'
+import { ButtonVariant, MenuToggle, MenuToggleElement, Tab, Tabs, Select, SelectList, SelectOption } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
@@ -13,15 +13,16 @@ import {
     TextCell,
     ToolbarActionType,
 } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { IItemAction } from '../src/ItemActions'
 import { PageHeader } from '../src/PageHeader'
 import { colors } from './mock'
 import { RouteE } from './route'
 import { getTaskStatus, IMockTask, mockLabels, useMockTasks } from './useTasks'
+import { GreenCheckIcon } from './GreenCheckIcon'
 
 export function ItemViewDemo() {
-    const { items: tasks, createItem, deleteItems } = useMockTasks(100000)
+    // With PF4, performance was good with 100,000 items
+    const { items: tasks, createItem, deleteItems } = useMockTasks(1000)
 
     const [actionsOpen, setActionsOpen] = useState(false)
 
@@ -51,7 +52,7 @@ export function ItemViewDemo() {
         []
     )
 
-    const [useBulkActions, setUseBuldActions] = useState(true)
+    const [useBulkActions, setUseBulkActions] = useState(true)
     const toolbarActions = useMemo(() => {
         const newToolbarActions: IToolbarAction<IMockTask>[] = [
             {
@@ -155,7 +156,7 @@ export function ItemViewDemo() {
                 type: CatalogCardItemType.List,
                 title: 'Colors',
                 items: task.colors.map((color) => ({ text: color })),
-                icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                icon: <GreenCheckIcon />,
             })
         }
         return card
@@ -172,41 +173,55 @@ export function ItemViewDemo() {
                 title="Item View"
                 breadcrumbs={breadcrumbs}
                 navigation={
-                    <Tabs hasBorderBottom={false}>
+                    <Tabs hasNoBorderBottom>
                         <Tab title="Item demo" eventKey={0}></Tab>
                     </Tabs>
                 }
                 actions={
-                    <Dropdown
-                        position={DropdownPosition.right}
-                        toggle={
-                            <DropdownToggle isPrimary id="toggle-position-right" onToggle={() => setActionsOpen((open) => !open)}>
+                    <Select
+                        role="menu"
+                        popperProps={{ position: 'right' }}
+                        toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                            <MenuToggle
+                                ref={toggleRef}
+                                variant="primary"
+                                id="toggle-position-right"
+                                onClick={() => setActionsOpen((open) => !open)}
+                                isExpanded={actionsOpen}
+                            >
                                 Options
-                            </DropdownToggle>
-                        }
+                            </MenuToggle>
+                        )}
                         isOpen={actionsOpen}
-                        dropdownItems={[
-                            <DropdownItem key="useBulkActions">
-                                <Checkbox
-                                    id="useBulkActions"
-                                    label="Use bulk actions"
-                                    isChecked={useBulkActions}
-                                    onChange={setUseBuldActions}
-                                />
-                            </DropdownItem>,
-                            <DropdownItem key="useSearch">
-                                <Checkbox id="useSearch" label="Use search" isChecked={useSearch} onChange={setUseSearch} />
-                            </DropdownItem>,
-                            <DropdownItem key="useItemActions">
-                                <Checkbox
-                                    id="useItemActions"
-                                    label="Use item actions"
-                                    isChecked={useItemActions}
-                                    onChange={setUseItemActions}
-                                />
-                            </DropdownItem>,
-                        ]}
-                    />
+                        onOpenChange={setActionsOpen}
+                    >
+                        <SelectList>
+                            <SelectOption
+                                key="useBulkActions"
+                                hasCheckbox
+                                isSelected={useBulkActions}
+                                onClick={() => setUseBulkActions((useBulkActions) => !useBulkActions)}
+                            >
+                                Use bulk actions
+                            </SelectOption>
+                            <SelectOption
+                                key="useSearch"
+                                hasCheckbox
+                                isSelected={useSearch}
+                                onClick={() => setUseSearch((useSearch) => !useSearch)}
+                            >
+                                Use search
+                            </SelectOption>
+                            <SelectOption
+                                key="useItemActions"
+                                hasCheckbox
+                                isSelected={useItemActions}
+                                onClick={() => setUseItemActions((useItemActions) => !useItemActions)}
+                            >
+                                Use item actions
+                            </SelectOption>
+                        </SelectList>
+                    </Select>
                 }
             />
             <ItemView

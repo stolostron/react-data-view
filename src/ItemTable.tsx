@@ -1,7 +1,26 @@
-import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateSecondaryActions, Title } from '@patternfly/react-core'
+import {
+    Button,
+    EmptyState,
+    EmptyStateBody,
+    EmptyStateIcon,
+    EmptyStateActions,
+    EmptyStateHeader,
+    EmptyStateFooter,
+} from '@patternfly/react-core'
 import { SearchIcon } from '@patternfly/react-icons'
-import { ActionsColumn, IAction, ISortBy, SortByDirection, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
-import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base'
+import {
+    ActionsColumn,
+    IAction,
+    ISortBy,
+    SortByDirection,
+    Table /* data-codemods */,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+} from '@patternfly/react-table'
+import { ThSortType } from '@patternfly/react-table/dist/esm/components/Table/base/types'
 import useResizeObserver from '@react-hook/resize-observer'
 import { Fragment, MouseEvent, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { IItemAction, isItemActionClick } from './ItemActions'
@@ -82,7 +101,7 @@ export function ItemTable<T extends object>(props: {
     const onScroll = useCallback((event: UIEvent<HTMLDivElement>) => updateScroll(event.currentTarget), [updateScroll])
 
     const className = useMemo(() => {
-        // let className = 'pf-c-table '
+        // let className = 'pf-v5-c-table '
         let className = ''
         if (scroll.top > 1) className += 'scroll-top '
         if (scroll.bottom > 1) className += 'scroll-bottom '
@@ -95,7 +114,7 @@ export function ItemTable<T extends object>(props: {
         () => (
             <div style={{ overflow: 'hidden', height: '100%' }} className="vtable" ref={sizeRef}>
                 <div onScroll={onScroll} style={{ height: '100%', overflow: 'auto' }} ref={scrollRef}>
-                    <TableComposable
+                    <Table
                         aria-label="Simple table"
                         // variant="compact"
                         // variant={exampleChoice !== 'default' ? 'compact' : undefined}
@@ -121,20 +140,23 @@ export function ItemTable<T extends object>(props: {
                             ))}
                             {afterHeight !== 0 && <Tr style={{ height: afterHeight, border: 0 }} />}
                         </Tbody>
-                    </TableComposable>
+                    </Table>
                     {items.length === 0 && (
                         <div style={{ paddingTop: 16 }}>
                             <EmptyState>
-                                <EmptyStateIcon icon={SearchIcon} />
-                                <Title headingLevel="h2" size="lg">
-                                    No results found
-                                </Title>
+                                <EmptyStateHeader
+                                    titleText="No results found"
+                                    icon={<EmptyStateIcon icon={SearchIcon} />}
+                                    headingLevel="h2"
+                                />
                                 <EmptyStateBody>No results match this filter criteria. Adjust your filters and try again.</EmptyStateBody>
-                                <EmptyStateSecondaryActions>
-                                    <Button variant="link" onClick={clearAllFilters}>
-                                        Clear all filters
-                                    </Button>
-                                </EmptyStateSecondaryActions>
+                                <EmptyStateFooter>
+                                    <EmptyStateActions>
+                                        <Button variant="link" onClick={clearAllFilters}>
+                                            Clear all filters
+                                        </Button>
+                                    </EmptyStateActions>
+                                </EmptyStateFooter>
                             </EmptyState>
                         </div>
                     )}
@@ -220,7 +242,7 @@ function TableHead<T extends object>(props: {
         () => (
             <Thead>
                 <Tr>
-                    {showSelect && <Th />}
+                    {showSelect && <Th screenReaderText="Select" />}
                     {columns
                         .filter((column) => column.enabled !== false)
                         .map((column, index) => {
@@ -235,7 +257,7 @@ function TableHead<T extends object>(props: {
                                 </Th>
                             )
                         })}
-                    {rowActions !== undefined && <Th></Th>}
+                    {rowActions !== undefined && <Th screenReaderText="Actions"></Th>}
                 </Tr>
             </Thead>
         ),
@@ -259,6 +281,7 @@ function TableRow<T extends object>(props: {
             <Tr className={isItemSelected ? 'selected' : undefined}>
                 {showSelect && (
                     <Th
+                        screenReaderText="Select"
                         select={{
                             onSelect: (_event, isSelecting) => {
                                 if (isSelecting) {
@@ -347,7 +370,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
 //                 // variant={PaginationVariant.bottom}
 //                 // onSetPage={this.onSetPage}
 //                 // onPerPageSelect={this.onPerPageSelect}
-//                 style={{ borderTop: '1px solid var(--pf-global--BorderColor--dark-100)', marginTop: -1, zIndex: 300 }}
+//                 style={{ borderTop: '1px solid var(--pf-v5-global--BorderColor--dark-100)', marginTop: -1, zIndex: 300 }}
 //             />
 //         ),
 //         [itemCount, onPerPageSelect, onSetPage, page, perPage]

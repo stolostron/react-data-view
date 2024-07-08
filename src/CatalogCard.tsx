@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
     Alert,
+    AlertProps,
     Button,
     Card,
-    CardActions,
     CardBody,
     CardFooter,
     CardHeader,
@@ -14,10 +14,10 @@ import {
     DescriptionListDescription,
     DescriptionListGroup,
     DescriptionListTerm,
+    Divider,
     Dropdown,
+    DropdownList,
     DropdownItem,
-    DropdownSeparator,
-    KebabToggle,
     Label,
     LabelGroup,
     List,
@@ -28,8 +28,10 @@ import {
     Stack,
     StackItem,
     Title,
+    MenuToggleElement,
+    MenuToggle,
 } from '@patternfly/react-core'
-import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
+import { EllipsisVIcon, ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
 import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
@@ -67,7 +69,7 @@ export interface ICatalogCard {
     badgeList?: { badge?: string; badgeColor?: CatalogColor }[]
     alertTitle?: string
     alertContent?: ReactNode
-    alertVariant?: 'success' | 'danger' | 'warning' | 'info' | 'default'
+    alertVariant?: AlertProps['variant']
     onClick?: () => void
 }
 
@@ -155,7 +157,7 @@ export function CatalogCard<T extends object>(props: {
                         </DropdownItem>
                     )
                 }
-                return <DropdownSeparator key={index} />
+                return <Divider key={index} component="li" />
             }),
         [item, itemActions]
     )
@@ -212,7 +214,48 @@ export function CatalogCard<T extends object>(props: {
                 cursor: !disabled ? 'pointer' : undefined,
             }}
         >
-            <CardHeader style={{ opacity: !disabled ? undefined : '0.5' }}>
+            <CardHeader
+                {...(showActions && {
+                    actions: {
+                        actions: (
+                            <>
+                                {showDropdown && (
+                                    <Dropdown
+                                        onSelect={onSelect}
+                                        toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                                            <MenuToggle
+                                                ref={toggleRef}
+                                                onClick={() => setIsOpen((open) => !open)}
+                                                isExpanded={isOpen}
+                                                variant="plain"
+                                            >
+                                                <EllipsisVIcon />
+                                            </MenuToggle>
+                                        )}
+                                        isOpen={isOpen}
+                                        onOpenChange={setIsOpen}
+                                        popperProps={{ position: 'right' }}
+                                    >
+                                        <DropdownList>{dropdownItems}</DropdownList>
+                                    </Dropdown>
+                                )}
+                                {showSelect && (
+                                    <Checkbox
+                                        isChecked={isSelected(item)}
+                                        onChange={onClick}
+                                        aria-label="card checkbox example"
+                                        id="check-1"
+                                        name="check1"
+                                    />
+                                )}
+                            </>
+                        ),
+                        hasNoOffset: true,
+                        className: undefined,
+                    },
+                })}
+                style={{ opacity: !disabled ? undefined : '0.5' }}
+            >
                 <Split hasGutter style={{ width: '100%' }}>
                     <SplitItem isFilled>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -237,29 +280,6 @@ export function CatalogCard<T extends object>(props: {
                     </SplitItem>
                     {card.badgeList ? renderCardBadgelist() : renderCardSingleBadge()}
                 </Split>
-                {showActions && (
-                    <CardActions hasNoOffset>
-                        {showDropdown && (
-                            <Dropdown
-                                onSelect={onSelect}
-                                toggle={<KebabToggle onToggle={setIsOpen} />}
-                                isOpen={isOpen}
-                                isPlain
-                                dropdownItems={dropdownItems}
-                                position="right"
-                            />
-                        )}
-                        {showSelect && (
-                            <Checkbox
-                                isChecked={isSelected(item)}
-                                onChange={onClick}
-                                aria-label="card checkbox example"
-                                id="check-1"
-                                name="check1"
-                            />
-                        )}
-                    </CardActions>
-                )}
             </CardHeader>
             {card.items && (
                 <Scrollable>

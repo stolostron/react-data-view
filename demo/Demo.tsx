@@ -11,9 +11,10 @@ import {
     PageSidebar,
     PageToggleButton,
     Title,
+    PageSidebarBody,
 } from '@patternfly/react-core'
 import { BarsIcon } from '@patternfly/react-icons'
-import { BrowserRouter, Link, useHistory, useLocation } from 'react-router-dom'
+import { BrowserRouter, Link, useLocation, Navigate } from 'react-router-dom-v5-compat'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher } from '../src/Theme'
 import { ControlPlane } from './ControlPlane'
@@ -42,14 +43,12 @@ export default function Demo() {
 
 export function DemoRouter(): JSX.Element {
     const location = useLocation()
-    const history = useHistory()
     if (location.search.startsWith(RouteE.Home)) return <Home />
     if (location.search.startsWith(RouteE.Demo)) return <ItemViewDemo />
     if (location.search.startsWith(RouteE.Infrastructure)) return <Infrastructure />
     if (location.search.startsWith(RouteE.ControlPlane)) return <ControlPlane />
     if (location.search.startsWith(RouteE.Hosted)) return <Hosted />
-    history.push(RouteE.Home)
-    return <div />
+    return <Navigate to={{ search: RouteE.Home }} />
 }
 
 function DemoHeader() {
@@ -63,7 +62,7 @@ function DemoHeader() {
             </MastheadToggle>
             {isSmallOrLarger ? (
                 <MastheadMain>
-                    <MastheadBrand>
+                    <MastheadBrand component="a">
                         <Title headingLevel="h2" style={{ color: 'white' }}>
                             <Truncate content="Stolostron / React Item View" />
                         </Title>
@@ -71,7 +70,7 @@ function DemoHeader() {
                 </MastheadMain>
             ) : (
                 <MastheadMain>
-                    <MastheadBrand>
+                    <MastheadBrand component="a">
                         <Title headingLevel="h2" style={{ color: 'white' }}>
                             <Truncate content="Item View" />
                         </Title>
@@ -89,8 +88,8 @@ function DemoHeader() {
 function DemoSidebar() {
     const location = useLocation()
     return (
-        <PageSidebar
-            nav={
+        <PageSidebar>
+            <PageSidebarBody>
                 <Nav>
                     <NavList>
                         <NavItem isActive={location.search === RouteE.Demo}>
@@ -101,7 +100,7 @@ function DemoSidebar() {
                         </NavItem>
                     </NavList>
                 </Nav>
-            }
-        />
+            </PageSidebarBody>
+        </PageSidebar>
     )
 }

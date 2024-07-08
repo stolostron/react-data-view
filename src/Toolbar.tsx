@@ -1,7 +1,9 @@
 import {
     Button,
     ButtonVariant,
-    DropdownSeparator,
+    Divider,
+    MenuToggle,
+    MenuToggleElement,
     OnPerPageSelect,
     OnSetPage,
     OverflowMenu,
@@ -12,9 +14,8 @@ import {
     OverflowMenuItem,
     SearchInput,
     Select,
+    SelectList,
     SelectOption,
-    SelectOptionObject,
-    SelectVariant,
     ToggleGroup,
     ToggleGroupItem,
     Toolbar,
@@ -190,7 +191,7 @@ export function PageToolbar<T extends object>(props: {
                                     )
                             }
                         case 'seperator':
-                            return <DropdownSeparator key="separator" />
+                            return <Divider key="separator" component="li" />
                     }
                     return undefined
                 })
@@ -209,7 +210,7 @@ export function PageToolbar<T extends object>(props: {
     }
 
     return (
-        <Toolbar style={{ borderBottom: 'thin solid var(--pf-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
+        <Toolbar style={{ borderBottom: 'thin solid var(--pf-v5-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
                 {showSelect && (
                     <ToolbarGroup>
@@ -351,18 +352,16 @@ function SelectFilter(props: {
     const [open, setOpen] = useState(false)
     const onToggle = useCallback(() => setOpen((open) => !open), [])
     const onSelect = useCallback(
-        (event: React.MouseEvent | React.ChangeEvent, value: string | SelectOptionObject, isPlaceholder?: boolean) => {
-            event.preventDefault()
-            if (isPlaceholder) {
-                props.setValues([])
+        (event: React.MouseEvent | undefined, rawValue?: string | number) => {
+            event?.preventDefault()
+            const value = rawValue as string
+
+            if (props.values.includes(value)) {
+                const newValues = [...props.values]
+                newValues.splice(props.values.indexOf(value), 1)
+                props.setValues(newValues)
             } else {
-                if (props.values.includes(value.toString())) {
-                    const newValues = [...props.values]
-                    newValues.splice(props.values.indexOf(value.toString()), 1)
-                    props.setValues(newValues)
-                } else {
-                    props.setValues([...props.values, value.toString()])
-                }
+                props.setValues([...props.values, value])
             }
         },
         [props]
@@ -370,23 +369,26 @@ function SelectFilter(props: {
     const options = useMemo(
         () =>
             props.options.map((option) => (
-                <SelectOption key={option.label} value={option.value}>
+                <SelectOption key={option.label} value={option.value} hasCheckbox isSelected={props.values.includes(option.value)}>
                     {option.label}
                 </SelectOption>
             )),
-        [props.options]
+        [props.options, props.values]
     )
     return (
         <Select
-            variant={SelectVariant.checkbox}
-            aria-label="Status"
-            onToggle={onToggle}
+            role="menu"
+            toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                <MenuToggle ref={toggleRef} id="toggle-position-right" onClick={onToggle} isExpanded={open}>
+                    {props.label}
+                </MenuToggle>
+            )}
             onSelect={onSelect}
-            selections={props.values}
+            selected={props.values}
             isOpen={open}
-            placeholderText={props.label}
+            onOpenChange={setOpen}
         >
-            {options}
+            <SelectList>{options}</SelectList>
         </Select>
     )
 }

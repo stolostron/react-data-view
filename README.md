@@ -39,7 +39,7 @@ npm i @stolostron/react-data-view
 
 ### Search & Filter
 
-- Filtering, Searching, Sorting of 100,000 items (performance)
+- Filtering, Searching, Sorting of 1,000 items (performance - previously 100,000 with PF4)
 - Fuzzy search (Fuse.js)
   - Search on fields with weights
 - Persist search and filters to url query string

@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { faker } from '@faker-js/faker'
+import { Icon } from '@patternfly/react-core'
 import {
     FishIcon,
     FlyIcon,
@@ -21,27 +22,68 @@ import {
     StarIcon,
     WineGlassIcon,
 } from '@patternfly/react-icons'
+import { PropsWithChildren } from 'react'
+
+const LargeIcon = ({ children }: PropsWithChildren) => <Icon size="lg">{children}</Icon>
 
 export const icons = [
-    <SnowflakeIcon size="lg" />,
-    <SpiderIcon size="lg" />,
-    <StarIcon size="lg" />,
-    <SpaceShuttleIcon size="lg" />,
-    <WineGlassIcon size="lg" />,
-    <RobotIcon size="lg" />,
-    <RocketIcon size="lg" />,
-    <SkullIcon size="lg" />,
-    <SeedlingIcon size="lg" />,
-    <RadiationIcon size="lg" />,
-    <PizzaSliceIcon size="lg" />,
-    <OtterIcon size="lg" />,
-    <HippoIcon size="lg" />,
-    <MusicIcon size="lg" />,
-    <MoonIcon size="lg" />,
-    <LeafIcon size="lg" />,
-    <GhostIcon size="lg" />,
-    <FlyIcon size="lg" />,
-    <FishIcon size="lg" />,
+    <LargeIcon>
+        <SnowflakeIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <SpiderIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <StarIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <SpaceShuttleIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <WineGlassIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <RobotIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <RocketIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <SkullIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <SeedlingIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <RadiationIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <PizzaSliceIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <OtterIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <HippoIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <MusicIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <MoonIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <LeafIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <GhostIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <FlyIcon />
+    </LargeIcon>,
+    <LargeIcon>
+        <FishIcon />
+    </LargeIcon>,
 ]
 
 export const colors = ['Red', 'Green', 'Blue', 'Yellow', 'Purple', 'Orange', 'Aqua']

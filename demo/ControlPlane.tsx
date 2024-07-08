@@ -1,15 +1,14 @@
-import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import { CatalogCardItemType, ICatalogCard, ItemView } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
+import { GreenCheckIcon } from './GreenCheckIcon'
 
 const learnMore = 'https://github.com/stolostron/react-data-view'
 
 export function ControlPlane() {
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const cards = useMemo(() => {
         const cards: ICatalogCard[] = [
@@ -25,7 +24,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Features',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [
                             { text: 'Better hardware utilization', help: 'Popover example' },
                             { text: 'Network and trusted segmentation between control plane and workers' },
@@ -35,12 +34,12 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Available cluster types',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [{ text: 'Hosted cluster' }],
                     },
                 ],
                 learnMore,
-                onClick: () => history.push(RouteE.Hosted),
+                onClick: () => navigate(RouteE.Hosted),
             },
             {
                 id: 'standalone',
@@ -53,7 +52,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Features',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [
                             { text: 'Increased resiliency with multiple masters' },
                             { text: 'Isolation of workload creates secure profile' },
@@ -63,7 +62,7 @@ export function ControlPlane() {
                     {
                         type: CatalogCardItemType.List,
                         title: 'Available cluster types',
-                        icon: <CheckIcon color={getPatternflyColor(PatternFlyColor.Green)} />,
+                        icon: <GreenCheckIcon />,
                         items: [{ text: 'ACM Hub' }, { text: 'Hosting service cluster' }],
                     },
                 ],
@@ -72,7 +71,7 @@ export function ControlPlane() {
             },
         ]
         return cards
-    }, [history])
+    }, [navigate])
 
     const keyFn = useCallback((card: ICatalogCard) => card.id, [])
 
@@ -81,7 +80,7 @@ export function ControlPlane() {
         []
     )
 
-    const onBack = useCallback(() => history.push(RouteE.Infrastructure), [history])
+    const onBack = useCallback(() => navigate(RouteE.Infrastructure), [navigate])
 
     return (
         <Fragment>

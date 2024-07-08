@@ -8,7 +8,6 @@ import {
     EmptyState,
     EmptyStateBody,
     EmptyStateIcon,
-    EmptyStateSecondaryActions,
     OnPerPageSelect,
     OnSetPage,
     PageSection,
@@ -16,10 +15,12 @@ import {
     PaginationVariant,
     Split,
     SplitItem,
-    Title,
     Toolbar,
     ToolbarContent,
     ToolbarItem,
+    EmptyStateActions,
+    EmptyStateHeader,
+    EmptyStateFooter,
 } from '@patternfly/react-core'
 import { PlusCircleIcon } from '@patternfly/react-icons'
 import Fuse from 'fuse.js'
@@ -284,18 +285,21 @@ export function ItemView<T extends object>(props: {
                                         {props.items?.length === 0 ? (
                                             <div style={{ paddingTop: 32 }}>
                                                 <EmptyState>
-                                                    <EmptyStateIcon icon={PlusCircleIcon} />
-                                                    <Title headingLevel="h2" size="lg">
-                                                        {noItemsString}
-                                                    </Title>
+                                                    <EmptyStateHeader
+                                                        titleText={<>{noItemsString}</>}
+                                                        icon={<EmptyStateIcon icon={PlusCircleIcon} />}
+                                                        headingLevel="h2"
+                                                    />
                                                     <EmptyStateBody>{getStartedMessage}</EmptyStateBody>
-                                                    {createItem && (
-                                                        <EmptyStateSecondaryActions>
-                                                            <Button variant="primary" onClick={createItem}>
-                                                                {createItemString}
-                                                            </Button>
-                                                        </EmptyStateSecondaryActions>
-                                                    )}
+                                                    <EmptyStateFooter>
+                                                        {createItem && (
+                                                            <EmptyStateActions>
+                                                                <Button variant="primary" onClick={createItem}>
+                                                                    {createItemString}
+                                                                </Button>
+                                                            </EmptyStateActions>
+                                                        )}
+                                                    </EmptyStateFooter>
                                                 </EmptyState>
                                             </div>
                                         ) : (
@@ -337,7 +341,7 @@ export function ItemView<T extends object>(props: {
                                                             variant="light"
                                                             padding={{ default: 'noPadding' }}
                                                             style={{
-                                                                borderTop: 'thin solid var(--pf-global--BorderColor--100)',
+                                                                borderTop: 'thin solid var(--pf-v5-global--BorderColor--100)',
                                                                 flexGrow: 0,
                                                             }}
                                                         >
@@ -355,7 +359,7 @@ export function ItemView<T extends object>(props: {
                                                                             {props.onCancel && (
                                                                                 <ToolbarItem
                                                                                     style={{
-                                                                                        paddingLeft: 32, // var(--pf-c-wizard__footer-cancel--MarginLeft)
+                                                                                        paddingLeft: 32, // var(--pf-v5-c-wizard__footer-cancel--MarginLeft)
                                                                                     }}
                                                                                 >
                                                                                     <Button onClick={props.onCancel} variant="link">
