@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import { CatalogCardItemType, ICatalogCard, ItemView } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
@@ -49,8 +49,8 @@ export function Hosted() {
         []
     )
 
-    const history = useHistory()
-    const onBack = useCallback(() => history.push(RouteE.ControlPlane), [history])
+    const navigate = useNavigate()
+    const onBack = useCallback(() => navigate(RouteE.ControlPlane), [navigate])
 
     return (
         <Fragment>
