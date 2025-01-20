@@ -1,4 +1,4 @@
-import { ButtonVariant, MenuToggle, MenuToggleElement, Tab, Tabs, Select, SelectList, SelectOption } from '@patternfly/react-core'
+import { ButtonVariant, MenuToggle, MenuToggleElement, Tab, Tabs, Select, SelectList, SelectOption, Icon } from '@patternfly/react-core'
 import { CheckIcon } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo, useState } from 'react'
 import {
@@ -32,14 +32,14 @@ export function ItemViewDemo() {
         () => [
             {
                 header: 'Name',
-                cell: (task) => <TextCell icon={task.icon} text={task.name} />,
+                cell: (task) => <TextCell icon={<Icon size="md">{task.icon}</Icon>} text={task.name} />,
                 sortFn: (l, r) => l.name.localeCompare(r.name),
             },
             {
                 header: 'Status',
                 cell: (task) => {
                     const status = getTaskStatus(task)
-                    return <TextCell icon={status.icon} text={status.text} iconSize="sm" />
+                    return <TextCell icon={status.icon} text={status.text} />
                 },
                 sortFn: (l, r) => l.status.localeCompare(r.status),
             },

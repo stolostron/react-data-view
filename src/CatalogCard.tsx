@@ -30,10 +30,10 @@ import {
     Title,
     MenuToggleElement,
     MenuToggle,
+    Icon,
 } from '@patternfly/react-core'
 import { EllipsisVIcon, ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode, useCallback, useMemo, useState } from 'react'
-import { IconWrapper } from './components/IconWrapper'
 import { Scrollable } from './components/Scrollable'
 import { Truncate } from './components/Truncate'
 import { IItemAction, isItemActionClick } from './ItemActions'
@@ -272,7 +272,14 @@ export function CatalogCard<T extends object>(props: {
                                         justifyItems: 'stretch',
                                     }}
                                 >
-                                    <IconWrapper size="lg">{card.icon}</IconWrapper>
+                                    <Icon
+                                        size="lg"
+                                        style={{
+                                            ['--pf-v5-global--icon--FontSize--lg' as any]: '28px',
+                                        }}
+                                    >
+                                        {card.icon}
+                                    </Icon>
                                 </div>
                             )}
                             <CardTitle>{card.title}</CardTitle>
@@ -376,17 +383,9 @@ export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[
             {items?.map((listItem, index) => {
                 let itemIcon: ReactNode
                 if (listItem.icon) {
-                    itemIcon = (
-                        <IconWrapper size="md" noPadding>
-                            {listItem.icon}
-                        </IconWrapper>
-                    )
+                    itemIcon = listItem.icon
                 } else if (icon) {
-                    itemIcon = (
-                        <IconWrapper size="md" noPadding>
-                            {icon}
-                        </IconWrapper>
-                    )
+                    itemIcon = icon
                 }
                 const marginBottom = listItem.subTitles?.length ? listItem.subTitles?.length + 2 : 0
                 return (
