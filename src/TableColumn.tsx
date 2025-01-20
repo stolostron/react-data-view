@@ -2,8 +2,6 @@ import { ClipboardCopy, Label, LabelGroup, Split, SplitItem } from '@patternfly/
 import { DateTime } from 'luxon'
 import { Fragment, ReactNode } from 'react'
 import { Link } from 'react-router-dom-v5-compat'
-import { IconWrapper } from './components/IconWrapper'
-import { getPatternflyColor, PatternFlyColor } from './components/patternfly-colors'
 import { Truncate } from './components/Truncate'
 
 type CellFn<T extends object> = (item: T) => ReactNode
@@ -39,26 +37,16 @@ export function DateCell(props: { value: number | string }) {
     )
 }
 
-export function TextCell(props: {
-    icon?: ReactNode
-    text: string
-    iconSize?: 'sm' | 'md' | 'lg'
-    to?: string
-    textColor?: PatternFlyColor
-}) {
+export function TextCell(props: { icon?: ReactNode; text: string; to?: string }) {
     return (
-        <Split>
-            {props.icon && (
-                <SplitItem>
-                    <IconWrapper size={props.iconSize ?? 'md'}>{props.icon}</IconWrapper>
-                </SplitItem>
-            )}
+        <Split hasGutter>
+            {props.icon && <SplitItem>{props.icon}</SplitItem>}
             {props.to ? (
                 <SplitItem>
                     <Link to={props.to}>{props.text}</Link>
                 </SplitItem>
             ) : (
-                <SplitItem style={{ color: props.textColor ? getPatternflyColor(props.textColor) : undefined }}>{props.text}</SplitItem>
+                <SplitItem>{props.text}</SplitItem>
             )}
         </Split>
     )

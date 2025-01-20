@@ -4,7 +4,6 @@ import { Icon, capitalize } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon } from '@patternfly/react-icons'
 import { ReactNode } from 'react'
 import { CatalogColor } from '../src'
-import { getPatternflyColor, PatternFlyColor } from '../src/components/patternfly-colors'
 import { colors, getRandomAnimalName, icons, randomArray, randomValue, randomValues } from './mock'
 import { useMockData } from './useMockData'
 
@@ -77,7 +76,7 @@ export function getTaskStatus(task: IMockTask) {
             return {
                 text: 'Online',
                 icon: (
-                    <Icon color={getPatternflyColor(PatternFlyColor.Green)}>
+                    <Icon status="success">
                         <CheckCircleIcon />
                     </Icon>
                 ),
@@ -85,12 +84,20 @@ export function getTaskStatus(task: IMockTask) {
         case 'offline':
             return {
                 text: 'Offline',
-                icon: <ExclamationCircleIcon color={getPatternflyColor(PatternFlyColor.Red)} />,
+                icon: (
+                    <Icon status="danger">
+                        <ExclamationCircleIcon />
+                    </Icon>
+                ),
             }
         default:
             return {
                 text: 'Unknown',
-                icon: <CircleNotchIcon color={getPatternflyColor(PatternFlyColor.Grey)} />,
+                icon: (
+                    <Icon status="warning">
+                        <CircleNotchIcon />
+                    </Icon>
+                ),
             }
     }
 }
