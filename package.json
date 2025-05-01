@@ -39,10 +39,10 @@
         "luxon": "^3.6.1"
     },
     "devDependencies": {
-        "@babel/core": "7.26.10",
-        "@babel/plugin-transform-class-properties": "^7.25.9",
-        "@babel/preset-react": "7.26.3",
-        "@babel/preset-typescript": "7.27.0",
+        "@babel/core": "7.27.1",
+        "@babel/plugin-transform-class-properties": "^7.27.1",
+        "@babel/preset-react": "7.27.1",
+        "@babel/preset-typescript": "7.27.1",
         "@faker-js/faker": "7.6.0",
         "@patternfly/react-core": "^5.4.14",
         "@patternfly/react-drag-drop": "^5.4.15",
@@ -59,7 +59,7 @@
         "@types/mini-css-extract-plugin": "2.5.1",
         "@types/node": "14.18.63",
         "@types/react": "^18.3.20",
-        "@types/react-dom": "^18.3.6",
+        "@types/react-dom": "^18.3.7",
         "@types/webpack": "5.28.5",
         "@types/webpack-dev-server": "4.7.2",
         "@typescript-eslint/eslint-plugin": "5.62.0",
