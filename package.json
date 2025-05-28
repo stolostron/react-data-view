@@ -39,7 +39,7 @@
         "luxon": "^3.6.1"
     },
     "devDependencies": {
-        "@babel/core": "7.27.1",
+        "@babel/core": "7.27.3",
         "@babel/plugin-transform-class-properties": "^7.27.1",
         "@babel/preset-react": "7.27.1",
         "@babel/preset-typescript": "7.27.1",
@@ -58,7 +58,7 @@
         "@types/luxon": "^3.6.2",
         "@types/mini-css-extract-plugin": "2.5.1",
         "@types/node": "14.18.63",
-        "@types/react": "^18.3.22",
+        "@types/react": "^18.3.23",
         "@types/react-dom": "^18.3.7",
         "@types/webpack": "5.28.5",
         "@types/webpack-dev-server": "4.7.2",
