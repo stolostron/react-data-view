@@ -36,10 +36,10 @@
         "debounce": "1.2.1",
         "fuse.js": "6.6.2",
         "get-value": "3.0.1",
-        "luxon": "^3.6.1"
+        "luxon": "^3.7.1"
     },
     "devDependencies": {
-        "@babel/core": "7.27.4",
+        "@babel/core": "7.28.0",
         "@babel/plugin-transform-class-properties": "^7.27.1",
         "@babel/preset-react": "7.27.1",
         "@babel/preset-typescript": "7.27.1",
@@ -48,7 +48,7 @@
         "@patternfly/react-drag-drop": "^5.4.15",
         "@patternfly/react-icons": "^5.4.2",
         "@patternfly/react-table": "^5.4.16",
-        "@pmmmwh/react-refresh-webpack-plugin": "0.6.0",
+        "@pmmmwh/react-refresh-webpack-plugin": "0.6.1",
         "@react-hook/resize-observer": "1.2.6",
         "@svgr/webpack": "6.5.1",
         "@types/css-minimizer-webpack-plugin": "3.2.4",
@@ -75,7 +75,7 @@
         "eslint-config-prettier": "8.10.0",
         "eslint-plugin-i18n-json": "^4.0.1",
         "eslint-plugin-i18next": "5.2.1",
-        "eslint-plugin-import": "2.31.0",
+        "eslint-plugin-import": "2.32.0",
         "eslint-plugin-jsx-a11y": "6.10.2",
         "eslint-plugin-prettier": "4.2.1",
         "eslint-plugin-react": "7.37.5",
@@ -91,8 +91,8 @@
         "style-loader": "3.3.4",
         "ts-node": "10.9.2",
         "typescript": "4.9.5",
-        "webpack": "5.99.9",
-        "webpack-cli": "4.10.0",
-        "webpack-dev-server": "4.15.2"
+        "webpack": "5.100.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.2.2"
     }
 }
