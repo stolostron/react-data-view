@@ -36,10 +36,10 @@
         "debounce": "1.2.1",
         "fuse.js": "6.6.2",
         "get-value": "3.0.1",
-        "luxon": "^3.7.1"
+        "luxon": "^3.7.2"
     },
     "devDependencies": {
-        "@babel/core": "7.28.3",
+        "@babel/core": "7.28.4",
         "@babel/plugin-transform-class-properties": "^7.27.1",
         "@babel/preset-react": "7.27.1",
         "@babel/preset-typescript": "7.27.1",
@@ -65,7 +65,7 @@
         "@typescript-eslint/eslint-plugin": "5.62.0",
         "@typescript-eslint/parser": "5.62.0",
         "babel-loader": "^10.0.0",
-        "babel-plugin-istanbul": "^7.0.0",
+        "babel-plugin-istanbul": "^7.0.1",
         "concurrently": "7.6.0",
         "cpy": "9.0.1",
         "cpy-cli": "4.2.0",
