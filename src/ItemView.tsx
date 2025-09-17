@@ -5,9 +5,9 @@ import {
     Drawer,
     DrawerContent,
     DrawerContentBody,
+    DrawerPanelContent,
     EmptyState,
     EmptyStateBody,
-    EmptyStateIcon,
     OnPerPageSelect,
     OnSetPage,
     PageSection,
@@ -19,7 +19,6 @@ import {
     ToolbarContent,
     ToolbarItem,
     EmptyStateActions,
-    EmptyStateHeader,
     EmptyStateFooter,
 } from '@patternfly/react-core'
 import { PlusCircleIcon } from '@patternfly/react-icons'
@@ -29,7 +28,7 @@ import { Catalog } from './Catalog'
 import { ICatalogCard } from './CatalogCard'
 import { useColumnModal } from './ColumnModal'
 import { Scrollable } from './components/Scrollable'
-import { useWindowSizeOrLarger, useWindowSizeOrSmaller, WindowSize } from './components/useBreakPoint'
+import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 import { useSearchParams } from './components/useWindowLocation'
 import { useStringContext } from './contexts/StringContext'
 import { FilterDrawer } from './FilterDrawer'
@@ -224,8 +223,6 @@ export function ItemView<T extends object>(props: {
     const showPagination = filtered.length > perPage
     const showBottomToolbarBorder = useWindowSizeOrLarger(WindowSize.md)
     const showBottomToolbar = viewType === ItemViewTypeE.Catalog && (showBackButton || showCancelButton || showPagination)
-    const hideFilters = useWindowSizeOrSmaller(WindowSize.lg)
-
     const showSelect = toolbarActionsHaveBulkActions(toolbarActions)
 
     const { backLabel, cancelLabel, noItemsString, getStartedMessage, createItemString } = useStringContext()
@@ -263,143 +260,133 @@ export function ItemView<T extends object>(props: {
                     showSelect={showSelect}
                 />
             )}
-            <Drawer position="right" isStatic>
-                <DrawerContent panelContent={<Fragment />}>
-                    <DrawerContentBody>
-                        <Drawer position="left" isStatic>
-                            <DrawerContent
-                                panelContent={
-                                    viewType === ItemViewTypeE.Catalog ? (
-                                        <FilterDrawer
-                                            filters={hideFilters ? undefined : filters}
-                                            filterState={filterState}
-                                            setFilterValues={setFilterValues}
-                                        />
-                                    ) : (
-                                        <Fragment />
-                                    )
-                                }
-                            >
-                                <DrawerContentBody>
-                                    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                                        {props.items?.length === 0 ? (
-                                            <div style={{ paddingTop: 32 }}>
-                                                <EmptyState>
-                                                    <EmptyStateHeader
-                                                        titleText={<>{noItemsString}</>}
-                                                        icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-                                                        headingLevel="h2"
-                                                    />
-                                                    <EmptyStateBody>{getStartedMessage}</EmptyStateBody>
-                                                    <EmptyStateFooter>
-                                                        {createItem && (
-                                                            <EmptyStateActions>
-                                                                <Button variant="primary" onClick={createItem}>
-                                                                    {createItemString}
-                                                                </Button>
-                                                            </EmptyStateActions>
-                                                        )}
-                                                    </EmptyStateFooter>
-                                                </EmptyState>
-                                            </div>
+            <Drawer position="left" isStatic isExpanded={viewType === ItemViewTypeE.Catalog && filters && filters.length > 0}>
+                <DrawerContent
+                    panelContent={
+                        viewType === ItemViewTypeE.Catalog && filters && filters.length > 0 ? (
+                            <DrawerPanelContent minSize="220px" maxSize="260px" className="pf-v6-u-background-color-primary">
+                                <FilterDrawer filters={filters} filterState={filterState} setFilterValues={setFilterValues} />
+                            </DrawerPanelContent>
+                        ) : undefined
+                    }
+                >
+                    <DrawerContentBody style={{ backgroundColor: 'var(--pf-t--global--background--color--secondary--default)' }}>
+                        <div className="pf-v6-u-display-flex pf-v6-u-flex-direction-column pf-v6-u-h-100">
+                            {props.items?.length === 0 ? (
+                                <div style={{ paddingTop: 'var(--pf-t--global--spacer--2xl)' }}>
+                                    <EmptyState headingLevel="h2" icon={PlusCircleIcon} titleText={<>{noItemsString}</>}>
+                                        <EmptyStateBody>{getStartedMessage}</EmptyStateBody>
+                                        <EmptyStateFooter>
+                                            {createItem && (
+                                                <EmptyStateActions>
+                                                    <Button variant="primary" onClick={createItem}>
+                                                        {createItemString}
+                                                    </Button>
+                                                </EmptyStateActions>
+                                            )}
+                                        </EmptyStateFooter>
+                                    </EmptyState>
+                                </div>
+                            ) : (
+                                <>
+                                    <Scrollable>
+                                        {viewType === ItemViewTypeE.Catalog ? (
+                                            <PageSection
+                                                hasBodyWrapper={false}
+                                                className="pf-v6-u-flex-grow-1 pf-v6-u-p-lg"
+                                                style={{ backgroundColor: 'var(--pf-t--global--background--color--secondary--default)' }}
+                                            >
+                                                <Catalog
+                                                    keyFn={props.itemKeyFn}
+                                                    items={paged}
+                                                    itemToCardFn={itemToCardFn!}
+                                                    selectItem={selectItem}
+                                                    unselectItem={unselectItem}
+                                                    isSelected={isSelected}
+                                                    itemActions={props.itemActions}
+                                                    showSelect={showSelect}
+                                                />
+                                                {props.customCatalogSection && props.customCatalogSection}
+                                            </PageSection>
                                         ) : (
-                                            <>
-                                                <Scrollable>
-                                                    {viewType === ItemViewTypeE.Catalog ? (
-                                                        <PageSection style={{ flexGrow: 1 }}>
-                                                            <Catalog
-                                                                keyFn={props.itemKeyFn}
-                                                                items={paged}
-                                                                itemToCardFn={itemToCardFn!}
-                                                                selectItem={selectItem}
-                                                                unselectItem={unselectItem}
-                                                                isSelected={isSelected}
-                                                                itemActions={props.itemActions}
-                                                                showSelect={showSelect}
-                                                            />
-                                                            {props.customCatalogSection && props.customCatalogSection}
-                                                        </PageSection>
-                                                    ) : (
-                                                        <ItemTable
-                                                            columns={managedColumns}
-                                                            items={searched}
-                                                            rowActions={props.itemActions}
-                                                            keyFn={props.itemKeyFn}
-                                                            selectItem={selectItem}
-                                                            unselectItem={unselectItem}
-                                                            isSelected={isSelected}
-                                                            sort={sort}
-                                                            setSort={setSort}
-                                                            showSelect={showSelect}
-                                                            clearAllFilters={clearAllFilters}
-                                                        />
-                                                    )}
-                                                </Scrollable>
-                                                {showBottomToolbar &&
-                                                    (showBackButton || showCancelButton || showBottomToolbarBorder ? (
-                                                        <PageSection
-                                                            variant="light"
-                                                            padding={{ default: 'noPadding' }}
-                                                            style={{
-                                                                borderTop: 'thin solid var(--pf-v5-global--BorderColor--100)',
-                                                                flexGrow: 0,
-                                                            }}
-                                                        >
-                                                            <Split>
-                                                                {(showBackButton || showCancelButton) && (
-                                                                    <Toolbar>
-                                                                        <ToolbarContent>
-                                                                            {props.onBack && (
-                                                                                <ToolbarItem>
-                                                                                    <Button onClick={props.onBack} variant="secondary">
-                                                                                        {backLabel}
-                                                                                    </Button>
-                                                                                </ToolbarItem>
-                                                                            )}
-                                                                            {props.onCancel && (
-                                                                                <ToolbarItem
-                                                                                    style={{
-                                                                                        paddingLeft: 32, // var(--pf-v5-c-wizard__footer-cancel--MarginLeft)
-                                                                                    }}
-                                                                                >
-                                                                                    <Button onClick={props.onCancel} variant="link">
-                                                                                        {cancelLabel}
-                                                                                    </Button>
-                                                                                </ToolbarItem>
-                                                                            )}
-                                                                        </ToolbarContent>
-                                                                    </Toolbar>
-                                                                )}
-                                                                {showPagination && (
-                                                                    <SplitItem isFilled>
-                                                                        <Pagination
-                                                                            variant={PaginationVariant.bottom}
-                                                                            itemCount={searched.length}
-                                                                            perPage={perPage}
-                                                                            page={page}
-                                                                            onSetPage={onSetPage}
-                                                                            onPerPageSelect={onPerPageSelect}
-                                                                        />
-                                                                    </SplitItem>
-                                                                )}
-                                                            </Split>
-                                                        </PageSection>
-                                                    ) : (
-                                                        <Pagination
-                                                            variant={PaginationVariant.bottom}
-                                                            itemCount={searched.length}
-                                                            perPage={perPage}
-                                                            page={page}
-                                                            onSetPage={onSetPage}
-                                                            onPerPageSelect={onPerPageSelect}
-                                                        />
-                                                    ))}
-                                            </>
+                                            <ItemTable
+                                                columns={managedColumns}
+                                                items={searched}
+                                                rowActions={props.itemActions}
+                                                keyFn={props.itemKeyFn}
+                                                selectItem={selectItem}
+                                                unselectItem={unselectItem}
+                                                isSelected={isSelected}
+                                                sort={sort}
+                                                setSort={setSort}
+                                                showSelect={showSelect}
+                                                clearAllFilters={clearAllFilters}
+                                            />
                                         )}
-                                    </div>
-                                </DrawerContentBody>
-                            </DrawerContent>
-                        </Drawer>
+                                    </Scrollable>
+                                    {showBottomToolbar &&
+                                        (showBackButton || showCancelButton || showBottomToolbarBorder ? (
+                                            <PageSection
+                                                hasBodyWrapper={false}
+                                                padding={{ default: 'noPadding' }}
+                                                style={{
+                                                    borderTop: '1px solid var(--pf-t--global--border--color--default)',
+                                                    flexGrow: 0,
+                                                    padding: '16px',
+                                                }}
+                                            >
+                                                <Split>
+                                                    {(showBackButton || showCancelButton) && (
+                                                        <Toolbar>
+                                                            <ToolbarContent>
+                                                                {props.onBack && (
+                                                                    <ToolbarItem>
+                                                                        <Button onClick={props.onBack} variant="secondary">
+                                                                            {backLabel}
+                                                                        </Button>
+                                                                    </ToolbarItem>
+                                                                )}
+                                                                {props.onCancel && (
+                                                                    <ToolbarItem
+                                                                        style={{
+                                                                            paddingLeft: 'var(--pf-t--global--spacer--2xl)',
+                                                                        }}
+                                                                    >
+                                                                        <Button onClick={props.onCancel} variant="link">
+                                                                            {cancelLabel}
+                                                                        </Button>
+                                                                    </ToolbarItem>
+                                                                )}
+                                                            </ToolbarContent>
+                                                        </Toolbar>
+                                                    )}
+                                                    {showPagination && (
+                                                        <SplitItem isFilled>
+                                                            <Pagination
+                                                                variant={PaginationVariant.bottom}
+                                                                itemCount={searched.length}
+                                                                perPage={perPage}
+                                                                page={page}
+                                                                onSetPage={onSetPage}
+                                                                onPerPageSelect={onPerPageSelect}
+                                                            />
+                                                        </SplitItem>
+                                                    )}
+                                                </Split>
+                                            </PageSection>
+                                        ) : (
+                                            <Pagination
+                                                variant={PaginationVariant.bottom}
+                                                itemCount={searched.length}
+                                                perPage={perPage}
+                                                page={page}
+                                                onSetPage={onSetPage}
+                                                onPerPageSelect={onPerPageSelect}
+                                            />
+                                        ))}
+                                </>
+                            )}
+                        </div>
                     </DrawerContentBody>
                 </DrawerContent>
             </Drawer>

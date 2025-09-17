@@ -47,7 +47,7 @@ export enum CatalogIconColor {
 
 export enum CatalogColor {
     blue = 'blue',
-    cyan = 'cyan',
+    cyan = 'teal',
     green = 'green',
     orange = 'orange',
     purple = 'purple',
@@ -205,12 +205,15 @@ export function CatalogCard<T extends object>(props: {
             id={card.id}
             key={card.id ?? card.title}
             onClick={card.onClick}
-            isFlat
             isLarge
             isSelectable={!disabled}
-            isRounded
             style={{
-                transition: 'box-shadow 0.25s',
+                transition: 'all 0.25s ease',
+                border: '1px solid var(--pf-t--global--border--color--default)',
+                borderRadius: 'var(--pf-t--global--border--radius--medium)',
+                backgroundColor: 'var(--pf-t--global--background--color--primary--default)',
+                boxShadow: 'var(--pf-t--global--box-shadow--sm)',
+                minHeight: '200px',
                 cursor: !disabled ? 'pointer' : undefined,
             }}
         >
@@ -267,17 +270,12 @@ export function CatalogCard<T extends object>(props: {
                                         width: 40,
                                         marginTop: -20,
                                         marginBottom: -20,
-                                        marginRight: 12,
+                                        marginRight: 'var(--pf-t--global--spacer--md)',
                                         alignItems: 'center',
                                         justifyItems: 'stretch',
                                     }}
                                 >
-                                    <Icon
-                                        size="lg"
-                                        style={{
-                                            ['--pf-v5-global--icon--FontSize--lg' as any]: '28px',
-                                        }}
-                                    >
+                                    <Icon size="xl" className="pf-v6-u-font-size-2xl">
                                         {card.icon}
                                     </Icon>
                                 </div>
@@ -299,7 +297,7 @@ export function CatalogCard<T extends object>(props: {
                                             return (
                                                 <DescriptionList key={index}>
                                                     <DescriptionListGroup>
-                                                        <span style={{ opacity: 9 }}>{item.description}</span>
+                                                        <span style={{ opacity: 0.9 }}>{item.description}</span>
                                                     </DescriptionListGroup>
                                                 </DescriptionList>
                                             )
@@ -327,7 +325,7 @@ export function CatalogCard<T extends object>(props: {
             )}
             {(card.labels || card.learnMore) && (
                 <CardFooter>
-                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', gap: 16 }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end', gap: 'var(--pf-t--global--spacer--md)' }}>
                         <div style={{ flexGrow: 1, opacity: !disabled ? undefined : '0.5' }}>
                             {card.labels && (
                                 <LabelGroup>
@@ -366,7 +364,7 @@ export function CardSection(props: { title?: string; children: ReactNode }) {
         <Stack>
             {props.title && (
                 <StackItem>
-                    <Title headingLevel="h6" style={{ paddingBottom: 8 }}>
+                    <Title headingLevel="h6" style={{ paddingBottom: 'var(--pf-t--global--spacer--sm)' }}>
                         {props.title}
                     </Title>
                 </StackItem>
@@ -396,15 +394,14 @@ export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[
                             <div onClick={(e) => e.stopPropagation()}>
                                 <Popover headerContent={listItem.helpTitle} bodyContent={listItem.help}>
                                     <Button
+                                        icon={<OutlinedQuestionCircleIcon />}
                                         variant="link"
                                         style={{
                                             padding: 0,
-                                            marginLeft: '8px',
+                                            marginLeft: 'var(--pf-t--global--spacer--sm)',
                                             verticalAlign: 'middle',
                                         }}
-                                    >
-                                        <OutlinedQuestionCircleIcon />
-                                    </Button>
+                                    ></Button>
                                 </Popover>
                             </div>
                         )}
