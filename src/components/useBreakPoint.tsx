@@ -15,13 +15,25 @@ export enum WindowSize {
     '2xl',
 }
 
+// Helper function to convert rem to pixels (assumes 16px = 1rem)
+const remToPixels = (remValue: string): number => {
+    if (remValue.endsWith('rem')) {
+        return Number(remValue.replace('rem', '')) * 16
+    } else if (remValue.endsWith('px')) {
+        // Fallback for backward compatibility
+        return Number(remValue.replace('px', ''))
+    } else {
+        return Number(remValue)
+    }
+}
+
 const breakpoints: Record<WindowSize, number> = {
-    [WindowSize.xs]: Number(t_global_breakpoint_xs.value.replace('px', '')),
-    [WindowSize.sm]: Number(t_global_breakpoint_sm.value.replace('px', '')),
-    [WindowSize.md]: Number(t_global_breakpoint_md.value.replace('px', '')),
-    [WindowSize.lg]: Number(t_global_breakpoint_lg.value.replace('px', '')),
-    [WindowSize.xl]: Number(t_global_breakpoint_xl.value.replace('px', '')),
-    [WindowSize['2xl']]: Number(t_global_breakpoint_2xl.value.replace('px', '')),
+    [WindowSize.xs]: remToPixels(t_global_breakpoint_xs.value),
+    [WindowSize.sm]: remToPixels(t_global_breakpoint_sm.value),
+    [WindowSize.md]: remToPixels(t_global_breakpoint_md.value),
+    [WindowSize.lg]: remToPixels(t_global_breakpoint_lg.value),
+    [WindowSize.xl]: remToPixels(t_global_breakpoint_xl.value),
+    [WindowSize['2xl']]: remToPixels(t_global_breakpoint_2xl.value),
 }
 
 export function useWindowSize() {
