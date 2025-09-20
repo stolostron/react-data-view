@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, Checkbox, Content, ActionGroup } from '@patternfly/react-core'
+import { Button, Modal, ModalBody, ModalFooter, Checkbox, Content, ActionGroup, ModalHeader } from '@patternfly/react-core'
 import { useCallback, useState } from 'react'
 import { ITableColumn } from './TableColumn'
 // DragDropSort removed due to PatternFly 6 compatibility issues
@@ -41,13 +41,14 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
         [selectedCount]
     )
     const columnModal = (
-        <Modal title="Manage columns" isOpen={columnModalOpen} onClose={onClose} width="500px">
+        <Modal isOpen={columnModalOpen} onClose={onClose} width="550px">
+            <ModalHeader title="Manage columns" />
             <ModalBody>
-                <Content className="pf-v6-u-mb-lg">
+                <Content style={{ marginBottom: '1.5rem' }}>
                     <p>Selected categories will be displayed in the table.</p>
                 </Content>
 
-                <div className="pf-v6-u-mb-lg">
+                <div style={{ marginBottom: '1rem' }}>
                     <Button variant="link" isInline onClick={toggleSelectAll} className="pf-v6-u-p-0 pf-v6-u-mb-sm">
                         {allSelected ? 'Unselect all' : 'Select all'}
                     </Button>
@@ -60,24 +61,25 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
                 </div>
 
                 <div
-                    className="pf-v6-u-display-grid pf-v6-u-column-gap-lg pf-v6-u-row-gap-md"
+                    className="pf-v6-u-display-grid pf-v6-u-column-gap-lg pf-v6-u-row-gap-lg pf-v6-u-pt-md"
                     style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
                 >
                     {managedColumns.map((column) => (
-                        <Checkbox
-                            key={column.header}
-                            id={`column-${column.header}`}
-                            label={column.header}
-                            isChecked={column.enabled !== false}
-                            onChange={(_event, checked) => handleChange(column.header, checked)}
-                        />
+                        <div key={column.header} className="pf-v6-u-py-sm">
+                            <Checkbox
+                                id={`column-${column.header}`}
+                                label={column.header}
+                                isChecked={column.enabled !== false}
+                                onChange={(_event, checked) => handleChange(column.header, checked)}
+                            />
+                        </div>
                     ))}
                 </div>
             </ModalBody>
 
             <ModalFooter>
                 <ActionGroup>
-                    <Button variant="primary" onClick={onClose}>
+                    <Button variant="primary" onClick={onClose} >
                         Save
                     </Button>
                     <Button variant="link" onClick={onClose}>
