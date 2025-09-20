@@ -2,7 +2,6 @@ import { ClipboardCopy, Label, LabelGroup, Split, SplitItem } from '@patternfly/
 import { DateTime } from 'luxon'
 import { Fragment, ReactNode } from 'react'
 import { Link } from 'react-router-dom-v5-compat'
-import { Truncate } from './components/Truncate'
 
 type CellFn<T extends object> = (item: T) => ReactNode
 
@@ -59,12 +58,12 @@ export function CopyCell(props: { text?: string; minWidth?: number }) {
             hoverTip="Copy"
             clickTip="Copied"
             variant="inline-compact"
-            style={{ display: 'flex', flexWrap: 'nowrap', borderRadius: 4 }}
+            style={{ display: 'flex', flexWrap: 'nowrap', borderRadius: 'var(--pf-t--global--border-radius--small)' }}
             onCopy={() => {
                 void navigator.clipboard.writeText(props.text ?? '')
             }}
         >
-            <Truncate content={props.text} />
+            {props.text}
         </ClipboardCopy>
     )
 }

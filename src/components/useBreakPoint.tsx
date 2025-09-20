@@ -1,9 +1,9 @@
-import xl2Breakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_2xl'
-import lgBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_lg'
-import mdBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_md'
-import smBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_sm'
-import xlBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_xl'
-import xsBreakpoint from '@patternfly/react-tokens/dist/esm/global_breakpoint_xs'
+import t_global_breakpoint_2xl from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_2xl'
+import t_global_breakpoint_lg from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_lg'
+import t_global_breakpoint_md from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_md'
+import t_global_breakpoint_sm from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_sm'
+import t_global_breakpoint_xl from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_xl'
+import t_global_breakpoint_xs from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_xs'
 import { useCallback, useEffect, useState } from 'react'
 
 export enum WindowSize {
@@ -15,13 +15,25 @@ export enum WindowSize {
     '2xl',
 }
 
+// Helper function to convert rem to pixels (assumes 16px = 1rem)
+const remToPixels = (remValue: string): number => {
+    if (remValue.endsWith('rem')) {
+        return Number(remValue.replace('rem', '')) * 16
+    } else if (remValue.endsWith('px')) {
+        // Fallback for backward compatibility
+        return Number(remValue.replace('px', ''))
+    } else {
+        return Number(remValue)
+    }
+}
+
 const breakpoints: Record<WindowSize, number> = {
-    [WindowSize.xs]: Number(xsBreakpoint.value.replace('px', '')),
-    [WindowSize.sm]: Number(smBreakpoint.value.replace('px', '')),
-    [WindowSize.md]: Number(mdBreakpoint.value.replace('px', '')),
-    [WindowSize.lg]: Number(lgBreakpoint.value.replace('px', '')),
-    [WindowSize.xl]: Number(xlBreakpoint.value.replace('px', '')),
-    [WindowSize['2xl']]: Number(xl2Breakpoint.value.replace('px', '')),
+    [WindowSize.xs]: remToPixels(t_global_breakpoint_xs.value),
+    [WindowSize.sm]: remToPixels(t_global_breakpoint_sm.value),
+    [WindowSize.md]: remToPixels(t_global_breakpoint_md.value),
+    [WindowSize.lg]: remToPixels(t_global_breakpoint_lg.value),
+    [WindowSize.xl]: remToPixels(t_global_breakpoint_xl.value),
+    [WindowSize['2xl']]: remToPixels(t_global_breakpoint_2xl.value),
 }
 
 export function useWindowSize() {

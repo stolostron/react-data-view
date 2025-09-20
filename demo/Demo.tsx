@@ -1,6 +1,7 @@
 import {
     Masthead,
     MastheadBrand,
+    MastheadLogo,
     MastheadContent,
     MastheadMain,
     MastheadToggle,
@@ -13,23 +14,22 @@ import {
     Title,
     PageSidebarBody,
 } from '@patternfly/react-core'
-import { BarsIcon } from '@patternfly/react-icons'
+
 import { BrowserRouter, Link, useLocation, Navigate } from 'react-router-dom-v5-compat'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
-import { ThemeSwitcher } from '../src/Theme'
+import { ThemeSwitcher, useTheme, ThemeE } from '../src/Theme'
 import { ControlPlane } from './ControlPlane'
 import { Home } from './Home'
 import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
 import { ItemViewDemo } from './ItemViewDemo'
 import { RouteE } from './route'
-import { Truncate } from '../src/components/Truncate'
 
 export default function Demo() {
     return (
         <BrowserRouter>
             <Page
-                header={<DemoHeader />}
+                masthead={<DemoHeader />}
                 sidebar={<DemoSidebar />}
                 isManagedSidebar
                 defaultManagedSidebarIsOpen={false}
@@ -52,31 +52,50 @@ export function DemoRouter(): JSX.Element {
 }
 
 function DemoHeader() {
-    const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.sm)
+    const isSmallOrLarger = useWindowSizeOrLarger(WindowSize.xs)
+    const [theme] = useTheme()
+    const textColor = theme === ThemeE.Dark ? 'white' : '#151515'
+
     return (
         <Masthead display={{ default: 'inline' }}>
-            <MastheadToggle>
-                <PageToggleButton variant="plain" aria-label="Global navigation">
-                    <BarsIcon />
-                </PageToggleButton>
-            </MastheadToggle>
-            {isSmallOrLarger ? (
-                <MastheadMain>
-                    <MastheadBrand component="a">
-                        <Title headingLevel="h2" style={{ color: 'white' }}>
-                            <Truncate content="Stolostron / React Item View" />
+            <MastheadMain style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MastheadToggle>
+                    <PageToggleButton
+                        isHamburgerButton
+                        variant="plain"
+                        aria-label="Global navigation"
+                        style={{
+                            fontSize: '1.25rem',
+                            padding: '0.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '44px',
+                            width: '44px',
+                        }}
+                    />
+                </MastheadToggle>
+                <MastheadBrand>
+                    <MastheadLogo>
+                        <Title
+                            headingLevel="h2"
+                            style={{
+                                whiteSpace: 'nowrap',
+                                textDecoration: 'none',
+                                color: textColor,
+                                fontSize: '1.25rem',
+                                margin: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                lineHeight: '44px',
+                                height: '44px',
+                            }}
+                        >
+                            {isSmallOrLarger ? 'Stolostron / React Item View' : 'Item View'}
                         </Title>
-                    </MastheadBrand>
-                </MastheadMain>
-            ) : (
-                <MastheadMain>
-                    <MastheadBrand component="a">
-                        <Title headingLevel="h2" style={{ color: 'white' }}>
-                            <Truncate content="Item View" />
-                        </Title>
-                    </MastheadBrand>
-                </MastheadMain>
-            )}
+                    </MastheadLogo>
+                </MastheadBrand>
+            </MastheadMain>
             <MastheadContent>
                 <span style={{ flexGrow: 1 }} />
                 <ThemeSwitcher />
