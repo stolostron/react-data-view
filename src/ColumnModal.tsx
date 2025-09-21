@@ -79,7 +79,7 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
 
             <ModalFooter>
                 <ActionGroup>
-                    <Button variant="primary" onClick={onClose} >
+                    <Button variant="primary" onClick={onClose}>
                         Save
                     </Button>
                     <Button variant="link" onClick={onClose}>
