@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, Checkbox, Content, ActionGroup, ModalHeader } from '@patternfly/react-core'
+import { Button, Modal, ModalBody, ModalFooter, Checkbox, Content, ActionGroup, ModalHeader, Grid, GridItem } from '@patternfly/react-core'
 import { useCallback, useState } from 'react'
 import { ITableColumn } from './TableColumn'
 // DragDropSort removed due to PatternFly 6 compatibility issues
@@ -60,21 +60,18 @@ export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
                     )}
                 </div>
 
-                <div
-                    className="pf-v6-u-display-grid pf-v6-u-column-gap-lg pf-v6-u-row-gap-lg pf-v6-u-pt-md"
-                    style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
-                >
+                <Grid hasGutter className="pf-v6-u-pt-md">
                     {managedColumns.map((column) => (
-                        <div key={column.header} className="pf-v6-u-py-sm">
+                        <GridItem key={column.header} span={6} className="pf-v6-u-py-sm">
                             <Checkbox
                                 id={`column-${column.header}`}
                                 label={column.header}
                                 isChecked={column.enabled !== false}
                                 onChange={(_event, checked) => handleChange(column.header, checked)}
                             />
-                        </div>
+                        </GridItem>
                     ))}
-                </div>
+                </Grid>
             </ModalBody>
 
             <ModalFooter>
