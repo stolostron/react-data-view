@@ -30,15 +30,15 @@ export function FilterDrawer<T extends object>(props: {
 
     return (
         <DrawerPanelBody>
-            <Title headingLevel="h2" size="lg" className="pf-v6-u-mb-lg">
+            <Title headingLevel="h2" size="lg" style={{ marginBottom: '.5rem' }}>
                 Filters
             </Title>
 
             {filters?.map((filter) => {
                 const filterValues = filterState[filter.label]
                 return (
-                    <DrawerSection key={filter.label} className="pf-v6-u-mb-lg">
-                        <Title headingLevel="h4" className="pf-v6-u-mb-md">
+                    <DrawerSection key={filter.label} style={{ paddingTop: '1rem', marginBottom: '1rem' }}>
+                        <Title headingLevel="h4" style={{ marginBottom: '.5rem' }}>
                             {filter.label}
                         </Title>
                         <Stack hasGutter>
