@@ -24,6 +24,7 @@ import { Hosted } from './Hosted'
 import { Infrastructure } from './Infrastructure'
 import { ItemViewDemo } from './ItemViewDemo'
 import { RouteE } from './route'
+import './demo.css'
 
 export default function Demo() {
     return (
@@ -58,39 +59,13 @@ function DemoHeader() {
 
     return (
         <Masthead display={{ default: 'inline' }}>
-            <MastheadMain style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <MastheadMain className="demo-masthead-main">
                 <MastheadToggle>
-                    <PageToggleButton
-                        isHamburgerButton
-                        variant="plain"
-                        aria-label="Global navigation"
-                        style={{
-                            fontSize: '1.25rem',
-                            padding: '0.5rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            height: '44px',
-                            width: '44px',
-                        }}
-                    />
+                    <PageToggleButton isHamburgerButton variant="plain" aria-label="Global navigation" className="demo-toggle-button" />
                 </MastheadToggle>
                 <MastheadBrand>
                     <MastheadLogo>
-                        <Title
-                            headingLevel="h2"
-                            style={{
-                                whiteSpace: 'nowrap',
-                                textDecoration: 'none',
-                                color: textColor,
-                                fontSize: '1.25rem',
-                                margin: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                lineHeight: '44px',
-                                height: '44px',
-                            }}
-                        >
+                        <Title headingLevel="h2" className="demo-title" style={{ color: textColor }}>
                             {isSmallOrLarger ? 'Stolostron / React Item View' : 'Item View'}
                         </Title>
                     </MastheadLogo>

@@ -1,0 +1,30 @@
+/* custom styles for our demo - making PatternFly components look just right */
+
+.demo-masthead-main {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-t--global--spacer--sm);
+}
+
+.demo-toggle-button {
+    /* make the hamburger icon line up nicely with the title text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 44px;
+    font-size: 20px;
+    padding: var(--pf-t--global--spacer--sm);
+}
+
+.demo-title {
+    /* keep the title text looking clean and aligned with the hamburger */
+    white-space: nowrap;
+    text-decoration: none;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    height: 44px;
+    line-height: 44px;
+}
