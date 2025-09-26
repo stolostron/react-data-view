@@ -210,11 +210,11 @@ export function PageToolbar<T extends object>(props: {
     }
 
     return (
-        <Toolbar style={{ borderBottom: 'thin solid var(--pf-v5-global--BorderColor--100)' }} clearAllFilters={clearAllFilters}>
+        <Toolbar style={{ borderBottom: 'var(--pf-t--global--border--color--default)' }} clearAllFilters={clearAllFilters}>
             <ToolbarContent>
                 {showSelect && (
                     <ToolbarGroup>
-                        <ToolbarItem variant="bulk-select">
+                        <ToolbarItem>
                             <BulkSelector
                                 itemCount={searched.length}
                                 selectedCount={selected.length}
@@ -228,7 +228,7 @@ export function PageToolbar<T extends object>(props: {
                 )}
                 {showSearchAndFilters && (
                     <ToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
-                        <ToolbarItem variant="search-filter">
+                        <ToolbarItem>
                             <SearchInput
                                 aria-label="search"
                                 placeholder="Search"
@@ -246,18 +246,18 @@ export function PageToolbar<T extends object>(props: {
                                         return (
                                             <ToolbarFilter
                                                 key={filter.label}
-                                                chips={values.map((value) => ({
+                                                labels={values.map((value) => ({
                                                     key: value,
                                                     node: filter.options.find((option) => option.value === value)?.label ?? value,
                                                 }))}
-                                                deleteChip={(_group, value) => {
+                                                deleteLabel={(_group, value) => {
                                                     value = typeof value === 'string' ? value : value.key
                                                     setFilterValues(
                                                         filter,
                                                         values.filter((v) => v != value)
                                                     )
                                                 }}
-                                                deleteChipGroup={() => setFilterValues(filter, [])}
+                                                deleteLabelGroup={() => setFilterValues(filter, [])}
                                                 categoryName={filter.label}
                                             >
                                                 <SelectFilter
@@ -274,7 +274,7 @@ export function PageToolbar<T extends object>(props: {
                     </ToolbarToggleGroup>
                 )}
                 {showToolbarActions && (
-                    <ToolbarGroup variant="button-group">
+                    <ToolbarGroup variant="action-group">
                         <ToolbarItem>
                             <OverflowMenu breakpoint="2xl">
                                 {toolbarActionButtons && (
@@ -290,7 +290,7 @@ export function PageToolbar<T extends object>(props: {
                     </ToolbarGroup>
                 )}
                 {view === ItemViewTypeE.Table && (
-                    <ToolbarGroup variant="button-group">
+                    <ToolbarGroup variant="action-group">
                         <ToolbarItem>
                             <Button variant="plain" icon={<ColumnsIcon />} onClick={openColumnModal} />
                         </ToolbarItem>
