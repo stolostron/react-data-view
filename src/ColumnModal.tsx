@@ -1,90 +1,64 @@
-import { Button, Modal, ModalBody, ModalFooter, Checkbox, Content, ActionGroup, ModalHeader, Grid, GridItem } from '@patternfly/react-core'
+import { ColumnManagementModal, type ColumnManagementModalColumn } from '@patternfly/react-component-groups'
 import { useCallback, useState } from 'react'
 import { ITableColumn } from './TableColumn'
-// DragDropSort removed due to PatternFly 6 compatibility issues
+
+// prep our columns for the modal component
+function prepareColumnsForModal<T extends object>(columns: ITableColumn<T>[]): ColumnManagementModalColumn[] {
+    return columns.map((column, index) => ({
+        // patternfly wants key/title instead of our header field
+        key: column.header,
+        title: column.header,
+        isShownByDefault: column.enabled !== false,
+        // keep first column always toggleable so user can't hide everything
+        isUntoggleable: index === 0,
+    }))
+}
+
+// take the modal results and update our column state
+function applyModalChanges<T extends object>(
+    modalColumns: ColumnManagementModalColumn[],
+    originalColumns: ITableColumn<T>[]
+): ITableColumn<T>[] {
+    return originalColumns.map((originalColumn) => {
+        const modalColumn = modalColumns.find((mc) => mc.key === originalColumn.header)
+        return {
+            ...originalColumn,
+            enabled: modalColumn ? modalColumn.isShown ?? modalColumn.isShownByDefault : originalColumn.enabled !== false,
+        }
+    })
+}
 
 export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
     const [columnModalOpen, setColumnModalOpen] = useState(false)
+    const [managedColumns, setManagedColumns] = useState(() => columns)
+
     const openColumnModal = useCallback(() => {
         setColumnModalOpen(true)
     }, [])
-    const [managedColumns, setManagedColumns] = useState(() => columns)
+
     const onClose = useCallback(() => {
         setColumnModalOpen(false)
     }, [])
-    const allSelected = managedColumns.every((column) => column.enabled !== false)
-    const selectedCount = managedColumns.filter((column) => column.enabled !== false).length
 
-    const toggleSelectAll = useCallback(() => {
-        setManagedColumns((managedColumns) => {
-            return managedColumns.map((column, index) => ({
-                ...column,
-                // if unselecting all, keep the first column usually "Name" as selected
-                enabled: allSelected ? index === 0 : true,
-            }))
-        })
-    }, [allSelected])
-    const handleChange = useCallback(
-        (columnHeader: string, checked: boolean) => {
-            setManagedColumns((managedColumns) => {
-                const currentColumn = managedColumns.find((col) => col.header === columnHeader)
-                const isLastSelected = selectedCount === 1 && currentColumn?.enabled !== false
-
-                // prevent unchecking the last remaining column
-                if (!checked && isLastSelected) {
-                    return managedColumns
-                }
-
-                return managedColumns.map((column) => (column.header === columnHeader ? { ...column, enabled: checked } : column))
-            })
+    const applyColumns = useCallback(
+        (newColumns: ColumnManagementModalColumn[]) => {
+            const updatedColumns = applyModalChanges(newColumns, managedColumns)
+            setManagedColumns(updatedColumns)
+            setColumnModalOpen(false)
         },
-        [selectedCount]
+        [managedColumns]
     )
+
     const columnModal = (
-        <Modal isOpen={columnModalOpen} onClose={onClose} width="550px">
-            <ModalHeader title="Manage columns" />
-            <ModalBody>
-                <Content style={{ marginBottom: '1.5rem' }}>
-                    <p>Selected categories will be displayed in the table.</p>
-                </Content>
-
-                <div style={{ marginBottom: '1rem' }}>
-                    <Button variant="link" isInline onClick={toggleSelectAll} className="pf-v6-u-p-0 pf-v6-u-mb-sm">
-                        {allSelected ? 'Unselect all' : 'Select all'}
-                    </Button>
-
-                    {selectedCount === 1 && (
-                        <div className="pf-v6-u-color-subtle pf-v6-u-font-size-sm pf-v6-u-font-style-italic pf-v6-u-mt-xs">
-                            At least one column must remain selected
-                        </div>
-                    )}
-                </div>
-
-                <Grid hasGutter className="pf-v6-u-pt-md">
-                    {managedColumns.map((column) => (
-                        <GridItem key={column.header} span={6} className="pf-v6-u-py-sm">
-                            <Checkbox
-                                id={`column-${column.header}`}
-                                label={column.header}
-                                isChecked={column.enabled !== false}
-                                onChange={(_event, checked) => handleChange(column.header, checked)}
-                            />
-                        </GridItem>
-                    ))}
-                </Grid>
-            </ModalBody>
-
-            <ModalFooter>
-                <ActionGroup>
-                    <Button variant="primary" onClick={onClose}>
-                        Save
-                    </Button>
-                    <Button variant="link" onClick={onClose}>
-                        Cancel
-                    </Button>
-                </ActionGroup>
-            </ModalFooter>
-        </Modal>
+        <ColumnManagementModal
+            isOpen={columnModalOpen}
+            onClose={onClose}
+            appliedColumns={prepareColumnsForModal(managedColumns)}
+            applyColumns={applyColumns}
+            title="Manage columns"
+            description="Select which columns to display in the table."
+        />
     )
+
     return { openColumnModal, columnModal, managedColumns }
 }
