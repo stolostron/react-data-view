@@ -1,4 +1,4 @@
-import { Split, SplitItem } from '@patternfly/react-core'
+import { Button } from '@patternfly/react-core'
 import {
     AmazonIcon,
     AzureIcon,
@@ -70,12 +70,9 @@ export function Infrastructure() {
                 alertTitle: 'Operator must be enabled in order to continue',
                 alertVariant: 'info',
                 alertContent: (
-                    <a href=".">
-                        <Split hasGutter>
-                            <SplitItem>View documentation</SplitItem>
-                            <ExternalLinkAltIcon />
-                        </Split>
-                    </a>
+                    <Button variant="link" icon={<ExternalLinkAltIcon />} iconPosition="right" isInline href=".">
+                        View documentation
+                    </Button>
                 ),
             },
             {

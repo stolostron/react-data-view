@@ -344,7 +344,7 @@ export function CatalogCard<T extends object>(props: {
                                 isInline
                                 onClick={() => window.open(card.learnMore, '_blank')}
                             >
-                                &nbsp;Learn more
+                                Learn more
                             </Button>
                         )}
                     </div>

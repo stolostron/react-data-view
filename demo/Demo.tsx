@@ -90,7 +90,7 @@ function DemoSidebar() {
                             <Link to={RouteE.Demo}>Data View</Link>
                         </NavItem>
                         <NavItem isActive={location.search === RouteE.Infrastructure}>
-                            <Link to={RouteE.Infrastructure}>Hyershift Demo</Link>
+                            <Link to={RouteE.Infrastructure}>Hypershift Demo</Link>
                         </NavItem>
                     </NavList>
                 </Nav>
