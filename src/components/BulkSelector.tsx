@@ -33,19 +33,17 @@ export function BulkSelector(props: BulkSelectorProps) {
                 <MenuToggle
                     ref={toggleRef}
                     onClick={() => setIsOpen((open) => !open)}
-                    splitButtonOptions={{
-                        items: [
-                            <MenuToggleCheckbox
-                                id="select-all"
-                                key="select-all"
-                                aria-label="Select all"
-                                isChecked={selectedCount > 0}
-                                onChange={onToggleCheckbox}
-                            >
-                                {toggleText}
-                            </MenuToggleCheckbox>,
-                        ],
-                    }}
+                    splitButtonItems={[
+                        <MenuToggleCheckbox
+                            id="select-all"
+                            key="select-all"
+                            aria-label="Select all"
+                            isChecked={selectedCount > 0}
+                            onChange={onToggleCheckbox}
+                        >
+                            {toggleText}
+                        </MenuToggleCheckbox>,
+                    ]}
                 />
             )
         },

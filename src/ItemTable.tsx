@@ -1,12 +1,4 @@
-import {
-    Button,
-    EmptyState,
-    EmptyStateBody,
-    EmptyStateIcon,
-    EmptyStateActions,
-    EmptyStateHeader,
-    EmptyStateFooter,
-} from '@patternfly/react-core'
+import { Button, EmptyState, EmptyStateBody, EmptyStateActions, EmptyStateFooter } from '@patternfly/react-core'
 import { SearchIcon } from '@patternfly/react-icons'
 import {
     ActionsColumn,
@@ -101,7 +93,7 @@ export function ItemTable<T extends object>(props: {
     const onScroll = useCallback((event: UIEvent<HTMLDivElement>) => updateScroll(event.currentTarget), [updateScroll])
 
     const className = useMemo(() => {
-        // let className = 'pf-v5-c-table '
+        // table styling handled by PF6 components
         let className = ''
         if (scroll.top > 1) className += 'scroll-top '
         if (scroll.bottom > 1) className += 'scroll-bottom '
@@ -142,13 +134,8 @@ export function ItemTable<T extends object>(props: {
                         </Tbody>
                     </Table>
                     {items.length === 0 && (
-                        <div style={{ paddingTop: 16 }}>
-                            <EmptyState>
-                                <EmptyStateHeader
-                                    titleText="No results found"
-                                    icon={<EmptyStateIcon icon={SearchIcon} />}
-                                    headingLevel="h2"
-                                />
+                        <div style={{ paddingTop: 'var(--pf-t--global--spacer--md)' }}>
+                            <EmptyState headingLevel="h2" icon={SearchIcon} titleText="No results found">
                                 <EmptyStateBody>No results match this filter criteria. Adjust your filters and try again.</EmptyStateBody>
                                 <EmptyStateFooter>
                                     <EmptyStateActions>
@@ -332,7 +319,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
                         )
                     })}
                 {actions !== undefined && (
-                    <Td isActionCell style={{ zIndex: 100000 - rowIndex, paddingRight: 8, width: '0%' }}>
+                    <Td isActionCell style={{ zIndex: 100000 - rowIndex, paddingRight: 'var(--pf-t--global--spacer--sm)', width: '0%' }}>
                         <ActionsColumn
                             // dropdownDirection="up" // TODO handle....
                             items={actions}
@@ -370,7 +357,7 @@ function TableCells<T extends object>(props: { rowIndex: number; columns: ITable
 //                 // variant={PaginationVariant.bottom}
 //                 // onSetPage={this.onSetPage}
 //                 // onPerPageSelect={this.onPerPageSelect}
-//                 style={{ borderTop: '1px solid var(--pf-v5-global--BorderColor--dark-100)', marginTop: -1, zIndex: 300 }}
+//                 PF6 border styling handled by component
 //             />
 //         ),
 //         [itemCount, onPerPageSelect, onSetPage, page, perPage]

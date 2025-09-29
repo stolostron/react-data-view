@@ -1,9 +1,8 @@
-import { Breadcrumb, BreadcrumbItem, Button, PageSection, Popover, Split, SplitItem, Text, Title } from '@patternfly/react-core'
+import { Breadcrumb, BreadcrumbItem, Button, PageSection, Popover, Split, SplitItem, Content, Title } from '@patternfly/react-core'
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom-v5-compat'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
-import { ThemeE, useTheme } from './Theme'
 
 export interface ICatalogBreadcrumb {
     id?: string
@@ -26,7 +25,7 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     onClick={breadcrumb.to ? () => navigate(breadcrumb.to!) : undefined}
                     style={{
-                        color: breadcrumb.to ? 'var(--pf-v5-c-breadcrumb__link--Color)' : undefined,
+                        color: breadcrumb.to ? 'var(--pf-t--global--text--color--link--default)' : undefined,
                         cursor: breadcrumb.to ? 'pointer' : undefined,
                     }}
                     isActive={breadcrumb.to === undefined}
@@ -49,23 +48,34 @@ export function PageHeader(props: {
 }) {
     const { breadcrumbs, title, description, navigation, actions } = props
     const isXlOrLarger = useWindowSizeOrLarger(WindowSize.xl)
-    const [theme] = useTheme()
     return (
         <div
             style={{
-                borderBottom: 'thin solid var(--pf-v5-global--BorderColor--100)',
-                backgroundColor:
-                    theme === ThemeE.Dark ? 'var(--pf-v5-global--BackgroundColor--300)' : 'var(--pf-v5-global--BackgroundColor--100)',
+                borderBottom: '1px solid var(--pf-t--global--border--color--default)',
+                backgroundColor: 'var(--pf-t--global--background--color--primary--default)', // Same as cards for consistent color
             }}
         >
             <Split>
                 <SplitItem isFilled>
                     {(title || breadcrumbs) && (
                         <PageSection
-                            style={{ backgroundColor: 'transparent', paddingBottom: navigation ? (isXlOrLarger ? 8 : 4) : undefined }}
+                            hasBodyWrapper={false}
+                            style={{
+                                backgroundColor: 'transparent',
+                                paddingBottom: navigation
+                                    ? isXlOrLarger
+                                        ? 'var(--pf-t--global--spacer--sm)'
+                                        : 'var(--pf-t--global--spacer--xs)'
+                                    : undefined,
+                            }}
                         >
                             {breadcrumbs !== undefined && (
-                                <div style={{ paddingBottom: isXlOrLarger ? 8 : 6, marginTop: -6 }}>
+                                <div
+                                    style={{
+                                        paddingBottom: isXlOrLarger ? 'var(--pf-t--global--spacer--sm)' : 'var(--pf-t--global--spacer--xs)',
+                                        marginTop: '-6px',
+                                    }}
+                                >
                                     <Breadcrumbs breadcrumbs={breadcrumbs} />
                                 </div>
                             )}
@@ -75,31 +85,33 @@ export function PageHeader(props: {
                                     {props.titleHelp && (
                                         <Popover headerContent={props.titleHelpTitle} bodyContent={props.titleHelp}>
                                             <Button
+                                                icon={<OutlinedQuestionCircleIcon />}
                                                 variant="link"
                                                 style={{
                                                     padding: 0,
-                                                    marginLeft: '8px',
+                                                    marginLeft: 'var(--pf-t--global--spacer--sm)',
                                                     verticalAlign: 'middle',
                                                 }}
-                                            >
-                                                <OutlinedQuestionCircleIcon />
-                                            </Button>
+                                            ></Button>
                                         </Popover>
                                     )}
                                 </Title>
                             )}
                             {description && (
-                                <Text component="p" style={{ opacity: 0.85, paddingTop: 2 }}>
+                                <Content component="p" style={{ opacity: 0.85, paddingTop: 'var(--pf-t--global--spacer--xs)' }}>
                                     {description}
-                                </Text>
+                                </Content>
                             )}
                         </PageSection>
                     )}
-                    {navigation && <div style={{ paddingLeft: isXlOrLarger ? 8 : 0 }}>{navigation}</div>}
+                    {navigation && <div style={{ paddingLeft: isXlOrLarger ? 'var(--pf-t--global--spacer--sm)' : 0 }}>{navigation}</div>}
                 </SplitItem>
                 {actions && (
                     <SplitItem>
-                        <PageSection style={{ backgroundColor: 'transparent', height: '100%', display: 'flex', alignItems: 'end' }}>
+                        <PageSection
+                            hasBodyWrapper={false}
+                            style={{ backgroundColor: 'transparent', height: '100%', display: 'flex', alignItems: 'end' }}
+                        >
                             {actions}
                         </PageSection>
                     </SplitItem>

@@ -1,109 +1,64 @@
-import {
-    Button,
-    DataList,
-    DataListCell,
-    DataListCheck,
-    DataListControl,
-    DataListItemCells,
-    Modal,
-    ModalVariant,
-    Text,
-    TextContent,
-    TextVariants,
-} from '@patternfly/react-core'
-import { FormEvent, useCallback, useMemo, useState } from 'react'
+import { ColumnManagementModal, type ColumnManagementModalColumn } from '@patternfly/react-component-groups'
+import { useCallback, useState } from 'react'
 import { ITableColumn } from './TableColumn'
-import { DragDropSort, DragDropSortDragEndEvent, DraggableObject } from '@patternfly/react-drag-drop'
+
+// prep our columns for the modal component
+function prepareColumnsForModal<T extends object>(columns: ITableColumn<T>[]): ColumnManagementModalColumn[] {
+    return columns.map((column, index) => ({
+        // patternfly wants key/title instead of our header field
+        key: column.header,
+        title: column.header,
+        isShownByDefault: column.enabled !== false,
+        // keep first column always toggleable so user can't hide everything
+        isUntoggleable: index === 0,
+    }))
+}
+
+// take the modal results and update our column state
+function applyModalChanges<T extends object>(
+    modalColumns: ColumnManagementModalColumn[],
+    originalColumns: ITableColumn<T>[]
+): ITableColumn<T>[] {
+    return originalColumns.map((originalColumn) => {
+        const modalColumn = modalColumns.find((mc) => mc.key === originalColumn.header)
+        return {
+            ...originalColumn,
+            enabled: modalColumn ? modalColumn.isShown ?? modalColumn.isShownByDefault : originalColumn.enabled !== false,
+        }
+    })
+}
 
 export function useColumnModal<T extends object>(columns: ITableColumn<T>[]) {
     const [columnModalOpen, setColumnModalOpen] = useState(false)
+    const [managedColumns, setManagedColumns] = useState(() => columns)
+
     const openColumnModal = useCallback(() => {
         setColumnModalOpen(true)
     }, [])
-    const [managedColumns, setManagedColumns] = useState(() => columns)
+
     const onClose = useCallback(() => {
         setColumnModalOpen(false)
     }, [])
-    const selectAllColumns = useCallback(() => {
-        setManagedColumns((managedColumns) => {
-            for (const column of managedColumns) {
-                column.enabled = true
-            }
-            return [...managedColumns]
-        })
-    }, [])
-    const onDragFinish = useCallback((_: DragDropSortDragEndEvent, itemOrder: DraggableObject[]) => {
-        setManagedColumns((managedColumns) => {
-            return itemOrder.map(({ id }) => managedColumns.find((column) => column.header === id)) as ITableColumn<T>[]
-        })
-    }, [])
-    const handleChange = useCallback((event: FormEvent<HTMLInputElement>, checked: boolean) => {
-        const columnHeader = (event.target as unknown as { name?: string }).name
-        if (columnHeader) {
-            setManagedColumns((managedColumns) => {
-                for (const column of managedColumns) {
-                    if (column.header !== columnHeader) continue
-                    column.enabled = checked
-                }
-                return [...managedColumns]
-            })
-        }
-    }, [])
-    const items = useMemo<DraggableObject[]>(
-        () =>
-            managedColumns.map((column) => ({
-                id: column.header,
-                content: (
-                    <>
-                        <DataListControl>
-                            <DataListCheck
-                                aria-labelledby={column.header}
-                                checked={column.enabled !== false}
-                                name={column.header}
-                                id={column.header}
-                                onChange={handleChange}
-                                otherControls
-                            />
-                        </DataListControl>
-                        <DataListItemCells
-                            dataListCells={[
-                                <DataListCell id={column.header} key={column.header}>
-                                    <label htmlFor={column.header}>{column.header}</label>
-                                </DataListCell>,
-                            ]}
-                        />
-                    </>
-                ),
-            })),
-        [handleChange, managedColumns]
+
+    const applyColumns = useCallback(
+        (newColumns: ColumnManagementModalColumn[]) => {
+            const updatedColumns = applyModalChanges(newColumns, managedColumns)
+            setManagedColumns(updatedColumns)
+            setColumnModalOpen(false)
+        },
+        [managedColumns]
     )
+
     const columnModal = (
-        <Modal
-            variant={ModalVariant.medium}
-            title="Manage columns"
-            description={
-                <TextContent>
-                    <Text component={TextVariants.p}>Selected categories will be displayed in the table.</Text>
-                    <Button isInline onClick={selectAllColumns} variant="link">
-                        Select all
-                    </Button>
-                </TextContent>
-            }
+        <ColumnManagementModal
             isOpen={columnModalOpen}
             onClose={onClose}
-            actions={[
-                <Button key="save" variant="primary" onClick={onClose}>
-                    Save
-                </Button>,
-                <Button key="cancel" variant="link" onClick={onClose}>
-                    Cancel
-                </Button>,
-            ]}
-        >
-            <DragDropSort items={items} onDrop={onDragFinish} variant="DataList">
-                <DataList aria-label="Table column management" id="table-column-management" isCompact />
-            </DragDropSort>
-        </Modal>
+            appliedColumns={prepareColumnsForModal(managedColumns)}
+            applyColumns={applyColumns}
+            title="Manage columns"
+            description="Select which columns to display in the table."
+        />
     )
+
     return { openColumnModal, columnModal, managedColumns }
 }
