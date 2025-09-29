@@ -234,31 +234,33 @@ export function ItemView<T extends object>(props: {
                 Alert content
             </Alert> */}
             {props.items?.length !== 0 && (
-                <PageToolbar
-                    items={props.items ?? []}
-                    searched={searched}
-                    selected={selected}
-                    selectAll={selectAll}
-                    unselectAll={unselectAll}
-                    search={search}
-                    setSearch={setSearch}
-                    page={page}
-                    perPage={perPage}
-                    selectPage={selectPage}
-                    onSetPage={onSetPage}
-                    onPerPageSelect={onPerPageSelect}
-                    view={viewType}
-                    setView={setViewType}
-                    filters={filters}
-                    filterState={filterState}
-                    setFilterValues={setFilterValues}
-                    clearAllFilters={clearAllFilters}
-                    openColumnModal={openColumnModal}
-                    toolbarActions={toolbarActions}
-                    showSearch={searchKeys !== undefined}
-                    showViewToggle={showViewToggle}
-                    showSelect={showSelect}
-                />
+                <div style={{ marginTop: 'var(--pf-t--global--spacer--md)' }}>
+                    <PageToolbar
+                        items={props.items ?? []}
+                        searched={searched}
+                        selected={selected}
+                        selectAll={selectAll}
+                        unselectAll={unselectAll}
+                        search={search}
+                        setSearch={setSearch}
+                        page={page}
+                        perPage={perPage}
+                        selectPage={selectPage}
+                        onSetPage={onSetPage}
+                        onPerPageSelect={onPerPageSelect}
+                        view={viewType}
+                        setView={setViewType}
+                        filters={filters}
+                        filterState={filterState}
+                        setFilterValues={setFilterValues}
+                        clearAllFilters={clearAllFilters}
+                        openColumnModal={openColumnModal}
+                        toolbarActions={toolbarActions}
+                        showSearch={searchKeys !== undefined}
+                        showViewToggle={showViewToggle}
+                        showSelect={showSelect}
+                    />
+                </div>
             )}
             <Drawer position="left" isStatic isExpanded={viewType === ItemViewTypeE.Catalog && filters && filters.length > 0}>
                 <DrawerContent
