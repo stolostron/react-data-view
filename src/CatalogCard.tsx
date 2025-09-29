@@ -385,9 +385,8 @@ export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[
                 } else if (icon) {
                     itemIcon = icon
                 }
-                const marginBottom = listItem.subTitles?.length ? listItem.subTitles?.length + 2 : 0
                 return (
-                    <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85, marginBottom: `${marginBottom}em` }}>
+                    <ListItem key={index} icon={itemIcon} style={{ opacity: 0.85 }}>
                         {listItem.text}
                         {listItem.help && (
                             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -406,8 +405,13 @@ export function CardList(props: { icon?: ReactNode; items: ICatalogCardListItem[
                             </div>
                         )}
                         {listItem.subTitles && (
-                            <div style={{ textAlign: 'left', margin: `${listItem.subTitles.length}em`, position: 'absolute' }}>
-                                {listItem.subTitles && listItem.subTitles.map((subTitle) => <p key={subTitle}>- {subTitle}</p>)}
+                            <div style={{ textAlign: 'left', marginTop: '2px', paddingLeft: 'var(--pf-t--global--spacer--md)' }}>
+                                {listItem.subTitles &&
+                                    listItem.subTitles.map((subTitle) => (
+                                        <p key={subTitle} style={{ margin: '0', lineHeight: '2.0' }}>
+                                            - {subTitle}
+                                        </p>
+                                    ))}
                             </div>
                         )}
                     </ListItem>
