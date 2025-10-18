@@ -44,7 +44,7 @@
         "@babel/preset-react": "7.27.1",
         "@babel/preset-typescript": "7.27.1",
         "@faker-js/faker": "7.6.0",
-        "@patternfly/react-component-groups": "^6.3.0",
+        "@patternfly/react-component-groups": "^6.4.0",
         "@patternfly/react-core": "^6.4.0",
         "@patternfly/react-drag-drop": "^6.4.0",
         "@patternfly/react-icons": "^6.4.0",
