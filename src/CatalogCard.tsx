@@ -201,7 +201,15 @@ export function CatalogCard<T extends object>(props: {
     }
 
     return (
-        <Card id={card.id} key={card.id ?? card.title} onClick={card.onClick} isLarge>
+        <Card
+            id={card.id}
+            key={card.id ?? card.title}
+            onClick={card.onClick}
+            isLarge
+            style={{
+                cursor: !disabled ? 'pointer' : undefined,
+            }}
+        >
             <CardHeader
                 {...(showActions && {
                     actions: {
