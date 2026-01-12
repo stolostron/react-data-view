@@ -206,14 +206,7 @@ export function CatalogCard<T extends object>(props: {
             key={card.id ?? card.title}
             onClick={card.onClick}
             isLarge
-            isSelectable={!disabled}
             style={{
-                transition: 'all 0.25s ease',
-                border: '1px solid var(--pf-t--global--border--color--default)',
-                borderRadius: 'var(--pf-t--global--border--radius--medium)',
-                backgroundColor: 'var(--pf-t--global--background--color--primary--default)',
-                boxShadow: 'var(--pf-t--global--box-shadow--sm)',
-                minHeight: '200px',
                 cursor: !disabled ? 'pointer' : undefined,
             }}
         >
