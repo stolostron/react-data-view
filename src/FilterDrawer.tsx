@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Checkbox, Stack, StackItem, Title, DrawerPanelBody, DrawerSection } from '@patternfly/react-core'
 import { useCallback } from 'react'
 import { IFilterState, IItemFilter, SetFilterValues } from './ItemFilter'

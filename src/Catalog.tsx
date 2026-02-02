@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { useMemo } from 'react'
 import { CatalogCard, ICatalogCard } from './CatalogCard'
 import { Grid } from './components/Grid'
