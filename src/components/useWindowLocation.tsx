@@ -22,6 +22,8 @@ export function useWindowHistory() {
     useEffect(() => {
         if (!isMounted) return
         if (!location) {
+            // Initialize location on mount if not already set
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setWindowLocation()
         }
         window.addEventListener('popstate', setWindowLocation)

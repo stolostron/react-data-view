@@ -62,7 +62,7 @@ export type IToolbarAction<T extends object> = IToolbarActionSeperator | IToolba
 export function toolbarActionsHaveBulkActions<T extends object>(actions?: IToolbarAction<T>[]) {
     if (!actions) return false
     for (const action of actions) {
-        if (action.type === 'bulk') return true
+        if (action.type === ToolbarActionType.bulk) return true
     }
     return false
 }
@@ -190,7 +190,7 @@ export function PageToolbar<T extends object>(props: {
                                         </OverflowMenuDropdownItem>
                                     )
                             }
-                        case 'seperator':
+                        case ToolbarActionType.seperator:
                             return <Divider key="separator" component="li" />
                     }
                     return undefined

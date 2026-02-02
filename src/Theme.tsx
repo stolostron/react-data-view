@@ -17,7 +17,7 @@ export function themeInit() {
         }
     }
 
-    if (theme === 'dark') {
+    if (theme === ThemeE.Dark) {
         document.documentElement.classList.add('pf-v6-theme-dark')
     }
 }

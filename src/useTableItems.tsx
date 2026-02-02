@@ -65,6 +65,8 @@ export function useSelected<T extends object>(items: T[], keyFn: (item: T) => st
     const [selectedMap, setSelectedMap] = useState<Record<string | number, T>>({})
 
     useEffect(() => {
+        // Sync selected items when items array changes (update references, remove stale selections)
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedMap((selectedMap) => {
             let changed = false
 
@@ -224,7 +226,9 @@ function useFiltered<T extends object>(items: T[], keyFn: (item: T) => string | 
     )
 
     useEffect(() => {
+        // Update filtered items when source items or filter function changes
         if (filterFn) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setFiltered(items.filter(cachedFilterFn))
         } else {
             setFiltered(items)
@@ -298,6 +302,8 @@ export function usePaged<T extends object>(source: T[]) {
     const [page, setPage] = useState(1)
     const [perPage, setPerPage] = useState(10)
     useEffect(() => {
+        // Update paged items when source, page, or perPage changes
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setPaged((paged) => {
             const newPaged = source.slice((page - 1) * perPage, page * perPage)
             if (paged.length !== newPaged.length) {
@@ -313,7 +319,9 @@ export function usePaged<T extends object>(source: T[]) {
         })
     }, [page, perPage, source])
     useEffect(() => {
+        // Reset page to 1 when current page exceeds available pages
         if (page > Math.ceil(source.length / perPage)) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setPage(1)
         }
     }, [page, perPage, source.length])

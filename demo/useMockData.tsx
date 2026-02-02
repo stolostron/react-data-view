@@ -73,6 +73,8 @@ export function useMockData<T>(defaultCount: number, createFn: (count: number) =
     )
 
     useEffect(() => {
+        // Intentionally syncing count with defaultCount prop when it changes
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCount(defaultCount)
     }, [defaultCount, setCount])
 
