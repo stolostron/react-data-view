@@ -53,22 +53,8 @@ export function ItemTable<T extends object>(props: {
 
     const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 })
     const resize = useCallback(() => setSize({ width: sizeRef.current?.clientWidth ?? 0, height: sizeRef.current?.clientHeight ?? 0 }), [])
-    useResizeObserver(sizeRef, () => {
-        resize()
-        updateScroll(scrollRef.current)
-    })
-    useLayoutEffect(() => resize(), [resize])
 
     const [scroll, setScroll] = useState<IScroll>({ top: 0, bottom: 0, left: 0, right: 0 })
-
-    const headerHeight = 53.5
-    const rowHeight = 75
-    const visibleRowCount = Math.ceil(size.height / rowHeight) + 1
-    const visibleRowsHeight = visibleRowCount * rowHeight
-    const totalHeight = items.length * rowHeight + headerHeight - 1
-    const firstRow = Math.min(Math.max(Math.floor(scroll.top / rowHeight) - 1, 0), items.length - 1)
-    const beforeHeight = Math.max(firstRow * rowHeight, 0)
-    const afterHeight = Math.max(totalHeight - visibleRowsHeight - beforeHeight, 0)
 
     const updateScroll = useCallback((div: HTMLDivElement | null) => {
         if (!div) return
@@ -90,6 +76,23 @@ export function ItemTable<T extends object>(props: {
             return scroll
         })
     }, [])
+
+    useResizeObserver(sizeRef, () => {
+        resize()
+        updateScroll(scrollRef.current)
+    })
+    // Initial size measurement on mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    useLayoutEffect(() => resize(), [resize])
+
+    const headerHeight = 53.5
+    const rowHeight = 75
+    const visibleRowCount = Math.ceil(size.height / rowHeight) + 1
+    const visibleRowsHeight = visibleRowCount * rowHeight
+    const totalHeight = items.length * rowHeight + headerHeight - 1
+    const firstRow = Math.min(Math.max(Math.floor(scroll.top / rowHeight) - 1, 0), items.length - 1)
+    const beforeHeight = Math.max(firstRow * rowHeight, 0)
+    const afterHeight = Math.max(totalHeight - visibleRowsHeight - beforeHeight, 0)
     const onScroll = useCallback((event: UIEvent<HTMLDivElement>) => updateScroll(event.currentTarget), [updateScroll])
 
     const className = useMemo(() => {

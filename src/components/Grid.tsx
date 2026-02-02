@@ -16,6 +16,8 @@ export function Grid(props: { size?: number; maxColumns?: number; children?: Rea
     )
     useResizeObserver(target, (entry) => resize(entry.contentRect.width))
     useLayoutEffect(() => {
+        // Initial DOM measurement to set grid columns - must happen after mount
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         resize(target.current?.clientWidth ?? 0)
     }, [resize])
     const isMd = useWindowSizeOrSmaller(WindowSize.lg)

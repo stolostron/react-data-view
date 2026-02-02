@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import {
     Button,
     Drawer,
@@ -293,11 +291,7 @@ export function ItemView<T extends object>(props: {
                                 <>
                                     <Scrollable>
                                         {viewType === ItemViewTypeE.Catalog ? (
-                                            <PageSection
-                                                hasBodyWrapper={false}
-                                                className="pf-v6-u-flex-grow-1 pf-v6-u-p-lg"
-                                                style={{ backgroundColor: 'var(--pf-t--global--background--color--secondary--default)' }}
-                                            >
+                                            <PageSection hasBodyWrapper={false} className="pf-v6-u-flex-grow-1 pf-v6-u-p-lg">
                                                 <Catalog
                                                     keyFn={props.itemKeyFn}
                                                     items={paged}
@@ -332,10 +326,10 @@ export function ItemView<T extends object>(props: {
                                                 hasBodyWrapper={false}
                                                 padding={{ default: 'noPadding' }}
                                                 style={{
-                                                    borderTop: '1px solid var(--pf-t--global--border--color--default)',
                                                     flexGrow: 0,
                                                     padding: '16px',
                                                 }}
+                                                stickyOnBreakpoint={{ default: 'bottom' }}
                                             >
                                                 <Split>
                                                     {(showBackButton || showCancelButton) && (

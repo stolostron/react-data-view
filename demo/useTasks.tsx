@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { faker } from '@faker-js/faker'
 import { Icon, capitalize } from '@patternfly/react-core'
 import { CheckCircleIcon, CircleNotchIcon, ExclamationCircleIcon } from '@patternfly/react-icons'

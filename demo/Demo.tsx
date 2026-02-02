@@ -86,10 +86,10 @@ function DemoSidebar() {
             <PageSidebarBody>
                 <Nav>
                     <NavList>
-                        <NavItem isActive={location.search === RouteE.Demo}>
+                        <NavItem isActive={location.search === (RouteE.Demo as string)}>
                             <Link to={RouteE.Demo}>Data View</Link>
                         </NavItem>
-                        <NavItem isActive={location.search === RouteE.Infrastructure}>
+                        <NavItem isActive={location.search === (RouteE.Infrastructure as string)}>
                             <Link to={RouteE.Infrastructure}>Hypershift Demo</Link>
                         </NavItem>
                     </NavList>
