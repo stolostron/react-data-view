@@ -72,7 +72,7 @@
         "cpy": "9.0.1",
         "cpy-cli": "4.2.0",
         "css-loader": "6.11.0",
-        "css-minimizer-webpack-plugin": "4.2.2",
+        "css-minimizer-webpack-plugin": "^8.0.0",
         "eslint": "^9.39.4",
         "eslint-config-prettier": "8.10.2",
         "eslint-plugin-i18n-json": "^4.0.1",
