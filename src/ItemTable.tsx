@@ -82,7 +82,6 @@ export function ItemTable<T extends object>(props: {
         updateScroll(scrollRef.current)
     })
     // Initial size measurement on mount
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     useLayoutEffect(() => resize(), [resize])
 
     const headerHeight = 53.5
