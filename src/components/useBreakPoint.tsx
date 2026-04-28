@@ -4,7 +4,7 @@ import t_global_breakpoint_md from '@patternfly/react-tokens/dist/esm/t_global_b
 import t_global_breakpoint_sm from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_sm'
 import t_global_breakpoint_xl from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_xl'
 import t_global_breakpoint_xs from '@patternfly/react-tokens/dist/esm/t_global_breakpoint_xs'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export enum WindowSize {
     xs,
@@ -36,26 +36,25 @@ const breakpoints: Record<WindowSize, number> = {
     [WindowSize['2xl']]: remToPixels(t_global_breakpoint_2xl.value),
 }
 
-export function useWindowSize() {
-    const [windowSize, setWindowSize] = useState<WindowSize>(WindowSize['2xl'])
-    const handleResize = useCallback(() => {
-        let size = WindowSize['2xl']
-        for (; size >= WindowSize.sm; size--) {
-            const breakpoint = breakpoints[size]
-            if (window.innerWidth >= breakpoint) {
-                break
-            }
+function getWindowSize(): WindowSize {
+    let size = WindowSize['2xl']
+    for (; size >= WindowSize.sm; size--) {
+        const breakpoint = breakpoints[size]
+        if (window.innerWidth >= breakpoint) {
+            break
         }
-        setWindowSize(size)
-    }, [])
+    }
+    return size
+}
+
+export function useWindowSize() {
+    const [windowSize, setWindowSize] = useState<WindowSize>(getWindowSize)
 
     useEffect(() => {
-        const handler = handleResize
-        window.addEventListener('resize', handler)
-        return () => window.removeEventListener('resize', handler)
-    }, [handleResize])
-
-    useEffect(() => handleResize(), [handleResize])
+        const handleResize = () => setWindowSize(getWindowSize())
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     return windowSize
 }

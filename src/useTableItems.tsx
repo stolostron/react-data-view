@@ -5,7 +5,7 @@ export function useTableItems<T extends object>(items: T[], keyFn: (item: T) => 
     const { selected, selectItem, unselectItem, isSelected, selectItems, unselectAll, allSelected } = useSelected(items, keyFn)
     const { sorted, sort, setSort } = useSorted(items)
     const { filtered, setFilterFn } = useFiltered(sorted, keyFn)
-    const { searched, search, setSearch, setSearchFn } = useSearched(filtered, keyFn, defaults?.search)
+    const { searched, search, setSearch, setSearchFn } = useSearched(filtered, defaults?.search)
     const { paged, page, setPage, perPage, setPerPage } = usePaged(searched)
     const selectPage = useCallback(() => selectItems(paged), [paged, selectItems])
     const selectAll = useCallback(() => selectItems(searched), [searched, selectItems])
@@ -243,51 +243,23 @@ function useFiltered<T extends object>(items: T[], keyFn: (item: T) => string | 
     )
 }
 
-function useSearched<T extends object>(items: T[], keyFn: (item: T) => string | number, defaultSearch?: string | null) {
-    const searchMapRef = useRef<{ map: Record<string | number, { item: T; score: number }> }>({ map: {} })
+function useSearched<T extends object>(items: T[], defaultSearch?: string | null) {
     const [searchFn, setSearchFnState] = useState<(item: T, search: string) => number>()
     const setSearchFn = useCallback((searchFn: (item: T, search: string) => number) => setSearchFnState(() => searchFn), [])
-    const [searched, setSearched] = useState<T[]>([])
     const [search, setSearchState] = useState(defaultSearch ?? '')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const setSearch = useCallback(
-        debounce((search: string) => setSearchState(search), 200),
-        []
-    )
 
-    useEffect(() => {
-        searchMapRef.current.map = {}
-    }, [search, searchFn])
+    const setSearch = useMemo(() => debounce((search: string) => setSearchState(search), 200), [setSearchState])
 
-    const cachedSearchFn = useCallback(
-        (item: T) => {
-            const key = keyFn(item)
-            let cached = searchMapRef.current.map[key]
-            if (!cached) {
-                cached = { item, score: searchFn ? searchFn(item, search) : 0 }
-                searchMapRef.current.map[key] = cached
-            } else if (cached.item !== item) {
-                cached.item = item
-                cached.score = searchFn ? searchFn(item, search) : 0
-            }
-            return cached
-        },
-        [keyFn, searchFn, search]
-    )
-
-    useEffect(() => {
+    const searched = useMemo(() => {
         if (searchFn && search) {
-            setSearched(
-                items
-                    .map(cachedSearchFn)
-                    .filter((cached) => cached.score < 0.5)
-                    .sort((l, r) => l.score - r.score)
-                    .map((cached) => cached.item)
-            )
-        } else {
-            setSearched(items)
+            return items
+                .map((item) => ({ item, score: searchFn(item, search) }))
+                .filter((cached) => cached.score < 0.5)
+                .sort((l, r) => l.score - r.score)
+                .map((cached) => cached.item)
         }
-    }, [search, items, searchFn, cachedSearchFn])
+        return items
+    }, [search, items, searchFn])
 
     return useMemo(
         function memoFiltered() {
