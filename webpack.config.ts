@@ -4,7 +4,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import webpack from 'webpack'
-import { Configuration as DevServerConfiguration } from 'webpack-dev-server'
+import type { Configuration as DevServerConfiguration } from 'webpack-dev-server'
 
 module.exports = function (_env: unknown, argv: { hot: boolean; mode: string | undefined }) {
     const isProduction = argv.mode === 'production' || argv.mode === undefined
