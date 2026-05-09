@@ -43,7 +43,7 @@
         "@babel/plugin-transform-class-properties": "^7.28.6",
         "@babel/preset-react": "7.28.5",
         "@babel/preset-typescript": "7.28.5",
-        "@eslint/compat": "^2.0.5",
+        "@eslint/compat": "^2.1.0",
         "@faker-js/faker": "7.6.0",
         "@patternfly/react-component-groups": "^6.4.0",
         "@patternfly/react-core": "^6.4.3",
