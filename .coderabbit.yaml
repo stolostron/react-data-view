@@ -1,0 +1,78 @@
+# CodeRabbit Configuration for @stolostron/react-data-view
+# Documentation: https://docs.coderabbit.ai/guides/configure-coderabbit
+
+language: en-US
+
+tone_instructions: 'Be concise and technical. Focus on code quality, security, maintainability. Limit feedback to PR scope; skip off-scope/legacy nits unless critical. State only facts from diff; suggest verification if uncertain. Docs: structure/formatting only.'
+
+early_access: false
+
+reviews:
+  profile: chill
+  high_level_summary: true
+  poem: false
+  review_status: true
+  in_progress_fortune: false
+  collapse_walkthrough: true
+  suggested_labels: false
+  auto_apply_labels: false
+  suggested_reviewers: false
+  auto_assign_reviewers: false
+
+  path_instructions:
+    - path: 'src/**/*.{ts,tsx}'
+      instructions: |
+        - Check for proper error boundaries and error handling
+        - Attempt to verify PatternFly components are used correctly, based on their respective design-guidelines
+        - Flag any security-sensitive operations (dangerouslySetInnerHTML, innerHTML)
+
+    - path: 'demo/**/*.{ts,tsx}'
+      instructions: |
+        - Demo code is for documentation and testing; review lightly
+        - Ensure demos accurately represent component API usage
+
+    - path: '**/README.md'
+      instructions: |
+        - Limit feedback to markdown structure, formatting, and clarity of instructions (e.g. broken links, list formatting)
+        - Do not critique documentation content, prose style, or suggest substantive changes to what is documented
+        - Do not suggest "interesting things to try" or speculative improvements to the docs
+
+    - path: '**/*.md'
+      instructions: |
+        - Prefer formatting and structure feedback only; do not critique content or suggest substantive doc changes
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    base_branches:
+      - main
+    drafts: true
+
+
+  tools:
+    eslint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: default
+    markdownlint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+  learnings:
+    scope: local
+  pull_requests:
+    scope: local
