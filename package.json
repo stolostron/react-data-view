@@ -39,10 +39,10 @@
         "luxon": "^3.7.2"
     },
     "devDependencies": {
-        "@babel/core": "7.29.0",
-        "@babel/plugin-transform-class-properties": "^7.28.6",
-        "@babel/preset-react": "7.28.5",
-        "@babel/preset-typescript": "7.28.5",
+        "@babel/core": "7.29.7",
+        "@babel/plugin-transform-class-properties": "^7.29.7",
+        "@babel/preset-react": "7.29.7",
+        "@babel/preset-typescript": "7.29.7",
         "@eslint/compat": "^2.1.0",
         "@faker-js/faker": "7.6.0",
         "@patternfly/react-component-groups": "^6.5.0",
@@ -64,8 +64,8 @@
         "@types/react-dom": "^18.3.7",
         "@types/webpack": "5.28.5",
         "@types/webpack-dev-server": "4.7.2",
-        "@typescript-eslint/eslint-plugin": "^8.59.4",
-        "@typescript-eslint/parser": "^8.59.4",
+        "@typescript-eslint/eslint-plugin": "^8.60.0",
+        "@typescript-eslint/parser": "^8.60.0",
         "babel-loader": "^10.1.1",
         "babel-plugin-istanbul": "^7.0.1",
         "concurrently": "7.6.0",
@@ -93,7 +93,7 @@
         "style-loader": "3.3.4",
         "ts-node": "10.9.2",
         "typescript": "4.9.5",
-        "webpack": "5.107.1",
+        "webpack": "5.107.2",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^5.2.4"
     }
