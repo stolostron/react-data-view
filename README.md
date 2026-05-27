@@ -1,47 +1,116 @@
-# Stolostron / React Item View [![GitHub package.json version](https://img.shields.io/github/package-json/v/stolostron/react-data-view)](https://www.npmjs.com/package/@stolostron/react-data-view)
+# @stolostron/react-data-view
 
-A react component for viewing items as a table or catalog card view.
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/stolostron/react-data-view)](https://www.npmjs.com/package/@stolostron/react-data-view)
+
+A reusable React component library for rendering data as sortable, filterable tables or catalog card views. Built on [PatternFly 6](https://www.patternfly.org/) with virtualized table rendering, fuzzy search via [Fuse.js](https://www.fusejs.io/), and automatic URL query string persistence for search and filter state.
+
+Used by [stolostron/console](https://github.com/stolostron/console), the UI for Red Hat Advanced Cluster Management (ACM) and MultiCluster Engine (MCE).
 
 [DEMO](https://stolostron.github.io/react-data-view/)
 
 ## Installation
 
-```
+```bash
 npm i @stolostron/react-data-view
 ```
 
+### Peer Dependencies
+
+This library requires the following peer dependencies:
+
+| Package | Version |
+| --- | --- |
+| `@patternfly/react-core` | ^6 |
+| `@patternfly/react-table` | ^6 |
+| `@patternfly/react-drag-drop` | ^6 |
+| `@patternfly/react-icons` | ^6 |
+| `react` | >=17 |
+| `react-dom` | >=17 |
+| `react-router-dom-v5-compat` | ^6 |
+
+## Exported Components
+
+| Export | Description |
+| --- | --- |
+| `ItemView` | Dual-mode container switching between table and catalog views with search and filtering |
+| `ItemTable` | Virtualized table with sorting, selection, row actions, and pagination |
+| `TableColumn` | Interface defining table column structure (header, cell renderer, type, sort) |
+| `Catalog` | Grid-based catalog view displaying filterable items with selection and actions |
+| `CatalogCard` | Card component displaying item details with selection checkbox and context menu |
+| `Toolbar` | Toolbar with search, filters, view toggle, bulk actions, and overflow menu |
+| `useItemFilter` | Hook for building filter configuration with label, options, and filter predicates |
+| `BulkSelector` | Dropdown control for selecting none, page, or all items in bulk |
+| `PageHeader` | Header with breadcrumbs, title, description, and optional actions |
+| `Theme` | Provider managing light/dark theme state with localStorage persistence |
+| `useBreakPoint` | Hook providing responsive breakpoint detection and window size queries |
+| `StringContext` | Context providing localized strings for UI labels across the library |
+
 ## Goals
 
-### PatternFly
+The following features are planned but not yet implemented:
 
-- Use PatternFly guidelines
-- Support small screens using PatternFly responsive designs
-  - Toolbar collapsing
-  - Filters collapsing
-- Use shadows as a visual indication that one surface has slid behind another surface
-  - Work with PatternFly to adopt shadows
+- Persist column configuration to localStorage
+- Save and switch between multiple column configurations
+- Virtualized catalog rendering for large datasets
 
-### Table
+## Development
 
-- Support table only view (no catalog)
-- Support horizontal scrolling with sticky headers and columns
-- Support column management
-  - Support custom columns based on data labels
-  - Persist column configuration to local storage
-  - Save multiple column configurations and switch between
-- Virtualized table rendering (performance)
+### Prerequisites
 
-### Catalog
+- [Node.js](https://nodejs.org)
+- npm
 
-- Support catalog only view (no table)
-- Virtualized catalog rendering (performance)
-- Card click supporting details drawer or navigation
+### Getting Started
 
-### Search & Filter
+```bash
+npm ci                # Install dependencies
+npm start             # Start the demo dev server (opens browser)
+npm run build         # Build the library to lib/
+```
 
-- Filtering, Searching, Sorting of 1,000 items (performance - previously 100,000 with PF4)
-- Fuzzy search (Fuse.js)
-  - Search on fields with weights
-- Persist search and filters to url query string
-  - Allows saving a URL with preselected search & filters
-  - Allow reload of page without losing filter & search
+### Quality Checks
+
+```bash
+npm test              # Run all checks (tsc, eslint, prettier, pages build)
+npm run tsc           # Type checking only
+npm run eslint        # Linting only
+npm run prettier      # Formatting check
+npm run prettier:fix  # Auto-fix formatting
+```
+
+### Available Scripts
+
+| Script | Description |
+| --- | --- |
+| `build` | Build library to `lib/` (cleans, compiles, copies assets) |
+| `start` | Start demo dev server with hot reload |
+| `start:quiet` | Start demo dev server without opening browser |
+| `pages` | Build demo for GitHub Pages deployment |
+| `test` | Run tsc, eslint, prettier, and pages concurrently |
+| `tsc` | TypeScript type checking (no emit) |
+| `eslint` | Lint `src/` and `demo/` |
+| `prettier` | Check formatting in `src/` and `demo/` |
+| `prettier:fix` | Auto-fix formatting in `src/` and `demo/` |
+| `upgrade` | Upgrade dependencies (minor versions, with doctor mode) |
+
+## Project Structure
+
+```text
+react-data-view/
+├── src/           # Library source code (published to npm via lib/)
+├── demo/          # Development demo app (not published)
+├── lib/           # Build output (generated by npm run build)
+└── assets/        # Static assets
+```
+
+## Tech Stack
+
+- **TypeScript** 4.9
+- **PatternFly** 6 (React components, table, drag-and-drop, icons)
+- **Fuse.js** — fuzzy search
+- **Luxon** — date/time formatting
+- **Webpack** 5 — demo bundling and GitHub Pages build
+
+## License
+
+Apache-2.0
