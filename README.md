@@ -38,7 +38,7 @@ This library requires the following peer dependencies:
 | `Catalog` | Grid-based catalog view displaying filterable items with selection and actions |
 | `CatalogCard` | Card component displaying item details with selection checkbox and context menu |
 | `Toolbar` | Toolbar with search, filters, view toggle, bulk actions, and overflow menu |
-| `ItemFilter` | Hook for building filter configuration with label, options, and filter predicates |
+| `useItemFilter` | Hook for building filter configuration with label, options, and filter predicates |
 | `BulkSelector` | Dropdown control for selecting none, page, or all items in bulk |
 | `PageHeader` | Header with breadcrumbs, title, description, and optional actions |
 | `Theme` | Provider managing light/dark theme state with localStorage persistence |
