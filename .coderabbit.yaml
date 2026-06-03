@@ -19,18 +19,9 @@ reviews:
   suggested_reviewers: false
   auto_assign_reviewers: false
 
+  # Most coding conventions are in AGENTS.md (auto-detected by CodeRabbit).
+  # path_instructions below cover review-specific guidance only.
   path_instructions:
-    - path: 'src/**/*.{ts,tsx}'
-      instructions: |
-        - Check for proper error boundaries and error handling
-        - Attempt to verify PatternFly components are used correctly, based on their respective design-guidelines
-        - Flag any security-sensitive operations (dangerouslySetInnerHTML, innerHTML)
-
-    - path: 'demo/**/*.{ts,tsx}'
-      instructions: |
-        - Demo code is for documentation and testing; review lightly
-        - Ensure demos accurately represent component API usage
-
     - path: '**/README.md'
       instructions: |
         - Limit feedback to markdown structure, formatting, and clarity of instructions (e.g. broken links, list formatting)
