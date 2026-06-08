@@ -1,7 +1,7 @@
 import { ClipboardCopy, Label, LabelGroup, Split, SplitItem } from '@patternfly/react-core'
 import { DateTime } from 'luxon'
 import { Fragment, ReactNode } from 'react'
-import { Link } from 'react-router-dom-v5-compat'
+import { Link } from 'react-router-dom'
 
 type CellFn<T extends object> = (item: T) => ReactNode
 

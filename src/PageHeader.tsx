@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, Button, PageSection, Popover, Split, SplitItem, Content, Title } from '@patternfly/react-core'
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom-v5-compat'
+import { useNavigate } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 
 export interface ICatalogBreadcrumb {

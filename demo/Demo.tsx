@@ -15,7 +15,7 @@ import {
     PageSidebarBody,
 } from '@patternfly/react-core'
 
-import { BrowserRouter, Link, useLocation, Navigate } from 'react-router-dom-v5-compat'
+import { BrowserRouter, Link, useLocation, Navigate } from 'react-router-dom'
 import { useWindowSizeOrLarger, WindowSize } from '../src'
 import { ThemeSwitcher, useTheme, ThemeE } from '../src/Theme'
 import { ControlPlane } from './ControlPlane'
