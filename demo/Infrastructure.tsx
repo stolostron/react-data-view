@@ -11,7 +11,7 @@ import {
     VirtualMachineIcon,
 } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom-v5-compat'
+import { useNavigate } from 'react-router-dom'
 import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
