@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { CatalogCardItemType, ICatalogCard, ItemView } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
@@ -39,7 +39,7 @@ export function ControlPlane() {
                     },
                 ],
                 learnMore,
-                onClick: () => navigate(RouteE.Hosted),
+                onClick: () => void navigate(RouteE.Hosted),
             },
             {
                 id: 'standalone',
@@ -80,7 +80,7 @@ export function ControlPlane() {
         []
     )
 
-    const onBack = useCallback(() => navigate(RouteE.Infrastructure), [navigate])
+    const onBack = useCallback(() => void navigate(RouteE.Infrastructure), [navigate])
 
     return (
         <Fragment>

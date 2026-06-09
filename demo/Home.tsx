@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
@@ -43,7 +43,7 @@ export function Home() {
                         badgeColor: CatalogColor.orange,
                     },
                 ],
-                onClick: () => navigate(RouteE.Demo),
+                onClick: () => void navigate(RouteE.Demo),
             },
             {
                 id: 'infrastructure',
@@ -67,7 +67,7 @@ export function Home() {
                 ],
                 badge: 'Classic',
                 badgeColor: CatalogColor.purple,
-                onClick: () => navigate(RouteE.Infrastructure),
+                onClick: () => void navigate(RouteE.Infrastructure),
             },
         ]
         return cards

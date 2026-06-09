@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, Button, PageSection, Popover, Split, SplitItem, Content, Title } from '@patternfly/react-core'
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons'
 import { Fragment, ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useWindowSizeOrLarger, WindowSize } from './components/useBreakPoint'
 
 export interface ICatalogBreadcrumb {
@@ -22,7 +22,7 @@ function Breadcrumbs(props: { breadcrumbs: ICatalogBreadcrumb[] }) {
                     id={breadcrumb.id}
                     key={breadcrumb.id ?? breadcrumb.label}
                     component={breadcrumb.component}
-                    onClick={breadcrumb.to ? () => navigate(breadcrumb.to!) : undefined}
+                    onClick={breadcrumb.to ? () => void navigate(breadcrumb.to!) : undefined}
                     style={{
                         color: breadcrumb.to ? 'var(--pf-t--global--text--color--link--default)' : undefined,
                         cursor: breadcrumb.to ? 'pointer' : undefined,
