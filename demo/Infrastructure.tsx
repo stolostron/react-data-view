@@ -11,7 +11,7 @@ import {
     VirtualMachineIcon,
 } from '@patternfly/react-icons'
 import { Fragment, useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { CatalogCardItemType, CatalogColor, ICatalogCard, ItemView } from '../src'
 import { PageHeader } from '../src/PageHeader'
 import { RouteE } from './route'
@@ -34,7 +34,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
             },
             {
                 id: 'baremetal',
@@ -48,7 +48,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
                 badge: 'Technology preview',
                 badgeColor: CatalogColor.orange,
                 badgeTooltip: 'Technology preview description goes here.',
@@ -87,7 +87,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
             },
             {
                 id: 'azure',
@@ -101,7 +101,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
             },
             {
                 id: 'openstack',
@@ -115,7 +115,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
             },
             {
                 id: 'rhv',
@@ -129,7 +129,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
             },
             {
                 id: 'vsphere',
@@ -143,7 +143,7 @@ export function Infrastructure() {
                 ],
                 labels: [{ label: 'Saved credentials', color: CatalogColor.green }],
                 learnMore,
-                onClick: () => navigate(RouteE.ControlPlane),
+                onClick: () => void navigate(RouteE.ControlPlane),
             },
         ]
         return cards
@@ -153,8 +153,8 @@ export function Infrastructure() {
 
     const breadcrumbs = useMemo(() => [{ label: 'Home', to: RouteE.Home }, { label: 'Infrastructure' }], [])
 
-    const onBack = useCallback(() => navigate(RouteE.Home), [navigate])
-    const onCancel = useCallback(() => navigate(RouteE.Home), [navigate])
+    const onBack = useCallback(() => void navigate(RouteE.Home), [navigate])
+    const onCancel = useCallback(() => void navigate(RouteE.Home), [navigate])
 
     return (
         <Fragment>
