@@ -1,0 +1,236 @@
+var _g, _defs;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+import * as React from "react";
+var SvgFeltBkgGenericLight = function SvgFeltBkgGenericLight(props) {
+  return /*#__PURE__*/React.createElement("svg", _extends({
+    width: 1851,
+    height: 1196,
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, props), _g || (_g = /*#__PURE__*/React.createElement("g", {
+    clipPath: "url(#Felt-Bkg-Generic-Light_svg__a)"
+  }, /*#__PURE__*/React.createElement("path", {
+    fill: "url(#Felt-Bkg-Generic-Light_svg__b)",
+    d: "M0 0h1851v1196H0z"
+  }), /*#__PURE__*/React.createElement("g", {
+    opacity: 0.5,
+    filter: "url(#Felt-Bkg-Generic-Light_svg__c)"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M1163.49 1254.14c64.59 13.35 121.32-44.5 106.53-108.6l-90.33-391.339c-28.16-116.284-52.89-169.037-257.561-271.112-119.536-60.97-345.087-151.82-492.991-193.033-60.865-16.964-123.434 20.953-136.826 82.555L170.598 932.415c-13.347 61.398 26.065 121.875 87.739 134.615l905.153 187.12v-.01Z",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__d)"
+  })), /*#__PURE__*/React.createElement("path", {
+    d: "M1163.49 1254.14c64.59 13.35 121.32-44.5 106.53-108.6l-90.33-391.339c-28.16-116.284-52.89-169.037-257.561-271.112-119.536-60.97-345.087-151.82-492.991-193.033-60.865-16.964-123.434 20.953-136.826 82.555L170.598 932.415c-13.347 61.398 26.065 121.875 87.739 134.615l905.153 187.12v-.01Z",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__e)"
+  }), /*#__PURE__*/React.createElement("g", {
+    filter: "url(#Felt-Bkg-Generic-Light_svg__f)"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M1695.48 616.017c132.13 35.403 330.77 59.342 372.86-97.741 3.29-12.259 6.13-24.281 6.4-37.026l12.87-362.849c1.89-80.013 3.82-129.2-119.3-219.855-283.63-208.839-626.17-316.414-701.71-314.894-66 1.331-116.37 15.171-172.05 95.426 0 0-155.942 226.614-177.084 259.958-4.116 6.228-6.231 13.896-7.835 19.885-26.078 97.324 271.859 519.374 785.859 657.098",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__g)"
+  })), /*#__PURE__*/React.createElement("path", {
+    d: "M1695.48 616.017c132.13 35.403 330.77 59.342 372.86-97.741 3.29-12.259 6.13-24.281 6.4-37.026l12.87-362.849c1.89-80.013 3.82-129.2-119.3-219.855-283.63-208.839-626.17-316.414-701.71-314.894-66 1.331-116.37 15.171-172.05 95.426 0 0-155.942 226.614-177.084 259.958-4.116 6.228-6.231 13.896-7.835 19.885-26.078 97.324 271.859 519.374 785.859 657.098",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__h)"
+  }), /*#__PURE__*/React.createElement("g", {
+    filter: "url(#Felt-Bkg-Generic-Light_svg__i)"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M1018.65 1252.4 899.777 808.935c-16.435-61.309 19.955-124.4 81.215-140.808L1981.4 400.183c183.77-49.221 373 60.14 422.3 244.06l118.88 443.467c16.44 61.31-19.95 124.4-81.21 140.81l-1000.41 267.94c-183.77 49.22-373-60.14-422.31-244.06Z",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__j)"
+  })), /*#__PURE__*/React.createElement("path", {
+    d: "M1018.65 1252.4 899.777 808.935c-16.435-61.309 19.955-124.4 81.215-140.808L1981.4 400.183c183.77-49.221 373 60.14 422.3 244.06l118.88 443.467c16.44 61.31-19.95 124.4-81.21 140.81l-1000.41 267.94c-183.77 49.22-373-60.14-422.31-244.06Z",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__k)"
+  }), /*#__PURE__*/React.createElement("g", {
+    filter: "url(#Felt-Bkg-Generic-Light_svg__l)"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M782.287-59.764C421.09-246.933-158.166-246.234-258.019-53.887c-13.156 25.34-17.714 49.31-15.777 71.897 6.063 215.982 516.233 479.877 920.702 479.877 289.96 0 378.364-121.792 389.394-228.346 12.15-95.364-38.677-217.728-254.013-329.312v.007Z",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__m)"
+  })), /*#__PURE__*/React.createElement("path", {
+    opacity: 0.5,
+    d: "M782.287-59.764C421.09-246.933-158.166-246.234-258.019-53.887c-13.156 25.34-17.714 49.31-15.777 71.897 6.063 215.982 516.233 479.877 920.702 479.877 289.96 0 378.364-121.792 389.394-228.346 12.15-95.364-38.677-217.728-254.013-329.312v.007Z",
+    fill: "url(#Felt-Bkg-Generic-Light_svg__n)"
+  }))), _defs || (_defs = /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__b",
+    x1: -755.182,
+    y1: -589.97,
+    x2: 1214.13,
+    y2: 2824.34,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#F2F2F2"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#C7C7C7"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__d",
+    x1: -309.347,
+    y1: -279.398,
+    x2: 1466.54,
+    y2: 660.337,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#fff"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__e",
+    x1: -108.5,
+    y1: -30,
+    x2: 1413.95,
+    y2: 737.918,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#fff"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__g",
+    x1: 2077.44,
+    y1: -968.83,
+    x2: 949.169,
+    y2: 1496.83,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#fff"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__h",
+    x1: 1800.5,
+    y1: -441.5,
+    x2: 901.694,
+    y2: 1476.92,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#fff"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__j",
+    x1: 755.202,
+    y1: 451.746,
+    x2: 1960.69,
+    y2: 1480.58,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#F2F2F2"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__k",
+    x1: 755.202,
+    y1: 451.746,
+    x2: 1960.69,
+    y2: 1480.58,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#fff"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__m",
+    x1: 692.977,
+    y1: 483.708,
+    x2: 308.23,
+    y2: -78.594,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#F2F2F2"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "Felt-Bkg-Generic-Light_svg__n",
+    x1: 957.5,
+    y1: 429.373,
+    x2: -60.521,
+    y2: -444.022,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#fff"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#E0E0E0"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "Felt-Bkg-Generic-Light_svg__c",
+    x: 68,
+    y: 186,
+    width: 1304.39,
+    height: 1170.08,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 50,
+    result: "effect1_foregroundBlur_19351_19504"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "Felt-Bkg-Generic-Light_svg__f",
+    x: 808.051,
+    y: -516.364,
+    width: 1380.03,
+    height: 1258.52,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 50,
+    result: "effect1_foregroundBlur_19351_19504"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "Felt-Bkg-Generic-Light_svg__i",
+    x: 795.828,
+    y: 288.39,
+    width: 1830.7,
+    height: 1319.86,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 50,
+    result: "effect1_foregroundBlur_19351_19504"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "Felt-Bkg-Generic-Light_svg__l",
+    x: -374.223,
+    y: -299.155,
+    width: 1512.2,
+    height: 897.042,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 50,
+    result: "effect1_foregroundBlur_19351_19504"
+  })), /*#__PURE__*/React.createElement("clipPath", {
+    id: "Felt-Bkg-Generic-Light_svg__a"
+  }, /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h1851v1196H0z"
+  })))));
+};
+export default SvgFeltBkgGenericLight;

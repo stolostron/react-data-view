@@ -1,0 +1,215 @@
+var _path, _g, _g2, _g3, _g4, _g5, _defs;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+import * as React from "react";
+var SvgPfBkgGenericDark = function SvgPfBkgGenericDark(props) {
+  return /*#__PURE__*/React.createElement("svg", _extends({
+    width: 1851,
+    height: 1196,
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, props), /*#__PURE__*/React.createElement("g", {
+    clipPath: "url(#PF-Bkg-Generic-Dark_svg__a)"
+  }, _path || (_path = /*#__PURE__*/React.createElement("path", {
+    fill: "url(#PF-Bkg-Generic-Dark_svg__b)",
+    d: "M0 0h1851v1196H0z"
+  })), /*#__PURE__*/React.createElement("g", {
+    style: {
+      mixBlendMode: "difference"
+    }
+  }, _g || (_g = /*#__PURE__*/React.createElement("g", {
+    filter: "url(#PF-Bkg-Generic-Dark_svg__c)"
+  }, /*#__PURE__*/React.createElement("path", {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M1102.43 904.428 749.184 292.595 137.351 645.837l37.847 65.553c174.188 301.7 559.972 405.07 861.672 230.885l65.56-37.847Z",
+    fill: "url(#PF-Bkg-Generic-Dark_svg__d)"
+  }))), _g2 || (_g2 = /*#__PURE__*/React.createElement("g", {
+    filter: "url(#PF-Bkg-Generic-Dark_svg__e)"
+  }, /*#__PURE__*/React.createElement("path", {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "m844.186 1868.49 611.834-353.24-353.24-611.834-65.56 37.848C735.521 1115.45 632.151 1501.24 806.338 1802.94l37.848 65.55Z",
+    fill: "url(#PF-Bkg-Generic-Dark_svg__f)"
+  }))), _g3 || (_g3 = /*#__PURE__*/React.createElement("g", {
+    opacity: 0.8,
+    filter: "url(#PF-Bkg-Generic-Dark_svg__g)"
+  }, /*#__PURE__*/React.createElement("path", {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "m1714.19 550.415-611.83 353.241 353.24 611.834 65.56-37.85c301.7-174.19 405.07-559.97 230.88-861.672l-37.85-65.553Z",
+    fill: "url(#PF-Bkg-Generic-Dark_svg__h)"
+  }))), _g4 || (_g4 = /*#__PURE__*/React.createElement("g", {
+    opacity: 0.8,
+    filter: "url(#PF-Bkg-Generic-Dark_svg__i)"
+  }, /*#__PURE__*/React.createElement("path", {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M749.355 292.244 1102.6 904.077l611.83-353.242-37.85-65.553C1502.4 183.58 1116.61 80.209 814.909 254.397l-65.554 37.847Z",
+    fill: "url(#PF-Bkg-Generic-Dark_svg__j)"
+  }))), _g5 || (_g5 = /*#__PURE__*/React.createElement("g", {
+    filter: "url(#PF-Bkg-Generic-Dark_svg__k)"
+  }, /*#__PURE__*/React.createElement("path", {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M396.775-319.413 750.017 292.42 138.184 645.662l-37.847-65.553C-73.851 278.407 29.52-107.378 331.222-281.565l65.553-37.848Z",
+    fill: "url(#PF-Bkg-Generic-Dark_svg__l)"
+  }))))), _defs || (_defs = /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
+    id: "PF-Bkg-Generic-Dark_svg__b",
+    x1: -987,
+    y1: -1903.5,
+    x2: 1298.49,
+    y2: 1588.73,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#151515"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "PF-Bkg-Generic-Dark_svg__d",
+    x1: 893.4,
+    y1: 1163.5,
+    x2: 743.275,
+    y2: 181.956,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", {
+    stopColor: "#032142"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: 1
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "PF-Bkg-Generic-Dark_svg__f",
+    x1: 181.267,
+    y1: 1315.57,
+    x2: 1969.33,
+    y2: 1513.1,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", null), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#032142"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "PF-Bkg-Generic-Dark_svg__h",
+    x1: 777.286,
+    y1: 915.285,
+    x2: 2323.4,
+    y2: 1237.44,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", null), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#032142"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "PF-Bkg-Generic-Dark_svg__j",
+    x1: 1045.59,
+    y1: 973,
+    x2: 1170.3,
+    y2: -155.867,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", null), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#032142"
+  })), /*#__PURE__*/React.createElement("linearGradient", {
+    id: "PF-Bkg-Generic-Dark_svg__l",
+    x1: 911.549,
+    y1: -728.183,
+    x2: -1251.36,
+    y2: 1971.96,
+    gradientUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React.createElement("stop", null), /*#__PURE__*/React.createElement("stop", {
+    offset: 1,
+    stopColor: "#032142"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "PF-Bkg-Generic-Dark_svg__c",
+    x: 87.352,
+    y: 242.595,
+    width: 1065.07,
+    height: 834.295,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 25,
+    result: "effect1_foregroundBlur_19356_19698"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "PF-Bkg-Generic-Dark_svg__e",
+    x: 671.723,
+    y: 853.417,
+    width: 834.295,
+    height: 1065.07,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 25,
+    result: "effect1_foregroundBlur_19356_19698"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "PF-Bkg-Generic-Dark_svg__g",
+    x: 1052.36,
+    y: 500.415,
+    width: 834.297,
+    height: 1065.07,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 25,
+    result: "effect1_foregroundBlur_19356_19698"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "PF-Bkg-Generic-Dark_svg__i",
+    x: 699.355,
+    y: 119.782,
+    width: 1065.07,
+    height: 834.295,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 25,
+    result: "effect1_foregroundBlur_19356_19698"
+  })), /*#__PURE__*/React.createElement("filter", {
+    id: "PF-Bkg-Generic-Dark_svg__k",
+    x: -34.277,
+    y: -369.413,
+    width: 834.295,
+    height: 1065.07,
+    filterUnits: "userSpaceOnUse",
+    colorInterpolationFilters: "sRGB"
+  }, /*#__PURE__*/React.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: 25,
+    result: "effect1_foregroundBlur_19356_19698"
+  })), /*#__PURE__*/React.createElement("clipPath", {
+    id: "PF-Bkg-Generic-Dark_svg__a"
+  }, /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h1851v1196H0z"
+  })))));
+};
+export default SvgPfBkgGenericDark;
