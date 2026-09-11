@@ -89,8 +89,7 @@ export const icons = [
 export const colors = ['Red', 'Green', 'Blue', 'Yellow', 'Purple', 'Orange', 'Aqua']
 
 export function getRandomAnimalName() {
-    const f = (faker.animal as any)[faker.animal.type()] as () => string
-    return f()
+    return faker.animal.type()
 }
 
 export function getRandomAnimalNames(count: number) {

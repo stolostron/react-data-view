@@ -17,7 +17,7 @@
         "eslint": "eslint src demo",
         "prettier": "prettier --check src demo",
         "prettier:fix": "prettier --write src demo",
-        "upgrade": "npx npm-check-updates --upgrade --target minor --doctor && npm audit fix --audit-level high"
+        "upgrade": "npx npm-check-updates --upgrade --target minor --doctor --cooldown 7d && npm audit fix --audit-level high"
     },
     "repository": {
         "type": "git",
@@ -44,7 +44,7 @@
         "@babel/preset-react": "7.29.7",
         "@babel/preset-typescript": "7.29.7",
         "@eslint/compat": "^2.1.0",
-        "@faker-js/faker": "7.6.0",
+        "@faker-js/faker": "^10.6.0",
         "@patternfly/react-component-groups": "^6.5.0",
         "@patternfly/react-core": "^6.6.2",
         "@patternfly/react-drag-drop": "^6.6.2",
@@ -92,7 +92,7 @@
         "rimraf": "3.0.2",
         "style-loader": "3.3.4",
         "ts-node": "10.9.2",
-        "typescript": "4.9.5",
+        "typescript": "5.9.3",
         "webpack": "5.110.3",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^5.2.6"
