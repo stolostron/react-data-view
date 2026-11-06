@@ -2,6 +2,9 @@
 
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/stolostron/react-data-view)](https://www.npmjs.com/package/@stolostron/react-data-view)
 
+> [!WARNING]
+> **This repository is deprecated and no longer maintained.** The card catalog components now live in [stolostron/console](https://github.com/stolostron/console), under [`frontend/src/ui-components/AcmCatalog`](https://github.com/stolostron/console/tree/main/frontend/src/ui-components/AcmCatalog).
+
 A reusable React component library for rendering data as sortable, filterable tables or catalog card views. Built on [PatternFly 6](https://www.patternfly.org/) with virtualized table rendering, fuzzy search via [Fuse.js](https://www.fusejs.io/), and automatic URL query string persistence for search and filter state.
 
 Used by [stolostron/console](https://github.com/stolostron/console), the UI for Red Hat Advanced Cluster Management (ACM) and MultiCluster Engine (MCE).
